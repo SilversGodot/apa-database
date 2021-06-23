@@ -1,0 +1,44 @@
+.points-container {
+    display: flex;
+    margin: 25px;
+    width: 100%;
+    height: 100%;
+    max-width: 900px;
+    max-height: 500px;
+}
+
+.sidebar {
+    display: flex;
+    flex-direction: column;
+    width: 250px;
+    height: 100%;
+    padding: 42px;
+    border-radius: 8px 0px 0px 8px;
+}
+
+.point-info-container {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+    padding: 42px;
+}
+
+.point {
+    padding: 15px 20px;
+    margin-top: 10px;
+    border-radius: 5px;
+    transition: box-shadow .5s ease, transform .3s ease;
+    user-select: none;
+}
+
+.point-menu {
+    display: flex;
+    flex-direction: column;
+    margin-top: 15px;
+    flex-grow: 1;
+}
+
+.pull-right {
+    float: right;
+}

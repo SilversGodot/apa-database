@@ -4,10 +4,6 @@ const PointSchema = new mongoose.Schema({
         type: String,
         required: true
     },
-    owner: {
-        type: String,
-        required: true
-    },
     location : [{
         x: {
             type: Number,
@@ -27,10 +23,6 @@ const PointSchema = new mongoose.Schema({
         default: ""
     },
     bodyPart : {
-        type: String,
-        default: ""
-    },
-    region: {
         type: String,
         default: ""
     },

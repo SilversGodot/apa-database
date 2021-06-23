@@ -1,0 +1,8 @@
+<div class="centered">
+    <h1 class="title">Create a new point</h1>
+    <input #nameInput type="text" placeholder="Enter point name"> <br>
+    <input #bodyInput type="text" placeholder="Enter part of ear"> <br>
+    <input #earInput type="text" placeholder="Enter body part"> <br>
+    <button (click)="addPoint({name: nameInput.value, bodyPart: bodyInput.value, partOfEar: earInput.value})">Add</button>
+    <button routerLink='/'>Cancel</button> <br>
+</div>

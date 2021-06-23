@@ -1,0 +1,24 @@
+<div class="centered-content">
+    <div class="points-container">
+        <div class="sidebar">
+            <h1>Points</h1>
+            <div class="point-menu">
+                <a href="#" [routerLink]="['/points', point._id]" *ngFor="let point of points">
+                    <p>
+                        {{ point.name }}
+                        <span class="pull-right" (click)="deletePoint(point)">X</span>
+                    </p>
+                </a>
+            </div>
+            <button routerLink="/new-point">Add Point</button>
+        </div>
+        <div class="point-info-container">
+            <h1>Info</h1>
+            <div class="point" *ngIf="selectedPoint">
+                <p>Name: {{ selectedPoint.name }}</p>
+                <p>Body Part: {{ selectedPoint.bodyPart }}</p>
+                <p>Part of Ear: {{ selectedPoint.partOfEar }}</p>
+            </div>
+        </div>
+    </div>
+</div>

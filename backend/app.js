@@ -27,12 +27,6 @@ app.get('/points', (req, res) => {
 app.post('/points', (req, res) => {
     (new Point({
         'name': req.body.name,
-        'location': {
-            'x': req.body.location.x,
-            'y': req.body.location.y,
-            'z': req.body.location.z
-        },
-        'owner': req.body.owner,
         'partOfEar': req.body.partOfEar,
         'bodyPart': req.body.bodyPart,
         'region': req.body.region,
@@ -43,7 +37,7 @@ app.post('/points', (req, res) => {
 });
 
 app.get('/points/:pointId', (req, res) => {
-    Point.find({_id: req.params.pointId})
+    Point.findOne({_id: req.params.pointId})
         .then((points) => res.send(points))
         .catch((error) => console.log(error));
 });

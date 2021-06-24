@@ -27,6 +27,8 @@ app.get('/points', (req, res) => {
 app.post('/points', (req, res) => {
     (new Point({
         'name': req.body.name,
+        'code': req.body.code,
+        'function': req.body.function,
         'partOfEar': req.body.partOfEar,
         'bodyPart': req.body.bodyPart,
         'region': req.body.region,

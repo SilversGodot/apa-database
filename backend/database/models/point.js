@@ -4,6 +4,14 @@ const PointSchema = new mongoose.Schema({
         type: String,
         required: true
     },
+    code: {
+        type: String,
+        default: ""
+    },
+    function: {
+        type: String,
+        default: ""
+    },
     location : [{
         x: {
             type: Number,

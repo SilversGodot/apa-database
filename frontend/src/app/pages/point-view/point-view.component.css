@@ -42,3 +42,7 @@
 .pull-right {
     float: right;
 }
+
+.hiddenRow {
+    padding: 0 !important;
+}

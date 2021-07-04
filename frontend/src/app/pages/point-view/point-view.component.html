@@ -1,26 +1,34 @@
-<div class="centered-content">
-    <div class="points-container">
-        <div class="sidebar">
-            <h1>Points</h1>
-            <div class="point-menu">
-                <a href="#" [routerLink]="['/points', point._id]" *ngFor="let point of points">
-                    <p>
-                        {{ point.name }}
-                        <span class="pull-right" (click)="deletePoint(point)">X</span>
-                    </p>
-                </a>
-            </div>
-            <button routerLink="/new-point">Add Point</button>
-        </div>
-        <div class="point-info-container">
-            <h1>Info</h1>
-            <div class="point" *ngIf="selectedPoint">
-                <p>Name: {{ selectedPoint.name }}</p>
-                <p>Code: {{ selectedPoint.code }}</p>
-                <p>Function: {{ selectedPoint.function }}</p>
-                <p>Body Part: {{ selectedPoint.bodyPart }}</p>
-                <p>Part of Ear: {{ selectedPoint.partOfEar }}</p>
-            </div>
-        </div>
-    </div>
+<div class="container">
+    <h2>Points</h2>
+
+    <table class="table table-striped table-hover">
+    <thead>
+        <tr class="table-light">
+            <th>Code</th>
+            <th>Name</th>
+            <th>Function</th>
+            <th>Body Part</th>
+            <th>Part of Ear</th>
+            <th>&nbsp;</th>
+        </tr>
+    </thead>
+    <tbody>
+        <ng-container *ngFor="let point of points">
+            <tr>
+                <td>{{ point.code }}</td>
+                <td>{{ point.name }}</td>
+                <td>{{ point.function }}</td>
+                <td>{{ point.bodyPart }}</td>
+                <td>{{ point.partOfEar }}</td>
+                <td>
+                    <button type="button" class="btn btn-primary btn-sm">Edit</button>
+                    &nbsp;
+                    <button type="button" class="btn btn-secondary btn-sm" (click)="deletePoint(point)">Delete</button>                
+                </td>
+            </tr>
+         </ng-container>
+    </tbody>
+    </table>
+
+    <button type="button" class="btn btn-primary" routerLink="/new-point">Add Point</button>
 </div>

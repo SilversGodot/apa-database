@@ -4,13 +4,10 @@ const SymptomSchema = new mongoose.Schema({
         type: String,
         required: true
     },
-    owner: {
-        type: String,
-        required: true
-    },
-    treatments: {
-        type: [String]
-    }
+    treatments: [{
+        type : mongoose.Schema.Types.ObjectId,
+        ref: 'Treatment'
+    }]
 });
 
 const Symptom = mongoose.model('Symptom', SymptomSchema);

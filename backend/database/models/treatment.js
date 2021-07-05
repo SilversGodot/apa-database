@@ -4,19 +4,18 @@ const TreatmentSchema = new mongoose.Schema({
         type: String,
         required: true
     },
-    owner: {
-        type: String,
-        required: true
-    },
-    primary: {
-        type: [String]
-    },
-    supplemental: {
-        type: [String]
-    },
-    master: {
-        type: [String]
-    }
+    primary: [{
+        type : mongoose.Schema.Types.ObjectId,
+        ref: 'Point'
+    }],
+    supplemental: [{
+        type : mongoose.Schema.Types.ObjectId,
+        ref: 'Point'
+    }],
+    master: [{
+        type : mongoose.Schema.Types.ObjectId,
+        ref: 'Point'
+    }]
 });
 
 const Treatment = mongoose.model('Treatment', TreatmentSchema);

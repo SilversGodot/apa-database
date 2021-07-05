@@ -51,8 +51,20 @@ app.patch('/points/:pointId', (req, res) => {
 });
 
 app.delete('/points/:pointId', (req, res) => {
+    const removePointFromTreatments = (point) => {
+        Treatment.updateMany(
+                {  $or: [{master: point._id}, {primary: point._id}, {supplemental: point._id}]  },
+                {  $pullAll: {master: [point._id], primary: [point._id], supplemental: [point._id]}  }
+            )
+            .then(() => point)
+            .catch((error) => console.log(error));
+    };
+
     Point.findOneAndDelete({_id: req.params.pointId})
-        .then((Point) => res.send(Point))
+        .then((point) => {
+            removePointFromTreatments(point);
+            res.send(point);
+        })
         .catch((error) => console.log(error));
 });
 
@@ -65,16 +77,36 @@ app.get('/treatments', (req, res) => {
         .catch((error) => console.log(error));
 });
 
+// PROBLEM HERE
+// The for loop checks the Points table to see if the input points exist
+// Currently, only the primary points array given in the new treatment is checked
+// Postman returns a 500 status, as the for loop should. 
+// However, a treatment document with an invalid point ObjectID is created anyways
 app.post('/treatments', (req, res) => {
-    (new Treatment({
-        'name': req.body.name,
-        'owner': req.body.owner,
-        'primary': req.body.primary,
-        'supplemental': req.body.supplemental,
-        'master': req.body.master
-    })).save()
-        .then((points) => res.send(points))
-        .catch((error) => console.log(error));
+    let promises = [Promise];
+    for (let pointId of req.body.primary) {
+        const promise = Point.exists({_id: pointId})
+            .then((result) => {
+                if (!result) {
+                    res.status(500).end();
+                }
+            })
+            .catch((error) => console.log(error));
+        promises.push(promise);
+    }
+    Promise.all(promises)
+        .then(result =>  {
+            console.log(result);
+            (new Treatment({
+                'name': req.body.name,
+                'primary': req.body.primary,
+                'supplemental': req.body.supplemental,
+                'master': req.body.master
+            }))
+            .save()
+            .then((treatment) => res.send(treatment))
+            .catch((error) => console.log(error));
+        });
 });
 
 app.get('/treatments/:treatmentId', (req, res) => {
@@ -90,8 +122,20 @@ app.patch('/treatments/:treatmentId', (req, res) => {
 });
 
 app.delete('/treatments/:treatmentId', (req, res) => {
+    const removeTreatmentFromSymptoms = (treatment) => {
+        Symptom.updateMany(
+                {  treatments: treatment._id  },
+                {  $pullAll: {treatments: [treatment._id]}  }
+            )
+            .then(() => treatment)
+            .catch((error) => console.log(error));
+    };
+
     Treatment.findOneAndDelete({_id: req.params.treatmentId})
-        .then((treatment) => res.send(treatment))
+        .then((treatment) => {
+            removeTreatmentFromSymptoms(treatment);
+            res.send(treatment);
+        })
         .catch((error) => console.log(error));
 });
 
@@ -107,7 +151,6 @@ app.get('/symptoms', (req, res) => {
 app.post('/symptoms', (req, res) => {
     (new Symptom({
         'name': req.body.name,
-        'owner': req.body.owner,
         'treatments': req.body.treatments
     })).save()
         .then((points) => res.send(points))
@@ -128,7 +171,10 @@ app.patch('/symptoms/:symptomId', (req, res) => {
 
 app.delete('/symptoms/:symptomId', (req, res) => {
     Symptom.findOneAndDelete({_id: req.params.symptomId})
-        .then((symptom) => res.send(symptom))
+        .then((symptom) => {
+            removeSymptomFromTreatments(symptom);
+            res.send(symptom);
+        })
         .catch((error) => console.log(error));
 });
 

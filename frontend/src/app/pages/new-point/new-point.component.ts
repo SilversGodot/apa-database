@@ -9,7 +9,6 @@ import { PointService } from 'src/app/point.service';
   styleUrls: ['./new-point.component.css']
 })
 export class NewPointComponent implements OnInit {
-
   constructor(
     private taskService: PointService,
     private router: Router
@@ -22,5 +21,4 @@ export class NewPointComponent implements OnInit {
     this.taskService.createPoint(value)
       .subscribe((point: Point) => this.router.navigate(['/points', point._id]));
   }
-
 }

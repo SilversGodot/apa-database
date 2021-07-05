@@ -4,11 +4,11 @@
     <table class="table table-striped table-hover">
     <thead>
         <tr class="table-light">
-            <th>Code</th>
-            <th>Name</th>
-            <th>Function</th>
-            <th>Body Part</th>
-            <th>Part of Ear</th>
+            <th>Code <i class="fa fa-fw fa-sort"></i></th>
+            <th>Name <i class="fa fa-fw fa-sort"></i></th>
+            <th>Function <i class="fa fa-fw fa-sort"></i></th>
+            <th>Body Part <i class="fa fa-fw fa-sort"></i></th>
+            <th>Part of Ear <i class="fa fa-fw fa-sort"></i></th>
             <th>&nbsp;</th>
         </tr>
     </thead>
@@ -17,9 +17,9 @@
             <tr>
                 <td>{{ point.code }}</td>
                 <td>{{ point.name }}</td>
-                <td>{{ point.function }}</td>
-                <td>{{ point.bodyPart }}</td>
                 <td>{{ point.partOfEar }}</td>
+                <td>{{ point.bodyPart }}</td>                
+                <td>{{ point.function }}</td>                
                 <td>
                     <button type="button" class="btn btn-primary btn-sm">Edit</button>
                     &nbsp;
@@ -30,5 +30,65 @@
     </tbody>
     </table>
 
-    <button type="button" class="btn btn-primary" routerLink="/new-point">Add Point</button>
+    <!-- Button trigger modal -->
+    <button class="btn btn-primary" (click)="open(newPointModal)">Add Point</button>
+
+    <hr>
+    <app-widgetPagination></app-widgetPagination>
 </div>
+
+<!-- Modal -->
+<ng-template #newPointModal let-modal>
+    <div class="modal-header">
+      <h4 class="modal-title" id="modal-basic-title">Add New Point</h4>
+      <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <form>
+    <div class="modal-body">
+        <div class="mb-3 row">
+            <label for="codeInput" class="col-sm-3 col-form-label form-label">Code: </label>
+            <div class="col-sm-9">
+                <input #codeInput type="text" id="codeInput" class="form-control" placeholder="Enter point code" required> 
+            </div> 
+        </div>
+        <div class="mb-3 row">
+            <label for="nameInput" class="col-sm-3 col-form-label form-label">Name: </label>
+            <div class="col-sm-9">
+                <input #nameInput type="text" id="nameInput" class="form-control" placeholder="Enter point name" required>
+            </div>
+        </div>
+        <div class="mb-3 row">
+            <label for="earInput" class="col-sm-3 col-form-label form-label">Part of ear: </label>
+            <div class="col-sm-9">
+                <select #earInput class="form-control" id="earInput">
+                    <option value="Antitragus">Antitragus</option>
+                    <option value="Antlhelix">Antlhelix</option>
+                    <option value="Concha">Concha</option>
+                    <option value="Ear Canal">Ear Canal</option>
+                    <option value="Helix">Helix</option>
+                    <option value="Lobule">Lobule</option>
+                    <option value="Tragus">Tragus</option>
+                </select>
+            </div>
+        </div>
+        <div class="mb-3 row">
+            <label for="bodyInput" class="col-sm-3 col-form-label form-label">Body part: </label>
+            <div class="col-sm-9">
+                <input #bodyInput type="text" id="bodyInput" class="form-control" placeholder="Enter body part">
+            </div>      
+        </div>
+        <div class="mb-3 row">
+            <label for="functionInput" class="col-sm-3 col-form-label form-label">Function</label>
+            <div class="col-sm-9">
+                <input #functionInput type="text" id="functionInput" class="form-control" placeholder="Enter point function(s)"> 
+            </div>
+        </div>  
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" (click)="modal.dismiss('Cross click')">Cancel</button>
+        <button type="submit" class="btn btn-primary" (click)="modal.close({name: nameInput.value, bodyPart: bodyInput.value, partOfEar: earInput.value, function: functionInput.value, code: codeInput.value})">Save</button>
+    </div>
+    </form>
+</ng-template>

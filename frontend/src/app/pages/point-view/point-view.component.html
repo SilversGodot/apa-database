@@ -5,10 +5,10 @@
     <thead>
         <tr class="table-light">
             <th>Code <i class="fa fa-fw fa-sort"></i></th>
-            <th>Name <i class="fa fa-fw fa-sort"></i></th>
-            <th>Function <i class="fa fa-fw fa-sort"></i></th>
-            <th>Body Part <i class="fa fa-fw fa-sort"></i></th>
+            <th>Name <i class="fa fa-fw fa-sort"></i></th>        
             <th>Part of Ear <i class="fa fa-fw fa-sort"></i></th>
+            <th>Body Part <i class="fa fa-fw fa-sort"></i></th>
+            <th>Functions <i class="fa fa-fw fa-sort"></i></th>
             <th>&nbsp;</th>
         </tr>
     </thead>
@@ -21,9 +21,9 @@
                 <td>{{ point.bodyPart }}</td>                
                 <td>{{ point.function }}</td>                
                 <td>
-                    <button type="button" class="btn btn-primary btn-sm">Edit</button>
+                    <button type="button" class="btn btn-primary btn-sm"><i class="fa fa-pencil-square-o" aria-hidden="true"></i> Edit</button>
                     &nbsp;
-                    <button type="button" class="btn btn-secondary btn-sm" (click)="deletePoint(point)">Delete</button>                
+                    <button type="button" class="btn btn-secondary btn-sm" (click)="deletePoint(point)"><i class="fa fa-times" aria-hidden="true"></i> Delete</button>                
                 </td>
             </tr>
          </ng-container>
@@ -31,7 +31,7 @@
     </table>
 
     <!-- Button trigger modal -->
-    <button class="btn btn-primary" (click)="open(newPointModal)">Add Point</button>
+    <button class="btn btn-primary" (click)="open(newPointModal)"><i class="fa fa-plus" aria-hidden="true"></i> Add Point</button>
 
     <hr>
     <app-widgetPagination></app-widgetPagination>

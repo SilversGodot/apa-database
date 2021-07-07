@@ -37,11 +37,11 @@ export class Routes {
         .delete(this.treatmentController.deleteTreatment)
 
         /* Symptoms CRUD */
-        app.route('/treatments')
+        app.route('/symptoms')
         .get(this.symptomController.getSymptoms)
         .post(this.symptomController.addSymptom);
             
-        app.route('/treatments/:treatmentId')
+        app.route('/symptoms/:symptomId')
         .get(this.symptomController.getSymptom)
         .patch(this.symptomController.updateSymptom)
         .delete(this.symptomController.deleteSymptom)

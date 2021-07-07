@@ -27,13 +27,18 @@ export class TreatmentController {
         if (treatment) {
             return res.status(400).send('Treatment already exisits!');
         } else {
-            treatment = new Treatment({
-                'name': req.body.name,
-                'points': []
-            });
-
-            await treatment.save();
-            res.send(treatment); 
+            try {
+                treatment = new Treatment({
+                    'name': req.body.name,
+                    'points': req.body.points
+                });
+    
+                await treatment.save();
+                res.send(treatment);
+            } catch (err)
+            {
+                res.send(err);
+            }
         }    
     }
 

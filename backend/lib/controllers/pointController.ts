@@ -4,7 +4,7 @@ import { PointSchema } from '../database/models/point';
 import { TreatmentSchema } from '../database/models/treatment';
 
 const Point = mongoose.model('Point', PointSchema);
-const Treatment = mongoose.model('Point', TreatmentSchema);
+const Treatment = mongoose.model('Treatment', TreatmentSchema);
 
 export class PointController {
     public getPoints (req: Request, res: Response){

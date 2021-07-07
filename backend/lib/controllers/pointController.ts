@@ -18,25 +18,32 @@ export class PointController {
 
     public getPoint (req: Request, res: Response){
         Point.findOne({_id: req.params.pointId}, (err: mongoose.CallbackError, point: any) => {
-            if(err) {
+            if (err) {
                 res.send(err);
             }
             res.json(point);
         });
     }
 
-    public addPoint (req: Request, res: Response){
-        (new Point({
-            'name': req.body.name,
-            'code': req.body.code,
-            'function': req.body.function,
-            'partOfEar': req.body.partOfEar,
-            'bodyPart': req.body.bodyPart,
-            'region': req.body.region,
-            'videoLink': req.body.videoLink
-        })).save()
-            .then((point: any) => res.send(point))
-            .catch((error: any) => console.log(error));        
+    public async addPoint (req: Request, res: Response){
+        let point = await Point.findOne({ name: req.body.name });
+
+        if (point) {
+            return res.status(400).send('Point already exisits!');
+        } else {
+            point = new Point({
+                'name': req.body.name,
+                'code': req.body.code,
+                'function': req.body.function,
+                'partOfEar': req.body.partOfEar,
+                'bodyPart': req.body.bodyPart,
+                'region': req.body.region,
+                'videoLink': req.body.videoLink
+            });
+
+            await point.save();
+            res.send(point); 
+        }     
     }
 
     public updatePoint (req: Request, res: Response){

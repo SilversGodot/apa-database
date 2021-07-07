@@ -19,8 +19,28 @@ export class TreatmentController {
         .catch((error: any) => console.log(error));       
     }
 
-    public addTreatment (req: Request, res: Response){
-        
+    public async addTreatment (req: Request, res: Response) {
+        // First Validate The Request
+        //const { error } = validate(req.body);
+
+        //if (error) {
+        //    return res.status(400).send(error);
+        //}
+
+        // Check if this treatment already exisits
+        let treatment = await Treatment.findOne({ name: req.body.name });
+
+        if (treatment) {
+            return res.status(400).send('Treatment already exisits!');
+        } else {
+            treatment = new Treatment({
+                'name': req.body.name,
+                'points': []
+            });
+
+            await treatment.save();
+            res.send(treatment); 
+        }    
     }
 
     public updateTreatment (req: Request, res: Response){

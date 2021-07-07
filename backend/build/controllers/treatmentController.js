@@ -18,6 +18,15 @@ var __importStar = (this && this.__importStar) || function (mod) {
     __setModuleDefault(result, mod);
     return result;
 };
+var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.TreatmentController = void 0;
 const mongoose = __importStar(require("mongoose"));
@@ -27,16 +36,38 @@ const Treatment = mongoose.model('Treatment', treatment_1.TreatmentSchema);
 const Symptom = mongoose.model('Symptom', symptom_1.SymptomSchema);
 class TreatmentController {
     getTreatments(req, res) {
+        console.log('getTreatments');
         Treatment.find({})
             .then((treatments) => res.send(treatments))
             .catch((error) => console.log(error));
     }
     getTreatment(req, res) {
+        console.log('getTreatment');
         Treatment.find({ _id: req.params.treatmentId })
             .then((treatment) => res.send(treatment))
             .catch((error) => console.log(error));
     }
     addTreatment(req, res) {
+        return __awaiter(this, void 0, void 0, function* () {
+            // First Validate The Request
+            //const { error } = validate(req.body);
+            //if (error) {
+            //    return res.status(400).send(error);
+            //}
+            // Check if this treatment already exisits
+            let treatment = yield Treatment.findOne({ name: req.body.name });
+            if (treatment) {
+                return res.status(400).send('Treatment already exisits!');
+            }
+            else {
+                treatment = new Treatment({
+                    'name': req.body.name,
+                    'points': []
+                });
+                yield treatment.save();
+                res.send(treatment);
+            }
+        });
     }
     updateTreatment(req, res) {
         Treatment.findOneAndUpdate({ '_id': req.params.treatmentId }, { $set: req.body })
@@ -44,6 +75,7 @@ class TreatmentController {
             .catch((error) => console.log(error));
     }
     deleteTreatment(req, res) {
+        console.log(req);
         const removeTreatmentFromSymptoms = (treatment) => {
             Symptom.updateMany({ treatments: treatment._id }, { $pullAll: { treatments: [treatment._id] } })
                 .then(() => treatment)

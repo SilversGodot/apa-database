@@ -24,6 +24,7 @@ const mongoose = __importStar(require("mongoose"));
 exports.SymptomSchema = new mongoose.Schema({
     name: {
         type: String,
+        unique: true,
         required: true
     },
     treatments: [{

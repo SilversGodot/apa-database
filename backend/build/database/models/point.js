@@ -24,6 +24,7 @@ const mongoose = __importStar(require("mongoose"));
 exports.PointSchema = new mongoose.Schema({
     name: {
         type: String,
+        unique: true,
         required: true
     },
     code: {

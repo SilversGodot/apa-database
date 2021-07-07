@@ -21,22 +21,23 @@ var __importStar = (this && this.__importStar) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.TreatmentSchema = void 0;
 const mongoose = __importStar(require("mongoose"));
+const treatmentPointSchema = new mongoose.Schema({
+    point: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Point'
+    },
+    type: {
+        type: String,
+        required: true
+    }
+});
 exports.TreatmentSchema = new mongoose.Schema({
     name: {
         type: String,
         required: true
     },
-    primary: [{
-            type: mongoose.Schema.Types.ObjectId,
-            ref: 'Point'
-        }],
-    supplemental: [{
-            type: mongoose.Schema.Types.ObjectId,
-            ref: 'Point'
-        }],
-    master: [{
-            type: mongoose.Schema.Types.ObjectId,
-            ref: 'Point'
+    points: [{
+            type: treatmentPointSchema
         }]
 });
 //# sourceMappingURL=treatment.js.map

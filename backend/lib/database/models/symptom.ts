@@ -1,6 +1,6 @@
 import * as mongoose from 'mongoose';
 
-export const SymptomSchema = new mongoose.Schema({
+const SymptomSchema = new mongoose.Schema({
     name: {
         type: String,
         unique: true,
@@ -11,3 +11,5 @@ export const SymptomSchema = new mongoose.Schema({
         ref: 'Treatment'
     }]
 });
+
+export default mongoose.model("Symptom", SymptomSchema);

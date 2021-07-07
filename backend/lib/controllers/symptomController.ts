@@ -1,10 +1,7 @@
 import * as mongoose from 'mongoose';
 import { Request, Response } from 'express';
-import { SymptomSchema } from '../database/models/symptom';
-import { TreatmentSchema } from '../database/models/treatment';
-
-const Symptom = mongoose.model('Symptom', SymptomSchema);
-const Treatment = mongoose.model('Treatment', TreatmentSchema);
+import Symptom from '../database/models/symptom';
+import Treatment from '../database/models/treatment';
 
 export class SymptomController {
     public getSymptoms (req: Request, res: Response){

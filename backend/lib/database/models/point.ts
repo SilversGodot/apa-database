@@ -1,6 +1,7 @@
 import * as mongoose from 'mongoose';
+import Treatment from './treatment';
 
-export const PointSchema = new mongoose.Schema({
+const PointSchema = new mongoose.Schema({
     name: {
         type: String,
         unique: true,
@@ -41,3 +42,14 @@ export const PointSchema = new mongoose.Schema({
         default: ""
     }
 });
+
+PointSchema.post('findOneAndDelete', async function(doc) {
+    if (doc) {
+        console.log('%s has been removed', doc._id);
+        await Treatment.updateMany(
+            { 'points.point': doc._id }, 
+            { '$set': { 'points.$.isDeleted': true } });
+    }
+});
+
+export default mongoose.model("Point", PointSchema);

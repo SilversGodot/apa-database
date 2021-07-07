@@ -1,10 +1,7 @@
 import * as mongoose from 'mongoose';
 import { Request, Response } from 'express';
-import { TreatmentSchema } from '../database/models/treatment';
-import { SymptomSchema } from '../database/models/symptom';
-
-const Treatment = mongoose.model('Treatment', TreatmentSchema);
-const Symptom = mongoose.model('Symptom', SymptomSchema);
+import Treatment from '../database/models/treatment';
+import Symptom from '../database/models/symptom';
 
 export class TreatmentController {
     public getTreatments (req: Request, res: Response) {
@@ -35,9 +32,8 @@ export class TreatmentController {
     
                 await treatment.save();
                 res.send(treatment);
-            } catch (err)
-            {
-                res.send(err);
+            } catch (err) {
+                res.send({"Error": err});
             }
         }    
     }

@@ -1,10 +1,7 @@
 import * as mongoose from 'mongoose';
 import { Request, Response } from 'express';
-import { PointSchema } from '../database/models/point';
-import { TreatmentSchema } from '../database/models/treatment';
-
-const Point = mongoose.model('Point', PointSchema);
-const Treatment = mongoose.model('Treatment', TreatmentSchema);
+import Point from '../database/models/point';
+import Treatment from '../database/models/treatment';
 
 export class PointController {
     public getPoints (req: Request, res: Response){
@@ -52,19 +49,9 @@ export class PointController {
         .catch((error: any) => console.log(error));
     }
 
-    public deletePoint (req: Request, res: Response){
-        const removePointFromTreatments = (point: any) => {
-            Treatment.updateMany(
-                    {  $or: [{master: point._id}, {primary: point._id}, {supplemental: point._id}]  },
-                    {  $pullAll: {master: [point._id], primary: [point._id], supplemental: [point._id]}  }
-                )
-                .then(() => point)
-                .catch((error: any) => console.log(error));
-        };
-    
+    public deletePoint (req: Request, res: Response){    
         Point.findOneAndDelete({_id: req.params.pointId})
             .then((point: any) => {
-                removePointFromTreatments(point);
                 res.send(point);
             })
             .catch((error: any) => console.log(error));

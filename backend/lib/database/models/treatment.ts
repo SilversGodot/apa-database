@@ -16,10 +16,17 @@ const treatmentPointSchema = new mongoose.Schema({
       type: String,
       enum: ['primary', 'supplemental', 'master'],
       required: true
+    },
+    isDeleted: {
+        type: Boolean,
+        default: false
     }
-  });
+},
+{ 
+    _id : false 
+});
 
-export const TreatmentSchema = new mongoose.Schema({
+const TreatmentSchema = new mongoose.Schema({
     name: {
         type: String,
         required: true
@@ -28,3 +35,5 @@ export const TreatmentSchema = new mongoose.Schema({
         type: treatmentPointSchema
     }]
 });
+
+export default mongoose.model("Treatment", TreatmentSchema);

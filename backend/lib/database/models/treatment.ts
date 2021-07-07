@@ -1,5 +1,6 @@
 import * as mongoose from 'mongoose';
 import FKHelper from '../helpers/foreign-key-helper';
+import Symptom from './symptom';
 
 const treatmentPointSchema = new mongoose.Schema({
     point: {
@@ -34,6 +35,15 @@ const TreatmentSchema = new mongoose.Schema({
     points: [{
         type: treatmentPointSchema
     }]
+});
+
+TreatmentSchema.post('findOneAndDelete', async function(doc) {
+    if (doc) {
+        console.log('%s has been removed', doc._id);
+        await Symptom.updateMany(
+            { 'treatments.treatment': doc._id }, 
+            { '$pull': { 'treatments': {'treatment': doc._id }} });
+    }
 });
 
 export default mongoose.model("Treatment", TreatmentSchema);

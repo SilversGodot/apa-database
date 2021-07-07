@@ -1,7 +1,6 @@
 import * as mongoose from 'mongoose';
 import { Request, Response } from 'express';
 import Point from '../database/models/point';
-import Treatment from '../database/models/treatment';
 
 export class PointController {
     public getPoints (req: Request, res: Response){

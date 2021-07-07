@@ -8,12 +8,14 @@ const Symptom = mongoose.model('Symptom', SymptomSchema);
 
 export class TreatmentController {
     public getTreatments (req: Request, res: Response){
+        console.log('getTreatments');
         Treatment.find({})
         .then((treatments: any[]) => res.send(treatments))
         .catch((error: any) => console.log(error));
     }
 
     public getTreatment (req: Request, res: Response){
+        console.log('getTreatment');
         Treatment.find({_id: req.params.treatmentId})
         .then((treatment: any) => res.send(treatment))
         .catch((error: any) => console.log(error));       
@@ -50,6 +52,7 @@ export class TreatmentController {
     }
 
     public deleteTreatment (req: Request, res: Response){
+        console.log(req);
         const removeTreatmentFromSymptoms = (treatment: any) => {
             Symptom.updateMany(
                     {  treatments: treatment._id  },

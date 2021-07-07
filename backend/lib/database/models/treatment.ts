@@ -1,5 +1,6 @@
-const mongoose = require('mongoose');
-const TreatmentSchema = new mongoose.Schema({
+import * as mongoose from 'mongoose';
+
+export const TreatmentSchema = new mongoose.Schema({
     name: {
         type: String,
         required: true
@@ -17,7 +18,3 @@ const TreatmentSchema = new mongoose.Schema({
         ref: 'Point'
     }]
 });
-
-const Treatment = mongoose.model('Treatment', TreatmentSchema);
-
-module.exports = Treatment;

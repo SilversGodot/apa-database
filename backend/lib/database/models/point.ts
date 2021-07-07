@@ -1,5 +1,6 @@
-const mongoose = require('mongoose');
-const PointSchema = new mongoose.Schema({
+import * as mongoose from 'mongoose';
+
+export const PointSchema = new mongoose.Schema({
     name: {
         type: String,
         required: true
@@ -39,7 +40,3 @@ const PointSchema = new mongoose.Schema({
         default: ""
     }
 });
-
-const Point = mongoose.model('Point', PointSchema);
-
-module.exports = Point;

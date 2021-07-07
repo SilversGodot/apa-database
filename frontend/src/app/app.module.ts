@@ -9,6 +9,9 @@ import { MatInputModule } from "@angular/material/input";
 import { MatPaginatorModule } from "@angular/material/paginator";
 import { MatSortModule } from "@angular/material/sort";
 import { MatProgressSpinnerModule } from "@angular/material/progress-spinner";
+import { MatDialogModule } from '@angular/material/dialog';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatButtonModule } from '@angular/material/button';
 
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
@@ -34,7 +37,10 @@ import { WidgetPaginationComponent } from './pages/components/widget-pagination.
     MatTableModule,
     MatPaginatorModule,
     MatSortModule,
-    MatProgressSpinnerModule
+    MatProgressSpinnerModule,
+    MatDialogModule,
+    MatFormFieldModule,
+    MatButtonModule
   ],
   exports: [
     WidgetPaginationComponent

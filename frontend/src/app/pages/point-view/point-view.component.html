@@ -30,12 +30,12 @@
     </tbody>
     </table>
 </div>
+<br>
 
 <div class="container">
-    <div class="container ms-1 p-3">
-        <button color="primary" (click)="open(newPointModal)" mat-raised-button><i class="fa fa-plus" aria-hidden="true"></i> Add Point</button>
-    </div>
-
+    <button mat-icon-button color="primary" (click)="openDialog()">
+        <mat-icon>post_add</mat-icon> Add New Point
+    </button>
     <table mat-table [dataSource]="points" class="mat-elevation-z8">      
         <!-- Code Column -->
         <ng-container matColumnDef="code">
@@ -51,7 +51,7 @@
       
         <!-- Part Of Ear Column -->
         <ng-container matColumnDef="partOfEar">
-          <th mat-header-cell *matHeaderCellDef class="headerCell">Part Of Ear</th>
+          <th mat-header-cell *matHeaderCellDef class="headerCell">Region of Ear</th>
           <td mat-cell *matCellDef="let point"> {{point.partOfEar}} </td>
         </ng-container>
       
@@ -70,9 +70,16 @@
         <!-- Action Column -->
         <ng-container matColumnDef="action">
             <th mat-header-cell *matHeaderCellDef class="headerCell"> Action </th>
-            <td mat-cell *matCellDef="let point" class="action-link"> 
-                <a (click)="openDialog('Update',point)">Edit</a> | 
-                <a (click)="openDialog('Delete',point)">Delete</a>  
+            <td mat-cell *matCellDef="let point" class="action-link">
+                <button mat-icon-button color="primary">
+                    <mat-icon>edit_note</mat-icon>
+                </button>
+                <button mat-icon-button color="primary">
+                    <mat-icon>save_alt</mat-icon>
+                </button>                  
+                <button mat-icon-button color="warn">
+                    <mat-icon>clear</mat-icon>
+                </button>      
             </td>
         </ng-container>
       
@@ -80,96 +87,4 @@
         <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
     </table>
     <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
-
-    <table mat-table
-       [dataSource]="dataSource" multiTemplateDataRows
-       class="mat-elevation-z8">
-        <ng-container matColumnDef="{{column}}" *ngFor="let column of columnsToDisplay">
-            <th mat-header-cell *matHeaderCellDef> {{column}} </th>
-            <td mat-cell *matCellDef="let element"> {{element[column]}} </td>
-        </ng-container>
-
-        <!-- Expanded Content Column - The detail row is made up of this one column that spans across all columns -->
-        <ng-container matColumnDef="expandedDetail">
-            <td mat-cell *matCellDef="let element" [attr.colspan]="columnsToDisplay.length">
-                <div class="example-element-detail" [@detailExpand]="element == expandedElement ? 'expanded' : 'collapsed'">
-        <div class="example-element-diagram">
-          <div class="example-element-position"> {{element.position}} </div>
-          <div class="example-element-symbol"> {{element.symbol}} </div>
-          <div class="example-element-name"> {{element.name}} </div>
-          <div class="example-element-weight"> {{element.weight}} </div>
-        </div>
-        <div class="example-element-description">
-          {{element.description}}
-          <span class="example-element-description-attribution"> -- Wikipedia </span>
-        </div>
-      </div>
-    </td>
-  </ng-container>
-
-  <tr mat-header-row *matHeaderRowDef="columnsToDisplay"></tr>
-  <tr mat-row *matRowDef="let element; columns: columnsToDisplay;"
-      class="example-element-row"
-      [class.example-expanded-row]="expandedElement === element"
-      (click)="expandedElement = expandedElement === element ? null : element">
-  </tr>
-  <tr mat-row *matRowDef="let row; columns: ['expandedDetail']" class="example-detail-row"></tr>
-</table>
 </div>
-
-<!-- Modal -->
-<ng-template #newPointModal let-modal>
-    <div class="modal-header">
-      <h4 class="modal-title" id="modal-basic-title">Add New Point</h4>
-      <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
-        <span aria-hidden="true">&times;</span>
-      </button>
-    </div>
-    <form>
-    <div class="modal-body">
-        <div class="mb-3 row">
-            <label for="codeInput" class="col-sm-3 col-form-label form-label">Code: </label>
-            <div class="col-sm-9">
-                <input #codeInput type="text" id="codeInput" class="form-control" placeholder="Enter point code" required> 
-            </div> 
-        </div>
-        <div class="mb-3 row">
-            <label for="nameInput" class="col-sm-3 col-form-label form-label">Name: </label>
-            <div class="col-sm-9">
-                <input #nameInput type="text" id="nameInput" class="form-control" placeholder="Enter point name" required>
-            </div>
-        </div>
-        <div class="mb-3 row">
-            <label for="earInput" class="col-sm-3 col-form-label form-label">Part of ear: </label>
-            <div class="col-sm-9">
-                <select #earInput class="form-select" id="earInput">
-                    <option selected>Please select...</option>
-                    <option value="Antitragus">Antitragus</option>
-                    <option value="Antlhelix">Antlhelix</option>
-                    <option value="Concha">Concha</option>
-                    <option value="Ear Canal">Ear Canal</option>
-                    <option value="Helix">Helix</option>
-                    <option value="Lobule">Lobule</option>
-                    <option value="Tragus">Tragus</option>
-                </select>
-            </div>
-        </div>
-        <div class="mb-3 row">
-            <label for="bodyInput" class="col-sm-3 col-form-label form-label">Body part: </label>
-            <div class="col-sm-9">
-                <input #bodyInput type="text" id="bodyInput" class="form-control" placeholder="Enter body part">
-            </div>      
-        </div>
-        <div class="mb-3 row">
-            <label for="functionInput" class="col-sm-3 col-form-label form-label">Function</label>
-            <div class="col-sm-9">
-                <input #functionInput type="text" id="functionInput" class="form-control" placeholder="Enter point function(s)"> 
-            </div>
-        </div>  
-    </div>
-    <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" (click)="modal.dismiss('Cross click')">Cancel</button>
-        <button type="submit" class="btn btn-primary" (click)="modal.close({name: nameInput.value, bodyPart: bodyInput.value, partOfEar: earInput.value, function: functionInput.value, code: codeInput.value})">Save</button>
-    </div>
-    </form>
-</ng-template>

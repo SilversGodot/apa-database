@@ -1,7 +1,6 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatTable } from '@angular/material/table';
 import { MatDialog } from '@angular/material/dialog';
-import { NgbModal, NgbModalOptions } from '@ng-bootstrap/ng-bootstrap';
 
 import Point from 'src/app/models/point';
 import { PointService } from 'src/app/point.service';
@@ -14,18 +13,12 @@ import { PointService } from 'src/app/point.service';
 export class PointViewComponent implements OnInit {
   displayedColumns: string[] = ['code', 'name', 'partOfEar', 'bodyPart', 'function', 'action'];
   points: Point[] = [];
-  modalOptions: NgbModalOptions;
   @ViewChild(MatTable, { static: true }) table: MatTable<any>;
 
   constructor(
     public dialog: MatDialog,
-    private pointService: PointService,
-    private modalService: NgbModal
+    private pointService: PointService
   ) { 
-    this.modalOptions = {
-      backdrop:'static',
-      backdropClass:'customBackdrop'
-    }   
   }
 
   ngOnInit(): void {
@@ -45,18 +38,17 @@ export class PointViewComponent implements OnInit {
       .subscribe(() => this.points = this.points.filter(l => l._id != point._id));
   }
 
-  open(content: any) {
-    this.modalService.open(content, this.modalOptions).result.then((result: Point) => {
-      this.pointService.createPoint(result)
-      .subscribe(() => this.pointService.getPoints()
-      .subscribe((points: Point[]) => this.points = points));
-    }, (reason) => {
-      
-    });
-  }
+  // open(content: any) {
+  //  this.modalService.open(content, this.modalOptions).result.then((result: Point) => {
+  //    this.pointService.createPoint(result)
+  //    .subscribe(() => this.pointService.getPoints()
+  //    .subscribe((points: Point[]) => this.points = points));
+  //  }, (reason) => {
+  //    
+  //  });
+  // }
 
-  openDialog(action, obj) {
-    obj.action = action;
+  openDialog() {
   }
 
   addRowData(row_obj: Point){

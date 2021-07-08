@@ -4,51 +4,34 @@ import { HttpClientModule} from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
-import { MatTableModule } from "@angular/material/table";
-import { MatInputModule } from "@angular/material/input";
-import { MatPaginatorModule } from "@angular/material/paginator";
-import { MatSortModule } from "@angular/material/sort";
-import { MatProgressSpinnerModule } from "@angular/material/progress-spinner";
-import { MatDialogModule } from '@angular/material/dialog';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatButtonModule } from '@angular/material/button';
-
-import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
-
+import { MaterialModule } from './material-module';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { PointViewComponent } from './pages/point-view/point-view.component';
-import { WidgetPaginationComponent } from './pages/components/widget-pagination.component';
+
+import { DialogContentExample, DialogContentExampleDialog } from './pages/modal-view/dialog-content-example';
 
 @NgModule({
   declarations: [
     AppComponent,
     PointViewComponent,
-    WidgetPaginationComponent
+    DialogContentExample, 
+    DialogContentExampleDialog
   ],
   imports: [
     BrowserModule,
     FormsModule,
     AppRoutingModule,
     HttpClientModule,
-    NgbModule,
     BrowserAnimationsModule,
-    MatInputModule,
-    MatTableModule,
-    MatPaginatorModule,
-    MatSortModule,
-    MatProgressSpinnerModule,
-    MatDialogModule,
-    MatFormFieldModule,
-    MatButtonModule
+    MaterialModule
   ],
   exports: [
-    WidgetPaginationComponent
   ],
+  entryComponents: [DialogContentExample, DialogContentExampleDialog],
   providers: [],
   bootstrap: [
-    AppComponent, 
-    WidgetPaginationComponent
+    AppComponent
   ]
 })
 export class AppModule { }

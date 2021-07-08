@@ -22,7 +22,7 @@ export class TreatmentController {
         let treatment = await Treatment.findOne({ name: req.body.name });
 
         if (treatment) {
-            return res.status(400).send('Treatment already exisits!');
+            return res.status(400).send({ 'message': 'Treatment already exisits!' });
         } else {
             try {
                 treatment = new Treatment({

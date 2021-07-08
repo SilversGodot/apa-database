@@ -1,7 +1,6 @@
 import * as mongoose from 'mongoose';
 import { Request, Response } from 'express';
 import Point from '../database/models/point';
-import Treatment from '../database/models/treatment';
 
 export class PointController {
     public getPoints (req: Request, res: Response){
@@ -26,7 +25,7 @@ export class PointController {
         let point = await Point.findOne({ name: req.body.name });
 
         if (point) {
-            return res.status(400).send('Point already exisits!');
+            return res.status(400).send({ 'message': 'Point already exisits!' });
         } else {
             point = new Point({
                 'name': req.body.name,

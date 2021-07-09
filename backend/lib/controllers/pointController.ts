@@ -25,7 +25,7 @@ export class PointController {
         let point = await Point.findOne({ name: req.body.name });
 
         if (point) {
-            return res.status(400).send('Point already exisits!');
+            return res.status(400).send({ 'message': 'Point already exisits!' });
         } else {
             point = new Point({
                 'name': req.body.name,

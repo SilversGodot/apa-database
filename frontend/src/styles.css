@@ -1,6 +1,30 @@
 /* You can add global styles to this file, and also import other style files */
-body {
+html, body { height: 100%; }
+body { 
+    margin: 0; 
+    font-family: Roboto, "Helvetica Neue", sans-serif; 
     background:#eee;
 }
-html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+div .with-icon {
+    display: flex;
+    align-items: center;
+}
+
+span .with-icon {
+    margin-left: 5px;
+}
+
+.full-width {
+    width: 100%;
+}
+
+.dialog-table td {
+    padding-right: 8px;
+}
+
+.dialog-form {
+    min-width: 150px;
+    max-width: 500px;
+    width: 100%;
+  }

@@ -38,14 +38,10 @@ export class PointViewComponent implements OnInit {
       .subscribe((points: Point[]) => this.points = points);
   }
 
-  deletePoint(point: Point) {
-    this.pointService.deletePoint(point._id)
-      .subscribe(() => this.points = this.points.filter(l => l._id != point._id));
-  }
-
   openAddNewDialog() {
     const dialogRef = this.dialog.open(AddPointDialog, {
       width: '450px',
+      disableClose: true,
       data: new Point
     });
 
@@ -61,14 +57,15 @@ export class PointViewComponent implements OnInit {
   openDeleteDialog(point: Point) {
     const dialogRef = this.dialog.open(DeletePointDialog, {
       width: '400px',
-      // Can be closed only by clicking the close button
       disableClose: true,
       data: point
     });
 
     dialogRef.afterClosed().subscribe(result => {
-      console.log(`Dialog result: ${result.name}`);
-      console.log(point);
+      if(result) {
+        this.pointService.deletePoint(point._id)
+        .subscribe(() => this.points = this.points.filter(l => l._id != point._id));
+      }
     });
   }
 

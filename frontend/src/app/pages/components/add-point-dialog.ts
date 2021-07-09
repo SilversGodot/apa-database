@@ -12,7 +12,7 @@ import Point from 'src/app/models/point';
       private dialogRef: MatDialogRef<AddPointDialog>,
       @Inject(MAT_DIALOG_DATA) public data: Point){}
 
-    onNoClick(): void {
-      this.dialogRef.close();
-    }
+      closeDialog() {
+        this.dialogRef.close();
+      }
   }

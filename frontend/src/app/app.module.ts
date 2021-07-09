@@ -9,6 +9,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { PointViewComponent } from './pages/point-view/point-view.component';
 import { AddPointDialog } from './pages/components/add-point-dialog';
+import { EditPointDialog } from './pages/components/edit-point-dialog';
 import { DeletePointDialog } from './pages/components/delete-point-dialog';
 
 
@@ -17,6 +18,7 @@ import { DeletePointDialog } from './pages/components/delete-point-dialog';
     AppComponent,
     PointViewComponent,
     AddPointDialog,
+    EditPointDialog,
     DeletePointDialog
   ],
   imports: [

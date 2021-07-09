@@ -24,4 +24,8 @@ export class PointService {
   deletePoint(pointId: string) {
     return this.webService.delete(`points/${pointId}`);
   }
+
+  updatePoint(point: Point) {
+    return this.webService.patch(`points/${point._id}`, point);
+  }
 }

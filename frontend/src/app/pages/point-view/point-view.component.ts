@@ -6,6 +6,7 @@ import { MatDialog } from '@angular/material/dialog';
 import Point from 'src/app/models/point';
 import { PointService } from 'src/app/point.service';
 import { AddPointDialog } from '../components/add-point-dialog';
+import { EditPointDialog } from '../components/edit-point-dialog';
 import { DeletePointDialog } from '../components/delete-point-dialog';
 
 @Component({
@@ -46,12 +47,28 @@ export class PointViewComponent implements OnInit {
     });
 
     dialogRef.afterClosed().subscribe(result => {
-      console.log(`Dialog result: ${result.name}`);
+      console.log(`Dialog result: ${result}`);
 
       this.pointService.createPoint(result)
       .subscribe(() => this.pointService.getPoints()
       .subscribe((points: Point[]) => this.points = points));
     });
+  }
+
+  openEditDialog(point: Point) {
+    const dialogRef = this.dialog.open(EditPointDialog, {
+      width: '450px',
+      disableClose: true,
+      data: point
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      console.log(`Dialog result: ${result}`);
+
+      this.pointService.updatePoint(result)
+      .subscribe(() => this.pointService.getPoints()
+      .subscribe((points: Point[]) => this.points = points));
+    });  
   }
 
   openDeleteDialog(point: Point) {
@@ -67,27 +84,5 @@ export class PointViewComponent implements OnInit {
         .subscribe(() => this.points = this.points.filter(l => l._id != point._id));
       }
     });
-  }
-
-  addRowData(row_obj: Point){
-    this.pointService.createPoint(row_obj)
-      .subscribe((points: Point[]) => {
-        this.pointService.getPoints();
-      });
-    this.table.renderRows();
-  }
-
-  updateRowData(row_obj: Point){
-    // this.dataSource = this.dataSource.filter((value, key)=>{
-    //  if(value.id == row_obj.id){
-    //    value.name = row_obj.name;
-    //  }
-    //  return true;
-    //});
-  }
-
-  deleteRowData(row_obj: Point){
-    this.pointService.deletePoint(row_obj._id)
-      .subscribe(() => this.points = this.points.filter(l => l._id != row_obj._id));
   }
 }

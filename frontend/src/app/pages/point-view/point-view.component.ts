@@ -1,18 +1,30 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, Inject, OnInit, ViewChild } from '@angular/core';
+import { animate, state, style, transition, trigger } from '@angular/animations';
 import { MatTable } from '@angular/material/table';
 import { MatDialog } from '@angular/material/dialog';
 
 import Point from 'src/app/models/point';
 import { PointService } from 'src/app/point.service';
+import { AddPointDialog } from '../components/add-point-dialog';
+import { DeletePointDialog } from '../components/delete-point-dialog';
 
 @Component({
   selector: 'app-point-view',
   templateUrl: './point-view.component.html',
-  styleUrls: ['./point-view.component.css']
+  styleUrls: ['./point-view.component.css'],
+  animations: [
+    trigger('detailExpand', [
+      state('collapsed', style({height: '0px', minHeight: '0'})),
+      state('expanded', style({height: '*'})),
+      transition('expanded <=> collapsed', animate('225ms cubic-bezier(0.4, 0.0, 0.2, 1)')),
+    ]),
+  ]
 })
 export class PointViewComponent implements OnInit {
-  displayedColumns: string[] = ['code', 'name', 'partOfEar', 'bodyPart', 'function', 'action'];
+  columnsToDisplay = ['code', 'name', 'partOfEar', 'bodyPart', 'action'];
+  expandedPoint: Point | null;
   points: Point[] = [];
+
   @ViewChild(MatTable, { static: true }) table: MatTable<any>;
 
   constructor(
@@ -48,7 +60,28 @@ export class PointViewComponent implements OnInit {
   //  });
   // }
 
-  openDialog() {
+  openAddNewDialog() {
+    const dialogRef = this.dialog.open(AddPointDialog, {
+      width: '600px'
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      console.log(`Dialog result: ${result}`);
+    });
+  }
+
+  openDeleteDialog(point: Point) {
+    const dialogRef = this.dialog.open(DeletePointDialog, {
+      width: '400px',
+      // Can be closed only by clicking the close button
+      disableClose: true,
+      data: point
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      console.log(`Dialog result: ${result}`);
+      console.log(point);
+    });
   }
 
   addRowData(row_obj: Point){

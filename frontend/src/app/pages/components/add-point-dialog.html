@@ -1,0 +1,50 @@
+<h2 mat-dialog-title>Add New Point</h2>
+<mat-dialog-content class="mat-typography">
+    <form>
+        <div class="container">
+            <div class="mb-3 row">
+                <label for="codeInput" class="col-sm-3 col-form-label form-label">Code: </label>
+                <div class="col-sm-9">
+                    <input type="text" id="codeInput" class="form-control" placeholder="Enter point code" required> 
+                </div> 
+            </div>
+            <div class="mb-3 row">
+                <label for="nameInput" class="col-sm-3 col-form-label form-label">Name: </label>
+                <div class="col-sm-9">
+                    <input type="text" id="nameInput" class="form-control" placeholder="Enter point name" required>
+                </div>
+            </div>
+            <div class="mb-3 row">
+                <label for="earInput" class="col-sm-3 col-form-label form-label">Part of ear: </label>
+                <div class="col-sm-9">
+                    <select class="form-select" id="earInput">
+                        <option selected>Please select...</option>
+                        <option value="Antitragus">Antitragus</option>
+                        <option value="Antlhelix">Antlhelix</option>
+                        <option value="Concha">Concha</option>
+                        <option value="Ear Canal">Ear Canal</option>
+                        <option value="Helix">Helix</option>
+                        <option value="Lobule">Lobule</option>
+                        <option value="Tragus">Tragus</option>
+                    </select>
+                </div>
+            </div>
+            <div class="mb-3 row">
+                <label for="bodyInput" class="col-sm-3 col-form-label form-label">Body part: </label>
+                <div class="col-sm-9">
+                    <input type="text" id="bodyInput" class="form-control" placeholder="Enter body part">
+                </div>      
+            </div>
+            <div class="mb-3 row">
+                <label for="functionInput" class="col-sm-3 col-form-label form-label">Function</label>
+                <div class="col-sm-9">
+                    <input type="text" id="functionInput" class="form-control" placeholder="Enter point function(s)"> 
+                </div>
+            </div>  
+        </div>
+    </form>
+</mat-dialog-content>
+<mat-dialog-actions>
+  <button mat-button mat-dialog-close>Cancel</button>
+  <button mat-button [mat-dialog-close]="true" cdkFocusInitial>Save</button>
+</mat-dialog-actions>

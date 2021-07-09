@@ -8,15 +8,16 @@ import { MaterialModule } from './material-module';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { PointViewComponent } from './pages/point-view/point-view.component';
+import { AddPointDialog } from './pages/components/add-point-dialog';
+import { DeletePointDialog } from './pages/components/delete-point-dialog';
 
-import { DialogContentExample, DialogContentExampleDialog } from './pages/modal-view/dialog-content-example';
 
 @NgModule({
   declarations: [
     AppComponent,
     PointViewComponent,
-    DialogContentExample, 
-    DialogContentExampleDialog
+    AddPointDialog,
+    DeletePointDialog
   ],
   imports: [
     BrowserModule,
@@ -26,9 +27,7 @@ import { DialogContentExample, DialogContentExampleDialog } from './pages/modal-
     BrowserAnimationsModule,
     MaterialModule
   ],
-  exports: [
-  ],
-  entryComponents: [DialogContentExample, DialogContentExampleDialog],
+  exports: [],
   providers: [],
   bootstrap: [
     AppComponent

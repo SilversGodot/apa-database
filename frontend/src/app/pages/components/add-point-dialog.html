@@ -1,50 +1,62 @@
 <h2 mat-dialog-title>Add New Point</h2>
 <mat-dialog-content class="mat-typography">
-    <form>
-        <div class="container">
-            <div class="mb-3 row">
-                <label for="codeInput" class="col-sm-3 col-form-label form-label">Code: </label>
-                <div class="col-sm-9">
-                    <input type="text" id="codeInput" class="form-control" placeholder="Enter point code" required> 
-                </div> 
-            </div>
-            <div class="mb-3 row">
-                <label for="nameInput" class="col-sm-3 col-form-label form-label">Name: </label>
-                <div class="col-sm-9">
-                    <input type="text" id="nameInput" class="form-control" placeholder="Enter point name" required>
-                </div>
-            </div>
-            <div class="mb-3 row">
-                <label for="earInput" class="col-sm-3 col-form-label form-label">Part of ear: </label>
-                <div class="col-sm-9">
-                    <select class="form-select" id="earInput">
-                        <option selected>Please select...</option>
-                        <option value="Antitragus">Antitragus</option>
-                        <option value="Antlhelix">Antlhelix</option>
-                        <option value="Concha">Concha</option>
-                        <option value="Ear Canal">Ear Canal</option>
-                        <option value="Helix">Helix</option>
-                        <option value="Lobule">Lobule</option>
-                        <option value="Tragus">Tragus</option>
-                    </select>
-                </div>
-            </div>
-            <div class="mb-3 row">
-                <label for="bodyInput" class="col-sm-3 col-form-label form-label">Body part: </label>
-                <div class="col-sm-9">
-                    <input type="text" id="bodyInput" class="form-control" placeholder="Enter body part">
-                </div>      
-            </div>
-            <div class="mb-3 row">
-                <label for="functionInput" class="col-sm-3 col-form-label form-label">Function</label>
-                <div class="col-sm-9">
-                    <input type="text" id="functionInput" class="form-control" placeholder="Enter point function(s)"> 
-                </div>
-            </div>  
-        </div>
-    </form>
+    <table class="full-width" cellspacing="0">
+        <tr>
+            <td style="padding-right: 8px;">
+                <mat-form-field class="example-full-width" appearance="fill">
+                    <mat-label>Code</mat-label>
+                    <input matInput placeholder="Enter point code" [(ngModel)]="data.code" required>
+                </mat-form-field>
+            </td>
+            <td>
+                <mat-form-field class="example-full-width" appearance="fill">
+                    <mat-label>Name</mat-label>
+                    <input matInput placeholder="Enter point name" [(ngModel)]="data.name" required>
+                </mat-form-field>
+            </td>
+        </tr>
+    </table>
+
+    <table class="full-width" cellspacing="0">
+        <tr>
+            <td style="padding-right: 8px;">
+                <mat-form-field appearance="fill">
+                    <mat-label>Region of ear</mat-label>
+                    <mat-select [(ngModel)]="data.partOfEar">
+                        <mat-option>Please select...</mat-option>
+                        <mat-option value="Antitragus">Antitragus</mat-option>
+                        <mat-option value="Antlhelix">Antlhelix</mat-option>
+                        <mat-option value="Concha">Concha</mat-option>
+                        <mat-option value="Ear Canal">Ear Canal</mat-option>
+                        <mat-option value="Helix">Helix</mat-option>
+                        <mat-option value="Lobule">Lobule</mat-option>
+                        <mat-option value="Tragus">Tragus</mat-option> 
+                    </mat-select>
+                </mat-form-field>
+            </td>
+            <td>
+                <mat-form-field appearance="fill">
+                    <mat-label>Body part</mat-label>
+                    <mat-select name="bodyInput" [(ngModel)]="data.bodyPart">
+                        <mat-option>Please select...</mat-option>
+                        <mat-option value="Heart">Heart</mat-option>
+                        <mat-option value="Hand">Hand</mat-option>
+                    </mat-select>
+                </mat-form-field>                
+            </td>
+        </tr>
+        <tr>
+            <td colspan="2">
+                <mat-form-field class="full-width" appearance="fill">
+                    <mat-label>Function</mat-label>
+                    <textarea matInput cdkTextareaAutosize rows="3" name="functionInput" placeholder="Enter point function" [(ngModel)]="data.function"></textarea>
+                </mat-form-field>
+            </td>
+        </tr>
+    </table>     
 </mat-dialog-content>
+
 <mat-dialog-actions>
-  <button mat-button mat-dialog-close>Cancel</button>
-  <button mat-button [mat-dialog-close]="true" cdkFocusInitial>Save</button>
+    <button mat-button (click)="onNoClick()">Cancel</button>
+    <button mat-button [mat-dialog-close]="data" cdkFocusInitial>Ok</button>
 </mat-dialog-actions>

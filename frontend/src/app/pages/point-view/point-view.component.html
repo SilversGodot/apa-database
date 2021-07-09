@@ -1,38 +1,5 @@
 <div class="container">
     <h2>Points</h2>
-
-    <table class="table table-striped table-hover">
-    <thead>
-        <tr class="table-light">
-            <th>Code <i class="fa fa-fw fa-sort"></i></th>
-            <th>Name <i class="fa fa-fw fa-sort"></i></th>        
-            <th>Part of Ear <i class="fa fa-fw fa-sort"></i></th>
-            <th>Body Part <i class="fa fa-fw fa-sort"></i></th>
-            <th>Functions <i class="fa fa-fw fa-sort"></i></th>
-            <th>&nbsp;</th>
-        </tr>
-    </thead>
-    <tbody>
-        <ng-container *ngFor="let point of points">
-            <tr>
-                <td>{{ point.code }}</td>
-                <td>{{ point.name }}</td>
-                <td>{{ point.partOfEar }}</td>
-                <td>{{ point.bodyPart }}</td>                
-                <td>{{ point.function }}</td>                
-                <td>
-                    <button type="button" class="btn btn-primary btn-sm"><i class="fa fa-pencil-square-o" aria-hidden="true"></i> Edit</button>
-                    &nbsp;
-                    <button type="button" class="btn btn-secondary btn-sm" (click)="deletePoint(point)"><i class="fa fa-times" aria-hidden="true"></i> Delete</button>                
-                </td>
-            </tr>
-         </ng-container>
-    </tbody>
-    </table>
-</div>
-<br>
-
-<div class="container">
     <button mat-icon-button color="primary" (click)="openAddNewDialog()">
         <mat-icon>post_add</mat-icon> Add New Point
     </button>

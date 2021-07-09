@@ -38,35 +38,23 @@ export class PointViewComponent implements OnInit {
       .subscribe((points: Point[]) => this.points = points);
   }
 
-  addPoint(value: Point) {
-    this.pointService.createPoint(value)
-      .subscribe((points: Point[]) => {
-        this.pointService.getPoints();
-      });
-  }
-
   deletePoint(point: Point) {
     this.pointService.deletePoint(point._id)
       .subscribe(() => this.points = this.points.filter(l => l._id != point._id));
   }
 
-  // open(content: any) {
-  //  this.modalService.open(content, this.modalOptions).result.then((result: Point) => {
-  //    this.pointService.createPoint(result)
-  //    .subscribe(() => this.pointService.getPoints()
-  //    .subscribe((points: Point[]) => this.points = points));
-  //  }, (reason) => {
-  //    
-  //  });
-  // }
-
   openAddNewDialog() {
     const dialogRef = this.dialog.open(AddPointDialog, {
-      width: '600px'
+      width: '450px',
+      data: new Point
     });
 
     dialogRef.afterClosed().subscribe(result => {
-      console.log(`Dialog result: ${result}`);
+      console.log(`Dialog result: ${result.name}`);
+
+      this.pointService.createPoint(result)
+      .subscribe(() => this.pointService.getPoints()
+      .subscribe((points: Point[]) => this.points = points));
     });
   }
 
@@ -79,7 +67,7 @@ export class PointViewComponent implements OnInit {
     });
 
     dialogRef.afterClosed().subscribe(result => {
-      console.log(`Dialog result: ${result}`);
+      console.log(`Dialog result: ${result.name}`);
       console.log(point);
     });
   }

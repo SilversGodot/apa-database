@@ -31,7 +31,6 @@ tr.detail-row {
   
 .content-detail {
   overflow: hidden;
-  display: flex;
 }
   
 .content-description {

@@ -52,6 +52,10 @@
                     <div class="content-description">
                         {{point.function}}
                     </div>
+                    <div class="headerCell">Treatments: </div>
+                    <div class="content-description">
+                        N/A
+                    </div>                        
                 </div>
             </td>
         </ng-container>
@@ -60,5 +64,5 @@
         <tr mat-row *matRowDef="let point; columns: columnsToDisplay;" class="main-row" [class.expanded-row]="expandedPoint === point"></tr>
         <tr mat-row *matRowDef="let row; columns: ['expandedDetail']" class="detail-row"></tr>
     </table>
-    <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
+    <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons class="mat-elevation-z8"></mat-paginator>
 </div>

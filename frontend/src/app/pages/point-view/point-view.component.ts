@@ -43,7 +43,7 @@ export class PointViewComponent implements OnInit {
     const dialogRef = this.dialog.open(AddPointDialog, {
       width: '450px',
       disableClose: true,
-      data: new Point
+      data: { title: "Add Point", point: new Point }
     });
 
     dialogRef.afterClosed().subscribe(result => {
@@ -59,7 +59,7 @@ export class PointViewComponent implements OnInit {
     const dialogRef = this.dialog.open(EditPointDialog, {
       width: '450px',
       disableClose: true,
-      data: point
+      data: { title: "Edit Point", point: point }
     });
 
     dialogRef.afterClosed().subscribe(result => {

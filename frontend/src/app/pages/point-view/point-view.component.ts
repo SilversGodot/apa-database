@@ -4,7 +4,7 @@ import { MatTable } from '@angular/material/table';
 import { MatDialog } from '@angular/material/dialog';
 
 import Point from 'src/app/models/point';
-import { PointService } from 'src/app/point.service';
+import { PointService } from '@app/services/point.service';
 import { AddPointDialog } from '../components/add-point-dialog';
 import { EditPointDialog } from '../components/edit-point-dialog';
 import { DeletePointDialog } from '../components/delete-point-dialog';

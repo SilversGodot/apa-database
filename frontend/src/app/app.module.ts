@@ -8,6 +8,7 @@ import { MaterialModule } from './material-module';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { PointViewComponent } from './pages/point-view/point-view.component';
+import { TreatmentViewComponent } from './pages/treatment-view/treatment-view.component';
 import { AddPointDialog } from './pages/components/add-point-dialog';
 import { EditPointDialog } from './pages/components/edit-point-dialog';
 import { DeletePointDialog } from './pages/components/delete-point-dialog';
@@ -17,6 +18,7 @@ import { DeletePointDialog } from './pages/components/delete-point-dialog';
   declarations: [
     AppComponent,
     PointViewComponent,
+    TreatmentViewComponent,
     AddPointDialog,
     EditPointDialog,
     DeletePointDialog

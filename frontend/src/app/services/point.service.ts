@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
-import { WebService } from './web.service';
-import Point from './models/point';
+import { WebService } from '../web.service';
+import Point from '../models/point';
 
 @Injectable({
   providedIn: 'root'

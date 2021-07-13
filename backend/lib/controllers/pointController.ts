@@ -32,7 +32,7 @@ export class PointController {
                 'code': req.body.code,
                 'function': req.body.function,
                 'partOfEar': req.body.partOfEar,
-                'bodyPart': req.body.bodyPart,
+                'bodyParts': req.body.bodyParts,
                 'region': req.body.region,
                 'videoLink': req.body.videoLink
             });

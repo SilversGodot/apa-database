@@ -1,5 +1,34 @@
 import * as mongoose from 'mongoose';
+import FKHelper from '../helpers/foreign-key-helper';
 import Treatment from './treatment';
+
+// const pointEarRegionSchema = new mongoose.Schema({
+//     earRegion: {
+//         type : mongoose.Schema.Types.ObjectId,
+//         ref: 'EarRegion',
+//         validate: {
+//             validator: async function(v: any) {
+//                 return await FKHelper(mongoose.model("EarRegion"), v)
+//             },
+//             message: `Ear region doesn't exist`
+//         }
+//     },
+//     _id: false
+// });
+
+// const pointBodyPartSchema = new mongoose.Schema({
+//     earRegion: {
+//         type : mongoose.Schema.Types.ObjectId,
+//         ref: 'BodyPart',
+//         validate: {
+//             validator: async function(v: any) {
+//                 return await FKHelper(mongoose.model("EarRegion"), v)
+//             },
+//             message: `Body part doesn't exist`
+//         }
+//     },
+//     _id: false
+// });
 
 const PointSchema = new mongoose.Schema({
     name: {
@@ -30,13 +59,25 @@ const PointSchema = new mongoose.Schema({
         }
     }],
     partOfEar: {
-        type: String,
-        default: ""
+        type : mongoose.Schema.Types.ObjectId,
+        ref: 'EarRegion',
+        validate: {
+            validator: async function(v: any) {
+                return await FKHelper(mongoose.model("EarRegion"), v)
+            },
+            message: `Ear region doesn't exist`
+        }
     },
-    bodyPart : {
-        type: String,
-        default: ""
-    },
+    bodyParts : [{
+        type : mongoose.Schema.Types.ObjectId,
+        ref: 'BodyPart',
+        validate: {
+            validator: async function(v: any) {
+                return await FKHelper(mongoose.model("BodyPart"), v)
+            },
+            message: `Body part doesn't exist`
+        }
+    }],
     videoLink: {
         type: String,
         default: ""

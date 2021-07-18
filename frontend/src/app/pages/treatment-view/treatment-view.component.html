@@ -2,4 +2,21 @@
     <mat-toolbar color="primary">
         Treatments
     </mat-toolbar>
+
+    <table mat-table [dataSource]="treatments" multiTemplateDataRows class="mat-elevation-z8">
+        <ng-container matColumnDef="name">
+            <th mat-header-cell *matHeaderCellDef class="headerCell">Name</th>
+            <td mat-cell *matCellDef="let treatment" (click)="expandedTreatment = expandedTreatment === treatment ? null : treatment">{{treatment.name}}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="points">
+            <th mat-header-cell *matHeaderCellDef class="headerCell">Points</th>
+            <td mat-cell *matCellDef="let treatment" (click)="expandedTreatment = expandedTreatment === treatment ? null : treatment">
+                <div *ngFor="let point of treatment.points">{{ point }}</div>
+            </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="columnsToDisplay"></tr>
+        <tr mat-row *matRowDef="let treatment; columns: columnsToDisplay;" class="main-row" [class.expanded-row]="expandedTreatment === treatment"></tr>
+    </table>
 </div>

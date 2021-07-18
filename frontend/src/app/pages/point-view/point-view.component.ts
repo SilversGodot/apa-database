@@ -1,7 +1,8 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { animate, state, style, transition, trigger } from '@angular/animations';
-import { MatTable } from '@angular/material/table';
+import { MatTableDataSource } from '@angular/material/table';
 import { MatDialog } from '@angular/material/dialog';
+import { MatPaginator } from '@angular/material/paginator';
 
 import Point from 'src/app/models/point';
 import EarRegion from '@app/models/earRegion';
@@ -26,11 +27,11 @@ import { DeletePointDialog } from '../components/delete-point-dialog';
 export class PointViewComponent implements OnInit {
   columnsToDisplay = ['code', 'name', 'partOfEar', 'bodyPart', 'action'];
   expandedPoint: Point | null;
-  points: Point[] = [];
+  dataSource: MatTableDataSource<Point>;
   earRegions: EarRegion[] = [];
 
-
-  @ViewChild(MatTable, { static: true }) table: MatTable<any>;
+  // @ViewChild(MatTable, { static: true }) table: MatTable<any>;
+  @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
 
   constructor(
     public dialog: MatDialog,
@@ -40,8 +41,13 @@ export class PointViewComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.dataSource = new MatTableDataSource<Point>([]);
+
     this.pointService.getPoints()
-      .subscribe((points: Point[]) => this.points = points);
+      .subscribe((points: Point[]) => {
+        this.dataSource.data = points;
+        this.dataSource.paginator = this.paginator;
+      });
 
     // this.earRegionService.getEarRegions()
     //  .subscribe((earRegions: EarRegion[]) => this.earRegions = earRegions);
@@ -70,7 +76,7 @@ export class PointViewComponent implements OnInit {
 
       this.pointService.createPoint(point)
       .subscribe(() => this.pointService.getPoints()
-      .subscribe((points: Point[]) => this.points = points));
+      .subscribe((points: Point[]) => this.dataSource.data = points));
     });
   }
 
@@ -96,7 +102,7 @@ export class PointViewComponent implements OnInit {
 
       this.pointService.updatePoint(point)
       .subscribe(() => this.pointService.getPoints()
-      .subscribe((points: Point[]) => this.points = points));
+      .subscribe((points: Point[]) => this.dataSource.data = points));
     });  
   }
 
@@ -112,7 +118,7 @@ export class PointViewComponent implements OnInit {
 
       if(result) {
         this.pointService.deletePoint(point._id)
-        .subscribe(() => this.points = this.points.filter(l => l._id != point._id));
+        .subscribe(() => this.dataSource.data = this.dataSource.data.filter(l => l._id != point._id));
       }
     });
   }

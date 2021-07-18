@@ -5,20 +5,12 @@ import Symptom from '../database/models/symptom';
 
 export class TreatmentController {
     public getTreatments (req: Request, res: Response) {
-        // Treatment.find({},{'points.point':1})
-        Treatment.aggregate([
-            {
-                $lookup:
-                    {
-                        from: "points",
-                        localField: "points.point",
-                        foreignField: "_id",
-                        as: "point_info"
-                    }
-            }
-        ])
-        .then((treatments: any[]) => res.send(treatments))
-        .catch((error: any) => console.log(error));
+        Treatment.find({})
+        .populate('points.point')
+        .exec((err: any, treatment:any) => {
+            res.send(treatment);
+            if (err) console.log()
+        });
     }
 
     public getTreatment (req: Request, res: Response) {
@@ -41,7 +33,8 @@ export class TreatmentController {
             try {
                 treatment = new Treatment({
                     'name': req.body.name,
-                    'points': req.body.points
+                    'points': req.body.points,
+                    'description': req.body.description
                 });
     
                 await treatment.save();

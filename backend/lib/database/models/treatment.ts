@@ -34,7 +34,10 @@ const TreatmentSchema = new mongoose.Schema({
     },
     points: [{
         type: treatmentPointSchema
-    }]
+    }],
+    description: {
+        type: String
+    }
 });
 
 TreatmentSchema.post('findOneAndDelete', async function(doc) {

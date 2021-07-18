@@ -1,3 +1,4 @@
+<form [formGroup]="pointForm" (ngSubmit)="submit();">
 <h2 mat-dialog-title>{{data.title}}</h2>
 <mat-dialog-content class="mat-typography">
     <table class="full-width" cellspacing="0">
@@ -5,13 +6,13 @@
             <td style="padding-right: 8px;">
                 <mat-form-field class="example-full-width" appearance="fill">
                     <mat-label>Code</mat-label>
-                    <input matInput placeholder="Enter point code" [(ngModel)]="data.point.code" required>
+                    <input matInput placeholder="Enter point code" formControlName="code" required>
                 </mat-form-field>
             </td>
             <td>
                 <mat-form-field class="example-full-width" appearance="fill">
                     <mat-label>Name</mat-label>
-                    <input matInput placeholder="Enter point name" [(ngModel)]="data.point.name" required>
+                    <input matInput placeholder="Enter point name" formControlName="name" required>
                 </mat-form-field>
             </td>
         </tr>
@@ -22,7 +23,7 @@
             <td style="padding-right: 8px;">
                 <mat-form-field appearance="fill">
                     <mat-label>Region of ear</mat-label>
-                    <mat-select [(ngModel)]="data.point.partOfEar">
+                    <mat-select formControlName="partOfEar">
                         <mat-option>Please select...</mat-option>
                         <mat-option value="Antitragus">Antitragus</mat-option>
                         <mat-option value="Antlhelix">Antlhelix</mat-option>
@@ -30,14 +31,14 @@
                         <mat-option value="Ear Canal">Ear Canal</mat-option>
                         <mat-option value="Helix">Helix</mat-option>
                         <mat-option value="Lobule">Lobule</mat-option>
-                        <mat-option value="Tragus">Tragus</mat-option> 
+                        <mat-option value="Tragus">Tragus</mat-option>
                     </mat-select>
                 </mat-form-field>
             </td>
             <td>
                 <mat-form-field appearance="fill">
                     <mat-label>Body part</mat-label>
-                    <mat-select name="bodyInput" [(ngModel)]="data.point.bodyPart">
+                    <mat-select formControlName="bodyPart">
                         <mat-option>Please select...</mat-option>
                         <mat-option value="Heart">Heart</mat-option>
                         <mat-option value="Hand">Hand</mat-option>
@@ -49,7 +50,7 @@
             <td colspan="2">
                 <mat-form-field class="full-width" appearance="fill">
                     <mat-label>Function</mat-label>
-                    <textarea matInput cdkTextareaAutosize rows="3" name="functionInput" placeholder="Enter point function" [(ngModel)]="data.point.function"></textarea>
+                    <textarea matInput cdkTextareaAutosize rows="3" formControlName="function" placeholder="Enter point function"></textarea>
                 </mat-form-field>
             </td>
         </tr>
@@ -58,5 +59,6 @@
 
 <mat-dialog-actions>
     <button mat-button mat-dialog-close>Cancel</button>
-    <button mat-button [mat-dialog-close]="data.point" [disabled]="!data.point.code || !data.point.name" cdkFocusInitial>Submit</button>
+    <button mat-raised-button [disabled]="!pointForm.valid" (click)="submit()">Submit</button>
 </mat-dialog-actions>
+</form>

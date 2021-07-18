@@ -1,4 +1,4 @@
-import { Component, Inject, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { animate, state, style, transition, trigger } from '@angular/animations';
 import { MatTable } from '@angular/material/table';
 import { MatDialog } from '@angular/material/dialog';
@@ -47,9 +47,20 @@ export class PointViewComponent implements OnInit {
     });
 
     dialogRef.afterClosed().subscribe(result => {
-      console.log(`Dialog result: ${result}`);
+      console.log(`Add Point Dialog result: ${result}`);
 
-      this.pointService.createPoint(result)
+      if(result === undefined) {
+        return;
+      }
+
+      let point: Point = new Point;
+      point.code = result.code;
+      point.name = result.name;
+      point.partOfEar = result.partOfEar;
+      point.bodyPart = result.bodyPart;
+      point.function = result.function;
+
+      this.pointService.createPoint(point)
       .subscribe(() => this.pointService.getPoints()
       .subscribe((points: Point[]) => this.points = points));
     });
@@ -63,9 +74,19 @@ export class PointViewComponent implements OnInit {
     });
 
     dialogRef.afterClosed().subscribe(result => {
-      console.log(`Dialog result: ${result}`);
+      console.log(`Edit Point Dialog result: ${result}`);
 
-      this.pointService.updatePoint(result)
+      if(result === undefined) {
+        return;
+      }
+
+      point.code = result.code;
+      point.name = result.name;
+      point.partOfEar = result.partOfEar;
+      point.bodyPart = result.bodyPart;
+      point.function = result.function;
+
+      this.pointService.updatePoint(point)
       .subscribe(() => this.pointService.getPoints()
       .subscribe((points: Point[]) => this.points = points));
     });  
@@ -79,6 +100,8 @@ export class PointViewComponent implements OnInit {
     });
 
     dialogRef.afterClosed().subscribe(result => {
+      console.log(`Delete Point Dialog result: ${result}`);
+
       if(result) {
         this.pointService.deletePoint(point._id)
         .subscribe(() => this.points = this.points.filter(l => l._id != point._id));

@@ -4,7 +4,9 @@ import { MatTable } from '@angular/material/table';
 import { MatDialog } from '@angular/material/dialog';
 
 import Point from 'src/app/models/point';
+import EarRegion from '@app/models/earRegion';
 import { PointService } from '@app/services/point.service';
+import { EarRegionService } from '@app/services/earRegion.service';
 import { AddPointDialog } from '../components/add-point-dialog';
 import { EditPointDialog } from '../components/edit-point-dialog';
 import { DeletePointDialog } from '../components/delete-point-dialog';
@@ -25,18 +27,24 @@ export class PointViewComponent implements OnInit {
   columnsToDisplay = ['code', 'name', 'partOfEar', 'bodyPart', 'action'];
   expandedPoint: Point | null;
   points: Point[] = [];
+  earRegions: EarRegion[] = [];
+
 
   @ViewChild(MatTable, { static: true }) table: MatTable<any>;
 
   constructor(
     public dialog: MatDialog,
-    private pointService: PointService
+    private pointService: PointService,
+    private earRegionService: EarRegionService
   ) { 
   }
 
   ngOnInit(): void {
     this.pointService.getPoints()
       .subscribe((points: Point[]) => this.points = points);
+
+    // this.earRegionService.getEarRegions()
+    //  .subscribe((earRegions: EarRegion[]) => this.earRegions = earRegions);
   }
 
   openAddNewDialog() {

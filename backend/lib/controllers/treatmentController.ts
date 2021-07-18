@@ -22,9 +22,12 @@ export class TreatmentController {
     }
 
     public getTreatment (req: Request, res: Response) {
-        Treatment.find({_id: req.params.treatmentId})
-        .then((treatment: any) => res.send(treatment))
-        .catch((error: any) => console.log(error));       
+        Treatment.findOne({_id: req.params.treatmentId})
+        .populate('points.point')
+        .exec((err: any, treatment: any) => {
+            console.log("Populated Points " + treatment);
+            res.send(treatment);
+        });       
     }
 
     public async addTreatment (req: Request, res: Response) {

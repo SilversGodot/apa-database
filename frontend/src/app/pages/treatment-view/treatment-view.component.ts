@@ -19,7 +19,7 @@ import { TreatmentService } from '@app/services/treatment.service';
   ]
 })
 export class TreatmentViewComponent implements OnInit {
-  columnsToDisplay = ['name', 'points'];
+  columnsToDisplay = ['name', 'points', 'action'];
   expandedTreatment: Treatment | null;
   treatments: Treatment[] = [];
 

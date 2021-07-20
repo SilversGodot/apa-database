@@ -25,14 +25,10 @@
                     <mat-label>Region of ear</mat-label>
                     <mat-select formControlName="partOfEar">
                         <mat-option>Please select...</mat-option>
-                        <mat-option value="Antitragus">Antitragus</mat-option>
-                        <mat-option value="Antlhelix">Antlhelix</mat-option>
-                        <mat-option value="Concha">Concha</mat-option>
-                        <mat-option value="Ear Canal">Ear Canal</mat-option>
-                        <mat-option value="Helix">Helix</mat-option>
-                        <mat-option value="Lobule">Lobule</mat-option>
-                        <mat-option value="Tragus">Tragus</mat-option>
-                    </mat-select>
+                        <mat-option *ngFor="let earRegion of data.earRegions" [value]="earRegion.name">
+                          {{earRegion.name}}
+                        </mat-option>
+                    </mat-select>                 
                 </mat-form-field>
             </td>
             <td>

@@ -49,21 +49,21 @@ export class PointViewComponent implements OnInit {
         this.dataSource.paginator = this.paginator;
       });
 
-    // this.earRegionService.getEarRegions()
-    //  .subscribe((earRegions: EarRegion[]) => this.earRegions = earRegions);
+    this.earRegionService.getEarRegions()
+      .subscribe((earRegions: EarRegion[]) => this.earRegions = earRegions);
   }
 
   openAddNewDialog() {
     const dialogRef = this.dialog.open(AddPointDialog, {
       width: '450px',
       disableClose: true,
-      data: { title: "Add Point", point: new Point }
+      data: { title: "Add Point", point: new Point, earRegions: this.earRegions }
     });
 
     dialogRef.afterClosed().subscribe(result => {
       console.log(`Add Point Dialog result: ${result}`);
 
-      if(result === undefined) {
+      if(!result) {
         return;
       }
 
@@ -84,13 +84,13 @@ export class PointViewComponent implements OnInit {
     const dialogRef = this.dialog.open(EditPointDialog, {
       width: '450px',
       disableClose: true,
-      data: { title: "Edit Point", point: point }
+      data: { title: "Edit Point", point: point, earRegions: this.earRegions }
     });
 
     dialogRef.afterClosed().subscribe(result => {
       console.log(`Edit Point Dialog result: ${result}`);
 
-      if(result === undefined) {
+      if(!result) {
         return;
       }
 

@@ -1,25 +1,26 @@
 h2 {
-    padding-top: 10px;
+  padding-top: 10px;
 }
 
 table {
-    width: 100%;
+  width: 100%;
 }
 
 .headerCell {
-    font-size: 14px; 
-    font-weight: 600; 
-    color: black;
+  font-size: 14px;
+  font-weight: 600;
+  color: black;
+  border-bottom: solid 1px;
 }
-  
+
 tr.main-row:not(.expanded-row):hover {
   background: whitesmoke;
 }
-  
+
 tr.main-row:not(.expanded-row):active {
   background: #efefef;
 }
-  
+
 .main-row td {
   border-bottom-width: 0;
 }
@@ -28,11 +29,11 @@ tr.detail-row {
   height: 0;
   border-bottom: solid 1px;
 }
-  
+
 .content-detail {
   overflow: hidden;
 }
-  
+
 .content-description {
   padding: 12px;
 }

@@ -29,6 +29,7 @@ export class PointViewComponent implements OnInit {
   expandedPoint: Point | null;
   dataSource: MatTableDataSource<Point>;
   earRegions: EarRegion[] = [];
+  isLoading = true;
 
   // @ViewChild(MatTable, { static: true }) table: MatTable<any>;
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
@@ -47,6 +48,7 @@ export class PointViewComponent implements OnInit {
       .subscribe((points: Point[]) => {
         this.dataSource.data = points;
         this.dataSource.paginator = this.paginator;
+        this.isLoading = false;
       });
 
     this.earRegionService.getEarRegions()

@@ -4,24 +4,26 @@
     <table class="full-width" cellspacing="0">
         <tr>
             <td style="padding-right: 8px;">
-                <mat-form-field class="example-full-width" appearance="fill">
+                <mat-form-field class="full-width" appearance="fill">
                     <mat-label>Code</mat-label>
                     <input matInput placeholder="Enter point code" formControlName="code" required>
                 </mat-form-field>
             </td>
-            <td>
-                <mat-form-field class="example-full-width" appearance="fill">
+            <td rowspan="3" style="text-align: center;">
+                <img src="../../../assets/img/ear.jpg" width="50%">
+            </td>              
+        </tr>
+        <tr>
+            <td style="padding-right: 8px;">
+                <mat-form-field class="full-width" appearance="fill">
                     <mat-label>Name</mat-label>
                     <input matInput placeholder="Enter point name" formControlName="name" required>
                 </mat-form-field>
-            </td>
-        </tr>
-    </table>
-
-    <table class="full-width" cellspacing="0">
-        <tr>
+            </td>            
+        </tr>      
+        <tr>         
             <td style="padding-right: 8px;">
-                <mat-form-field appearance="fill">
+                <mat-form-field class="full-width" appearance="fill">
                     <mat-label>Region of ear</mat-label>
                     <mat-select formControlName="partOfEar">
                         <mat-option>Please select...</mat-option>
@@ -30,31 +32,57 @@
                         </mat-option>
                     </mat-select>                 
                 </mat-form-field>
-            </td>
-            <td>
-                <mat-form-field appearance="fill">
-                    <mat-label>Body part</mat-label>
-                    <mat-select formControlName="bodyPart">
-                        <mat-option>Please select...</mat-option>
-                        <mat-option value="Heart">Heart</mat-option>
-                        <mat-option value="Hand">Hand</mat-option>
-                    </mat-select>
-                </mat-form-field>                
-            </td>
+            </td>           
         </tr>
         <tr>
-            <td colspan="2">
+            <td style="padding-right: 8px;" colspan="2">
+                <mat-form-field class="full-width" appearance="fill">                  
+                    <mat-label>Body part</mat-label>
+                    <mat-chip-list #bodyPartList aria-label="Body Part selection" formControlName="bodyParts" > 
+                      <mat-chip *ngFor="let bodyPart of data.point.bodyParts" 
+                        [selectable]="selectable"
+                        [removable]="removable" 
+                        (removed)="remove(bodyPart)">
+                        {{bodyPart}}
+                        <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
+                      </mat-chip>
+                      <input
+                        #bodyPartsInput
+                        [formControl]="bodyPartsCtrl"
+                        [matAutocomplete]="auto"
+                        [matChipInputFor]="bodyPartList"
+                        [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+                        (matChipInputTokenEnd)="add($event)">
+                    </mat-chip-list>
+                    <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selected($event)">
+                        <mat-option *ngFor="let bodyPart of filteredBodyParts | async" [value]="bodyPart.name">
+                          {{bodyPart.name}}
+                        </mat-option>
+                      </mat-autocomplete>                                    
+                </mat-form-field>
+            </td>
+        </tr>      
+        <tr>
+            <td style="padding-right: 8px;" colspan="2">
                 <mat-form-field class="full-width" appearance="fill">
                     <mat-label>Function</mat-label>
                     <textarea matInput cdkTextareaAutosize rows="3" formControlName="function" placeholder="Enter point function"></textarea>
                 </mat-form-field>
             </td>
         </tr>
+        <tr>
+            <td style="padding-right: 8px;" colspan="2">
+                <mat-form-field class="example-full-width" class="full-width" appearance="fill">
+                    <mat-label>Video Link</mat-label>
+                    <input matInput placeholder="Enter video link" formControlName="videoLink">
+                </mat-form-field>
+            </td>
+        </tr>     
     </table>     
 </mat-dialog-content>
 
 <mat-dialog-actions>
     <button mat-button mat-dialog-close>Cancel</button>
-    <button mat-raised-button [disabled]="!pointForm.valid" (click)="submit()">Submit</button>
+    <button mat-raised-button [disabled]="!pointForm.valid" (click)="submit()">{{data.title === 'Add Point' ? 'Submit' : 'Update'}}</button>
 </mat-dialog-actions>
-</form>
+</form> 

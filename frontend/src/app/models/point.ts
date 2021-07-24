@@ -4,6 +4,6 @@ export default class Point {
     code: string;
     function: string;
     partOfEar: string;
-    bodyPart: string;
+    bodyParts: string[];
     videoLink?: string;
 }

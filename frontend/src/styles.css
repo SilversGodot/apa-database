@@ -1,22 +1,25 @@
 /* You can add global styles to this file, and also import other style files */
-html, body { height: 100%; }
+html,
+body {
+  height: 100%;
+}
 
-body { 
-    margin: 0; 
-    font-family: Roboto, "Helvetica Neue", sans-serif; 
-    background:#eee;
+body {
+  margin: 0;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+  background: #eee;
 }
 
 .full-width {
-    width: 100%;
+  width: 100%;
 }
 
 .dialog-table td {
-    padding-right: 8px;
+  padding-right: 8px;
 }
 
 .dialog-form {
-    min-width: 150px;
-    max-width: 500px;
-    width: 100%;
+  min-width: 150px;
+  max-width: 550px;
+  width: 100%;
 }

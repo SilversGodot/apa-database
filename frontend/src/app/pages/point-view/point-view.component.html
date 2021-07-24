@@ -25,10 +25,10 @@
             <td mat-cell *matCellDef="let point" (click)="expandedPoint = expandedPoint === point ? null : point"> {{point.partOfEar}} </td>
         </ng-container>
     
-        <!-- Body Part Column -->
-        <ng-container matColumnDef="bodyPart">
-            <th mat-header-cell *matHeaderCellDef class="headerCell">Body Part</th>
-            <td mat-cell *matCellDef="let point" (click)="expandedPoint = expandedPoint === point ? null : point"> {{point.bodyPart}} </td>
+        <!-- Body Parts Column -->
+        <ng-container matColumnDef="bodyParts">
+            <th mat-header-cell *matHeaderCellDef class="headerCell">Body Parts</th>
+            <td mat-cell *matCellDef="let point" (click)="expandedPoint = expandedPoint === point ? null : point"> {{point.bodyParts.join(', ')}} </td>
         </ng-container>
 
         <!-- Action Column -->
@@ -48,14 +48,18 @@
         <ng-container matColumnDef="expandedDetail">
             <td mat-cell *matCellDef="let point" [attr.colspan]="columnsToDisplay.length">
                 <div class="content-detail" [@detailExpand]="point == expandedPoint ? 'expanded' : 'collapsed'">
-                    <div class="headerCell">Functions: </div>
+                    <div class="header">Functions: </div>
                     <div class="content-description">
                         {{point.function}}
                     </div>
-                    <div class="headerCell">Treatments: </div>
+                    <div class="header">Video Link:</div>
+                    <div class="content-description">
+                        {{point.videoLink}}
+                    </div>
+                    <div class="header">Treatments: </div>
                     <div class="content-description">
                         N/A
-                    </div>
+                    </div>                                        
                 </div>
             </td>
         </ng-container>
@@ -65,4 +69,8 @@
         <tr mat-row *matRowDef="let row; columns: ['expandedDetail']" class="detail-row"></tr>
     </table>
     <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons class="mat-elevation-z8"></mat-paginator>
+</div>
+
+<div *ngIf="isLoading" style="display: flex; justify-content: center; align-items: center; background: white; height: 50px;">
+  <mat-progress-spinner color="primary" mode="indeterminate" value=50></mat-progress-spinner>
 </div>

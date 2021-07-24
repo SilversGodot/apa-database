@@ -1,8 +1,8 @@
-import Point from './point';
+import TreatmentPoint from './treatmentPoint';
 
 export default class Treatment {
     _id?: string;
     name: string;
-    points: Point[];
+    points: TreatmentPoint[];
     description: string;
 }

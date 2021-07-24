@@ -12,6 +12,10 @@ import { TreatmentViewComponent } from './pages/treatment-view/treatment-view.co
 import { AddPointDialog } from './pages/components/add-point-dialog';
 import { EditPointDialog } from './pages/components/edit-point-dialog';
 import { DeletePointDialog } from './pages/components/delete-point-dialog';
+import { AddTreatmentDialog } from './pages/components/add-treatment-dialog';
+// import { EditTreatmentDialog } from './pages/components/edit-treatment-dialog';
+// import { DeleteTreatmentDialog } from './pages/components/delete-treatment-dialog';
+
 
 
 @NgModule({
@@ -21,7 +25,8 @@ import { DeletePointDialog } from './pages/components/delete-point-dialog';
     TreatmentViewComponent,
     AddPointDialog,
     EditPointDialog,
-    DeletePointDialog
+    DeletePointDialog,
+    AddTreatmentDialog
   ],
   imports: [
     BrowserModule,

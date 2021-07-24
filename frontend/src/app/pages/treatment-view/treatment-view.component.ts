@@ -5,6 +5,9 @@ import { MatDialog } from '@angular/material/dialog';
 
 import Treatment from 'src/app/models/treatment';
 import { TreatmentService } from '@app/services/treatment.service';
+import { AddTreatmentDialog } from '../components/add-treatment-dialog';
+import Point from '@app/models/point';
+import TreatmentPoint from '@app/models/treatmentPoint';
 
 @Component({
   selector: 'app-treatment-view',
@@ -34,5 +37,64 @@ export class TreatmentViewComponent implements OnInit {
   ngOnInit(): void {
     this.treatmentService.getTreatments()
       .subscribe((treatments: Treatment[]) => this.treatments = treatments);
+  }
+
+  openAddNewDialog() {
+    const dialogRef = this.dialog.open(AddTreatmentDialog, {
+      width: '450px',
+      disableClose: true,
+      data: {
+        title: "Add Treatment"
+      }
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      console.log(`Add Treatment Dialog result: ${result}`);
+
+      if(!result) {
+        return;
+      }
+
+      let newTreatment: any = {
+        name: '',
+        description: '',
+        points: []
+      };
+      newTreatment.name = result.name;
+      newTreatment.description = result.description;
+      for (let point of result.masterPoints) {
+        let newTreatmentPoint: any = {
+          point: '',
+          type: ''
+        };
+        newTreatmentPoint.point = point._id;
+        newTreatmentPoint.type = 'master';
+        newTreatment.points.push(newTreatmentPoint);
+      }
+      for (let point of result.primaryPoints) {
+        let newTreatmentPoint: any = {
+          point: '',
+          type: ''
+        };
+        newTreatmentPoint.point = point._id;
+        newTreatmentPoint.type = 'primary';
+        newTreatment.points.push(newTreatmentPoint);
+      }
+      for (let point of result.supplementalPoints) {
+        let newTreatmentPoint: any = {
+          point: '',
+          type: ''
+        };
+        newTreatmentPoint.point = point._id;
+        newTreatmentPoint.type = 'supplemental';
+        newTreatment.points.push(newTreatmentPoint);
+      }
+
+      console.log(newTreatment);
+      
+      this.treatmentService.createTreatment(newTreatment)
+        .subscribe(() => this.treatmentService.getTreatments()
+          .subscribe((treatments: Treatment[]) => this.treatments = treatments));
+    });
   }
 }

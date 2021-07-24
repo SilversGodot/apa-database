@@ -4,6 +4,8 @@ import { FormControl, FormBuilder, FormGroup, Validators } from '@angular/forms'
 import { MAT_DIALOG_DATA, MatDialogRef } from "@angular/material/dialog";
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { MatChipInputEvent } from '@angular/material/chips';
+import { Observable } from 'rxjs';
+import { map, startWith } from 'rxjs/operators';
 
 import BodyPart from '@app/models/bodyPart';
 
@@ -14,73 +16,79 @@ import BodyPart from '@app/models/bodyPart';
 export class EditPointDialog implements OnInit {
   pointForm: FormGroup;
 
+  bodyPartsCtrl = new FormControl();
   visible = true;
   selectable = true;
   removable = true;
   separatorKeysCodes: number[] = [ENTER, COMMA];
 
-  @ViewChild('bodyPartInput') bodyPartInput: ElementRef<HTMLInputElement>;
+  filteredBodyParts: Observable<BodyPart[]>;
+
+  @ViewChild('bodyPartsInput') bodyPartsInput: ElementRef<HTMLInputElement>;
 
   constructor(
     private formBuilder: FormBuilder,
     private dialogRef: MatDialogRef<EditPointDialog>,
     @Inject(MAT_DIALOG_DATA) public data: any) {
-
+      this.filteredBodyParts = this.bodyPartsCtrl.valueChanges.pipe(
+        startWith(null as string),
+        map((bodypart: string | null) => bodypart? this._filter(bodypart) : this.data.bodyParts.slice()));
   }
 
-    ngOnInit() {
-      this.pointForm = this.formBuilder.group({
-        code: [this.data.point.code, Validators.required],
-        name: [this.data.point.name, Validators.required],
-        partOfEar: this.data.point.partOfEar,
-        bodyParts: new FormControl(this.data.point.bodyParts, Validators.required),        
-        function: this.data.point.function,
-        videoLink: this.data.point.videoLink
-      });
+  ngOnInit() {
+    this.pointForm = this.formBuilder.group({
+      code: [this.data.point.code, Validators.required],
+      name: [this.data.point.name, Validators.required],
+      partOfEar: this.data.point.partOfEar, 
+      bodyParts: this.bodyPartsCtrl,       
+      function: this.data.point.function,
+      videoLink: this.data.point.videoLink
+    });
+  }
 
-      console.log(this.data.point.bodyParts, "Point-bodyParts: ");
+  closeDialog() {
+    this.dialogRef.close();
+  }
+
+  submit() {
+    if (this.pointForm.invalid) {
+      return;
     }
 
-    closeDialog() {
-      this.dialogRef.close();
-    }
+    this.bodyPartsCtrl.setValue(this.data.point.bodyParts);
+    this.dialogRef.close(this.pointForm.value);
+  }
 
-    submit() {
-      if (this.pointForm.invalid) {
-        return;
-      }
+  //// BodyPart auto complete
+  add(event: MatChipInputEvent): void {
+    const value = (event.value || '').trim();
 
-      console.log(this.pointForm.value);
-      this.dialogRef.close(this.pointForm.value);
+    if (value) {
+      this.data.point.bodyParts.push(value);
     }
+    
+    // Clear the input value
+    event.chipInput!.clear();
+    this.bodyPartsCtrl.setValue(null);
+  }
+          
+  remove(bodyPart: string): void {
+    const index = this.data.point.bodyParts.indexOf(bodyPart);
+    
+    if (index >= 0) {
+      this.data.point.bodyParts.splice(index, 1);
+    }
+  }
 
-      ////
-      get fruits() {
-        return this.pointForm.get('bodyParts');
-      }
-      
-      add(event: MatChipInputEvent): void {
-        const input = event.input;
-        const value = event.value;
-          
-        // Add our fruit
-        if ((value || '').trim()) {
-          this.fruits.setValue([...this.fruits.value, value.trim()]);
-          this.fruits.updateValueAndValidity();
-        }
-          
-        // Reset the input value
-        if (input) {
-          input.value = '';
-        }
-      }
-          
-    remove(fruit: string): void {
-      const index = this.fruits.value.indexOf(fruit);
-          
-      if (index >= 0) {
-        this.fruits.value.splice(index, 1);
-        this.fruits.updateValueAndValidity();
-      }
-    }
+  selected(event: MatAutocompleteSelectedEvent): void {
+    this.data.point.bodyParts.push(event.option.viewValue);
+    this.bodyPartsInput.nativeElement.value = '';
+    this.bodyPartsCtrl.setValue(null);
+  }
+
+  private _filter(value: string): string[] {
+    const filterValue = value.toLowerCase();
+
+    return this.data.bodyParts.filter(bodyPart => bodyPart.name.toLowerCase().includes(filterValue));
+  }
 }

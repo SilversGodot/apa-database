@@ -5,35 +5,44 @@ import { MAT_DIALOG_DATA, MatDialogRef } from "@angular/material/dialog";
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { MatChipInputEvent } from '@angular/material/chips';
 import { Observable } from 'rxjs';
+import { map, startWith } from 'rxjs/operators';
 
 import BodyPart from '@app/models/bodyPart';
+import Point from '@app/models/point';
 
 @Component({
     selector: 'add-point-dialog',
     templateUrl: 'add-edit-point-dialog.html',
   })
-  export class AddPointDialog {
-    pointForm: FormGroup;
+export class AddPointDialog {
+  pointForm: FormGroup;
 
-    selectable = true;
-    removable = true;
-    separatorKeysCodes: number[] = [ENTER, COMMA];
+  bodyPartsCtrl = new FormControl();
+  selectable = true;
+  removable = true;
+  separatorKeysCodes: number[] = [ENTER, COMMA];
 
-    @ViewChild('bodyPartInput') bodyPartInput: ElementRef<HTMLInputElement>;
+  filteredBodyParts: Observable<BodyPart[]>;
+
+  @ViewChild('bodyPartsInput') bodyPartsInput: ElementRef<HTMLInputElement>;
 
     constructor(
       private formBuilder: FormBuilder,
       private dialogRef: MatDialogRef<AddPointDialog>,
       @Inject(MAT_DIALOG_DATA) public data: any) {
-
+        this.filteredBodyParts = this.bodyPartsCtrl.valueChanges.pipe(
+          startWith(null as string),
+          map((bodypart: string | null) => bodypart? this._filter(bodypart) : this.data.bodyParts.slice()));
       }
 
       ngOnInit() {
+        this.data.point = new Point();
+        this.data.point.bodyParts = [];
         this.pointForm = this.formBuilder.group({
           code: ['', Validators.required],
           name: ['', Validators.required],
           partOfEar: '',
-          bodyParts: new FormControl([], Validators.required),
+          bodyParts: this.bodyPartsCtrl,
           function: '',
           videoLink: ''
          });
@@ -48,38 +57,40 @@ import BodyPart from '@app/models/bodyPart';
           return;
         }
 
-        console.log(this.pointForm.value);
+        this.bodyPartsCtrl.setValue(this.data.point.bodyParts);
         this.dialogRef.close(this.pointForm.value);
       }
 
-      ////
-      get fruits() {
-        return this.pointForm.get('bodyParts');
-      }
-
+      //// BodyPart auto complete
       add(event: MatChipInputEvent): void {
-        const input = event.input;
-        const value = event.value;
-    
-        // Add our fruit
-        if ((value || '').trim()) {
-          this.fruits.setValue([...this.fruits.value, value.trim()]);
-          this.fruits.updateValueAndValidity();
+        const value = (event.value || '').trim();
+
+        if (value) {
+          this.data.point.bodyParts.push(value);
         }
     
-        // Reset the input value
-        if (input) {
-          input.value = '';
-        }
+        // Clear the input value
+        event.chipInput!.clear();
+        this.bodyPartsCtrl.setValue(null);
       }
     
-      remove(fruit: BodyPart): void {
-        const index = this.fruits.value.indexOf(fruit);
-        console.log(index, "Remove BodyPart index: ");
+      remove(bodyPart: string): void {
+        const index = this.data.point.bodyParts.indexOf(bodyPart);
     
         if (index >= 0) {
-          this.fruits.value.splice(index, 1);
-          this.fruits.updateValueAndValidity();
+          this.data.point.bodyParts.splice(index, 1);
         }
       }
-  }
+
+      selected(event: MatAutocompleteSelectedEvent): void {
+        this.data.point.bodyParts.push(event.option.viewValue);
+        this.bodyPartsInput.nativeElement.value = '';
+        this.bodyPartsCtrl.setValue(null);
+      }
+
+      private _filter(value: string): string[] {
+        const filterValue = value.toLowerCase();
+    
+        return this.data.bodyParts.filter(bodyPart => bodyPart.name.toLowerCase().includes(filterValue));
+      }
+}

@@ -55,8 +55,6 @@ export class PointViewComponent implements OnInit {
         this.dataSource.data = points;
         this.dataSource.paginator = this.paginator;
         this.isLoading = false;
-
-        console.log(points);
       });
 
     this.earRegionService.getEarRegions()
@@ -111,7 +109,7 @@ export class PointViewComponent implements OnInit {
     });
 
     dialogRef.afterClosed().subscribe(result => {
-      console.log(`Edit Point Dialog result: ${result}`);
+      console.log(`Edit Point Dialog result: ${result.bodyParts}`);
 
       if(!result) {
         return;

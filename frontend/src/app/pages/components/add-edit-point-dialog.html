@@ -4,24 +4,26 @@
     <table class="full-width" cellspacing="0">
         <tr>
             <td style="padding-right: 8px;">
-                <mat-form-field class="example-full-width" appearance="fill">
+                <mat-form-field class="full-width" appearance="fill">
                     <mat-label>Code</mat-label>
                     <input matInput placeholder="Enter point code" formControlName="code" required>
                 </mat-form-field>
             </td>
-            <td>
-                <mat-form-field class="example-full-width" appearance="fill">
+            <td rowspan="3" style="text-align: center;">
+                <img src="../../../assets/img/ear.jpg" width="50%">
+            </td>              
+        </tr>
+        <tr>
+            <td style="padding-right: 8px;">
+                <mat-form-field class="full-width" appearance="fill">
                     <mat-label>Name</mat-label>
                     <input matInput placeholder="Enter point name" formControlName="name" required>
                 </mat-form-field>
-            </td>
-        </tr>        
-        <tr>
-            <td rowspan="2" style="text-align: center;">
-                <img src="../../../assets/img/ear.jpg" width="50%">
             </td>            
+        </tr>      
+        <tr>         
             <td style="padding-right: 8px;">
-                <mat-form-field appearance="fill">
+                <mat-form-field class="full-width" appearance="fill">
                     <mat-label>Region of ear</mat-label>
                     <mat-select formControlName="partOfEar">
                         <mat-option>Please select...</mat-option>
@@ -30,11 +32,11 @@
                         </mat-option>
                     </mat-select>                 
                 </mat-form-field>
-            </td>
+            </td>           
         </tr>
         <tr>
-            <td>
-                <mat-form-field appearance="fill">                  
+            <td style="padding-right: 8px;" colspan="2">
+                <mat-form-field class="full-width" appearance="fill">                  
                     <mat-label>Body part</mat-label>
                     <mat-chip-list #bodyPartList aria-label="Body Part selection" formControlName="bodyParts" > 
                       <mat-chip *ngFor="let bodyPart of data.point.bodyParts" 
@@ -57,9 +59,9 @@
                           {{bodyPart.name}}
                         </mat-option>
                       </mat-autocomplete>                                    
-                  </mat-form-field>
+                </mat-form-field>
             </td>
-        </tr>        
+        </tr>      
         <tr>
             <td style="padding-right: 8px;" colspan="2">
                 <mat-form-field class="full-width" appearance="fill">

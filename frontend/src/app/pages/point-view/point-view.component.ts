@@ -6,8 +6,12 @@ import { MatPaginator } from '@angular/material/paginator';
 
 import Point from 'src/app/models/point';
 import EarRegion from '@app/models/earRegion';
+import BodyPart from '@app/models/bodyPart';
+
 import { PointService } from '@app/services/point.service';
 import { EarRegionService } from '@app/services/earRegion.service';
+import { BodyPartService } from '@app/services/bodyPart.service';
+
 import { AddPointDialog } from '../components/add-point-dialog';
 import { EditPointDialog } from '../components/edit-point-dialog';
 import { DeletePointDialog } from '../components/delete-point-dialog';
@@ -25,10 +29,11 @@ import { DeletePointDialog } from '../components/delete-point-dialog';
   ]
 })
 export class PointViewComponent implements OnInit {
-  columnsToDisplay = ['code', 'name', 'partOfEar', 'bodyPart', 'action'];
+  columnsToDisplay = ['code', 'name', 'partOfEar', 'bodyParts', 'action'];
   expandedPoint: Point | null;
   dataSource: MatTableDataSource<Point>;
   earRegions: EarRegion[] = [];
+  bodyParts: BodyPart[] = [];
   isLoading = true;
 
   // @ViewChild(MatTable, { static: true }) table: MatTable<any>;
@@ -37,7 +42,8 @@ export class PointViewComponent implements OnInit {
   constructor(
     public dialog: MatDialog,
     private pointService: PointService,
-    private earRegionService: EarRegionService
+    private earRegionService: EarRegionService,
+    private bodyPartService: BodyPartService
   ) { 
   }
 
@@ -49,17 +55,27 @@ export class PointViewComponent implements OnInit {
         this.dataSource.data = points;
         this.dataSource.paginator = this.paginator;
         this.isLoading = false;
+
+        console.log(points);
       });
 
     this.earRegionService.getEarRegions()
       .subscribe((earRegions: EarRegion[]) => this.earRegions = earRegions);
+
+    this.bodyPartService.getBodyParts()
+      .subscribe((bodyParts: BodyPart[]) => this.bodyParts = bodyParts);
   }
 
   openAddNewDialog() {
     const dialogRef = this.dialog.open(AddPointDialog, {
       width: '450px',
       disableClose: true,
-      data: { title: "Add Point", point: new Point, earRegions: this.earRegions }
+      data: { 
+        title: "Add Point", 
+        point: new Point, 
+        earRegions: this.earRegions,
+        bodyParts: this.bodyParts
+      }
     });
 
     dialogRef.afterClosed().subscribe(result => {
@@ -73,7 +89,7 @@ export class PointViewComponent implements OnInit {
       point.code = result.code;
       point.name = result.name;
       point.partOfEar = result.partOfEar;
-      point.bodyPart = result.bodyPart;
+      point.bodyParts = result.bodyParts;
       point.function = result.function;
 
       this.pointService.createPoint(point)
@@ -86,7 +102,12 @@ export class PointViewComponent implements OnInit {
     const dialogRef = this.dialog.open(EditPointDialog, {
       width: '450px',
       disableClose: true,
-      data: { title: "Edit Point", point: point, earRegions: this.earRegions }
+      data: { 
+        title: "Edit Point", 
+        point: point, 
+        earRegions: this.earRegions,
+        bodyParts: this.bodyParts
+      }
     });
 
     dialogRef.afterClosed().subscribe(result => {
@@ -99,7 +120,7 @@ export class PointViewComponent implements OnInit {
       point.code = result.code;
       point.name = result.name;
       point.partOfEar = result.partOfEar;
-      point.bodyPart = result.bodyPart;
+      point.bodyParts = result.bodyParts;
       point.function = result.function;
 
       this.pointService.updatePoint(point)

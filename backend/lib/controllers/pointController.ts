@@ -4,21 +4,21 @@ import Point from '../database/models/point';
 
 export class PointController {
     public getPoints (req: Request, res: Response){
-        Point.find({}, (err: mongoose.CallbackError, points: any[]) => {
-            if(err) {
-                res.send(err);
-            }
-            res.json(points);
+        Point.find({})
+        .populate('partOfEar bodyParts')
+        .exec((err: any, points: any) => {
+            res.send(points);
+            if (err) console.log(err)
         });
     }
 
     public getPoint (req: Request, res: Response){
-        Point.findOne({_id: req.params.pointId}, (err: mongoose.CallbackError, point: any) => {
-            if (err) {
-                res.send(err);
-            }
-            res.json(point);
-        });
+        Point.findOne({_id: req.params.pointId})
+        .populate('partOfEar bodyParts')
+        .exec((err: any, point: any) => {
+            res.send(point);
+            if (err) console.log(err)
+        }); 
     }
 
     public async addPoint (req: Request, res: Response){

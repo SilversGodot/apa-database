@@ -39,7 +39,7 @@ export class EditPointDialog implements OnInit {
     this.pointForm = this.formBuilder.group({
       code: [this.data.point.code, Validators.required],
       name: [this.data.point.name, Validators.required],
-      partOfEar: this.data.point.partOfEar, 
+      partOfEar: this.data.point.partOfEar._id, 
       bodyParts: this.bodyPartsCtrl,       
       function: this.data.point.function,
       videoLink: this.data.point.videoLink
@@ -87,7 +87,7 @@ export class EditPointDialog implements OnInit {
   }
 
   private _filter(value: string): string[] {
-    const filterValue = value.toLowerCase();
+    const filterValue = value.toString().toLowerCase();
 
     return this.data.bodyParts.filter(bodyPart => bodyPart.name.toLowerCase().includes(filterValue));
   }

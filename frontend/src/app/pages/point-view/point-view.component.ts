@@ -89,6 +89,9 @@ export class PointViewComponent implements OnInit {
       point.partOfEar = result.partOfEar;
       point.bodyParts = result.bodyParts;
       point.function = result.function;
+      point.videoLink = result.videoLink
+
+      console.log(point);
 
       this.pointService.createPoint(point)
       .subscribe(() => this.pointService.getPoints()
@@ -120,6 +123,9 @@ export class PointViewComponent implements OnInit {
       point.partOfEar = result.partOfEar;
       point.bodyParts = result.bodyParts;
       point.function = result.function;
+      point.videoLink = result.videoLink;
+
+      console.log(point);
 
       this.pointService.updatePoint(point)
       .subscribe(() => this.pointService.getPoints()

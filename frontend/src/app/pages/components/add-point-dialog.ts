@@ -91,7 +91,7 @@ export class AddPointDialog {
       }
 
       private _filter(value: string): string[] {
-        const filterValue = value.toLowerCase();  
+        const filterValue = value.toString().toLowerCase();  
         return this.data.bodyParts.filter(bodyPart => bodyPart.name.toLowerCase().includes(filterValue));
       }
 }

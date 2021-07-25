@@ -8,6 +8,8 @@ export class WebService {
   readonly ROOT_URL: string;
   constructor(private http : HttpClient) {
     this.ROOT_URL = 'http://ec2-13-58-91-242.us-east-2.compute.amazonaws.com/api';
+    // 'http://ec2-13-58-91-242.us-east-2.compute.amazonaws.com/api'
+    // 'http://localhost:3000'
   }
 
   get(uri: string) {

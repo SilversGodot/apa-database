@@ -25,12 +25,12 @@
             <td style="padding-right: 8px;">
                 <mat-form-field class="full-width" appearance="fill">
                     <mat-label>Region of ear</mat-label>
-                    <mat-select formControlName="partOfEar">
+                    <mat-select formControlName="partOfEar" required>
                         <mat-option>Please select...</mat-option>
-                        <mat-option *ngFor="let earRegion of data.earRegions" [value]="earRegion.name">
+                        <mat-option *ngFor="let earRegion of data.earRegions" [value]="earRegion._id">
                           {{earRegion.name}}
                         </mat-option>
-                    </mat-select>                 
+                    </mat-select>
                 </mat-form-field>
             </td>           
         </tr>

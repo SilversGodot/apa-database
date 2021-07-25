@@ -56,7 +56,7 @@ PointSchema.post('save', async function(doc) {
         doc.bodyParts.forEach(function(n: string) {
             BodyPart.findOneAndUpdate(
                 { name: n }, 
-                { name: n } , 
+                { name: n }, 
                 { upsert: true }, function(err, doc) {
                     if(err) console.log("Add bodyPart Error: ", err);
                 });

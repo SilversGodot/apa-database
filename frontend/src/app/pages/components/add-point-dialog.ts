@@ -1,5 +1,5 @@
 import { Component, ElementRef, ViewChild, Inject } from '@angular/core';
-import { COMMA, ENTER, F } from '@angular/cdk/keycodes'
+import { COMMA, ENTER } from '@angular/cdk/keycodes'
 import { FormControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from "@angular/material/dialog";
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
@@ -16,41 +16,39 @@ import Point from '@app/models/point';
   })
 export class AddPointDialog {
   pointForm: FormGroup;
-
   bodyPartsCtrl = new FormControl();
   selectable = true;
   removable = true;
   separatorKeysCodes: number[] = [ENTER, COMMA];
-
   filteredBodyParts: Observable<BodyPart[]>;
 
   @ViewChild('bodyPartsInput') bodyPartsInput: ElementRef<HTMLInputElement>;
 
-    constructor(
-      private formBuilder: FormBuilder,
-      private dialogRef: MatDialogRef<AddPointDialog>,
-      @Inject(MAT_DIALOG_DATA) public data: any) {
-        this.filteredBodyParts = this.bodyPartsCtrl.valueChanges.pipe(
-          startWith(null as string),
-          map((bodypart: string | null) => bodypart? this._filter(bodypart) : this.data.bodyParts.slice()));
-      }
+  constructor(
+    private formBuilder: FormBuilder,
+    private dialogRef: MatDialogRef<AddPointDialog>,
+    @Inject(MAT_DIALOG_DATA) public data: any) {
+      this.filteredBodyParts = this.bodyPartsCtrl.valueChanges.pipe(
+        startWith(null as string),
+        map((bodypart: string | null) => bodypart? this._filter(bodypart) : this.data.bodyParts.slice()));
+    }
 
-      ngOnInit() {
-        this.data.point = new Point();
-        this.data.point.bodyParts = [];
-        this.pointForm = this.formBuilder.group({
-          code: ['', Validators.required],
-          name: ['', Validators.required],
-          partOfEar: '',
-          bodyParts: this.bodyPartsCtrl,
-          function: '',
-          videoLink: ''
-         });
-      }
+  ngOnInit() {
+    this.data.point = new Point();
+    this.data.point.bodyParts = [];
+    this.pointForm = this.formBuilder.group({
+      code: ['', Validators.required],
+      name: ['', Validators.required],
+      partOfEar: '',
+      bodyParts: this.bodyPartsCtrl,
+      function: '',
+      videoLink: ''
+    });
+  }
 
-      closeDialog() {
-        this.dialogRef.close();
-      }
+  closeDialog() {
+    this.dialogRef.close();
+  }
 
       submit() {        
         if (this.pointForm.invalid) {
@@ -66,7 +64,9 @@ export class AddPointDialog {
         const value = (event.value || '').trim();
 
         if (value) {
-          this.data.point.bodyParts.push(value);
+          if(!this.data.point.bodyParts.includes(value.trim())) {
+            this.data.point.bodyParts.push(value);
+          }
         }
     
         // Clear the input value
@@ -83,14 +83,15 @@ export class AddPointDialog {
       }
 
       selected(event: MatAutocompleteSelectedEvent): void {
-        this.data.point.bodyParts.push(event.option.viewValue);
-        this.bodyPartsInput.nativeElement.value = '';
-        this.bodyPartsCtrl.setValue(null);
+        if (!this.data.point.bodyParts.includes(event.option.viewValue)) {
+          this.data.point.bodyParts.push(event.option.viewValue);
+          this.bodyPartsInput.nativeElement.value = '';
+          this.bodyPartsCtrl.setValue(null);
+        }
       }
 
       private _filter(value: string): string[] {
-        const filterValue = value.toLowerCase();
-    
+        const filterValue = value.toLowerCase();  
         return this.data.bodyParts.filter(bodyPart => bodyPart.name.toLowerCase().includes(filterValue));
       }
 }

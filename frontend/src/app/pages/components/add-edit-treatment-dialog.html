@@ -10,11 +10,8 @@
                     </mat-form-field>
                 </td>
             </tr>
-        </table>
-
-        <table class="full-width" cellspacing="0">
             <tr>
-                <td colspan="2">
+                <td>
                     <mat-form-field class="full-width" appearance="fill">
                         <mat-label>Master Points</mat-label>
                         <mat-chip-list #masterPointsChips formControlName="masterPoints">
@@ -28,12 +25,12 @@
                             </mat-chip>
                             <input
                                 #masterPointInput
-                                placeholder="New master point..."
-                                [matAutocomplete]="auto"
+                                placeholder="Add master point..."
+                                [matAutocomplete]="autoMasterPoints"
                                 [matChipInputFor]="masterPointsChips"
                                 (matChipInputTokenEnd)="addMasterPoint($event)">
                           </mat-chip-list>
-                          <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selectedMasterPoint($event)">
+                          <mat-autocomplete #autoMasterPoints="matAutocomplete" (optionSelected)="selectedMasterPoint($event)">
                             <mat-option *ngFor="let point of allPoints" [value]="point">
                                 {{point.name}}
                             </mat-option>
@@ -41,11 +38,8 @@
                     </mat-form-field>
                 </td>
             </tr>
-        </table>
-
-        <table class="full-width" cellspacing="0">
             <tr>
-                <td colspan="2">
+                <td>
                     <mat-form-field class="full-width" appearance="fill">
                         <mat-label>Primary Points</mat-label>
                         <mat-chip-list #primaryPointsChips formControlName="primaryPoints">
@@ -60,11 +54,11 @@
                             <input
                                 #primaryPointInput
                                 placeholder="New primary point..."
-                                [matAutocomplete]="auto"
+                                [matAutocomplete]="autoPrimaryPoints"
                                 [matChipInputFor]="primaryPointsChips"
                                 (matChipInputTokenEnd)="addPrimaryPoint($event)">
                           </mat-chip-list>
-                          <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selectedPrimaryPoint($event)">
+                          <mat-autocomplete #autoPrimaryPoints="matAutocomplete" (optionSelected)="selectedPrimaryPoint($event)">
                             <mat-option *ngFor="let point of allPoints" [value]="point">
                                 {{point.name}}
                             </mat-option>
@@ -72,11 +66,8 @@
                     </mat-form-field>
                 </td>
             </tr>
-        </table>
-
-        <table class="full-width" cellspacing="0">
             <tr>
-                <td colspan="2">
+                <td>
                     <mat-form-field class="full-width" appearance="fill">
                         <mat-label>Supplemental Points</mat-label>
                         <mat-chip-list #supplementalPointsChips formControlName="supplementalPoints">
@@ -91,11 +82,11 @@
                             <input
                                 #supplementalPointInput
                                 placeholder="New supplemental point..."
-                                [matAutocomplete]="auto"
+                                [matAutocomplete]="autoSupplementalPoints"
                                 [matChipInputFor]="supplementalPointsChips"
                                 (matChipInputTokenEnd)="addSupplementalPoint($event)">
                           </mat-chip-list>
-                          <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selectedSupplementalPoint($event)">
+                          <mat-autocomplete #autoSupplementalPoints="matAutocomplete" (optionSelected)="selectedSupplementalPoint($event)">
                             <mat-option *ngFor="let point of allPoints" [value]="point">
                                 {{point.name}}
                             </mat-option>
@@ -103,11 +94,8 @@
                     </mat-form-field>
                 </td>
             </tr>
-        </table>
-
-        <table class="full-width" cellspacing="0">
             <tr>
-                <td colspan="2">
+                <td>
                     <mat-form-field class="full-width" appearance="fill">
                         <mat-label>Description</mat-label>
                         <textarea matInput cdkTextareaAutosize rows="3" formControlName="description" placeholder="Enter description"></textarea>

@@ -7,7 +7,7 @@ import Treatment from 'src/app/models/treatment';
 import { TreatmentService } from '@app/services/treatment.service';
 import { AddTreatmentDialog } from '../components/add-treatment-dialog';
 import { EditTreatmentDialog } from '../components/edit-treatment-dialog';
-import { DeleteTreatmentDialog } from '../components/delete-treatment-dialog';
+import { DeleteDialog } from '../components/delete-dialog';
 
 import Point from '@app/models/point';
 import TreatmentPoint from '@app/models/treatmentPoint';
@@ -157,12 +157,12 @@ export class TreatmentViewComponent implements OnInit {
   }
 
   openDeleteDialog(treatment: Treatment) {
-    const dialogRef = this.dialog.open(DeleteTreatmentDialog, {
+    const dialogRef = this.dialog.open(DeleteDialog, {
       width: '400px',
       disableClose: true,
       data: {
-        title: 'Delete Treatment',
-        treatment: treatment
+        "type": "Treatment",
+        "object": ` ${treatment.name}`
       }
     });
 

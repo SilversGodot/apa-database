@@ -5,6 +5,7 @@ import { MatPaginator } from '@angular/material/paginator';
 
 import EarRegion from '@app/models/earRegion';
 import { EarRegionService } from '@app/services/earRegion.service';
+import { DeleteDialog } from '@app/pages/components/delete-dialog';
 
 @Component({
   selector: 'app-earRegion-view',
@@ -37,8 +38,35 @@ export class EarRegionViewComponent implements OnInit {
         this.dataSource.data = earRegions;
         this.dataSource.paginator = this.paginator;
         this.isLoading = false;
-
-        console.log(earRegions);
       });
+  }
+
+  update(element: EarRegion) {
+    this.earRegionService.updateEarRegion(element)
+    .subscribe();
+  }
+
+  openAddNewDialog(){
+
+  }
+
+  openDeleteDialog(earRegion: EarRegion){
+    const dialogRef = this.dialog.open(DeleteDialog, {
+      width: '400px',
+      disableClose: true,
+      data: {
+        "type": "EarRegion",
+        "object": ` ${earRegion.name}`
+      }
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      console.log(`Delete Point Dialog result: ${result}`);
+
+      if(result) {
+        this.earRegionService.deleteEarRegion(earRegion._id)
+          .subscribe(() => this.dataSource.data = this.dataSource.data.filter(l => l._id != earRegion._id));
+      }
+    });
   }
 }

@@ -14,7 +14,7 @@ import { BodyPartService } from '@app/services/bodyPart.service';
 
 import { AddPointDialog } from '../components/add-point-dialog';
 import { EditPointDialog } from '../components/edit-point-dialog';
-import { DeletePointDialog } from '../components/delete-point-dialog';
+import { DeleteDialog } from '../components/delete-dialog';
 
 @Component({
   selector: 'app-point-view',
@@ -134,10 +134,13 @@ export class PointViewComponent implements OnInit {
   }
 
   openDeleteDialog(point: Point) {
-    const dialogRef = this.dialog.open(DeletePointDialog, {
+    const dialogRef = this.dialog.open(DeleteDialog, {
       width: '400px',
       disableClose: true,
-      data: point
+      data: {
+        "type": "Point",
+        "object": ` ${point.code} (${point.name})`
+      }
     });
 
     dialogRef.afterClosed().subscribe(result => {

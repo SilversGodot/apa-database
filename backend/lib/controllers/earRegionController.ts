@@ -37,6 +37,8 @@ export class EarRegionController {
     }
 
     public updateEarRegion (req: Request, res: Response) {
+        console.log(req.body);
+
         EarRegion.findOneAndUpdate({_id: req.params.earregionId}, {$set: req.body})
         .then((earRegion: any) => res.send(earRegion))
         .catch((error: any) => console.log(error));

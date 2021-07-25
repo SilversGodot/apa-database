@@ -1,8 +1,8 @@
-<h2 mat-dialog-title>Delete Treatment</h2>
+<h2 mat-dialog-title>Delete {{data.type}}</h2>
 <mat-dialog-content class="mat-typography"> 
     <div class="with-icon">
         <mat-icon color="warn">warning</mat-icon>
-        <span style="padding-left: 16px;">Are you sure you want to delete - <strong>{{this.data.treatment.name}}</strong>?</span>
+        <span style="padding-left: 16px;">Are you sure you want to delete - <strong>{{data.object}}</strong>?</span>
     </div>
 </mat-dialog-content>
 <mat-dialog-actions>

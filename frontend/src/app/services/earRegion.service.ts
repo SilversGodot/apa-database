@@ -21,11 +21,11 @@ export class EarRegionService {
     return this.webService.get(`earregion/${earRegionId}`);
   }
 
-  deletePoint(earRegionId: string) {
+  deleteEarRegion(earRegionId: string) {
     return this.webService.delete(`earregion/${earRegionId}`);
   }
 
-  updatePoint(earRegion: EarRegion) {
+  updateEarRegion(earRegion: EarRegion) {
     return this.webService.patch(`earregion/${earRegion._id}`, earRegion);
   }
 }

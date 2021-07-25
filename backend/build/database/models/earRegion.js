@@ -32,32 +32,24 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const mongoose = __importStar(require("mongoose"));
-const foreign_key_helper_1 = __importDefault(require("../helpers/foreign-key-helper"));
-const symptomTreatmentSchema = new mongoose.Schema({
-    treatment: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'Treatment',
-        validate: {
-            validator: function (v) {
-                return __awaiter(this, void 0, void 0, function* () {
-                    return yield foreign_key_helper_1.default(mongoose.model("Treatment"), v);
-                });
-            },
-            message: `Treatment doesn't exist`
-        }
-    }
-}, {
-    _id: false
-});
-const SymptomSchema = new mongoose.Schema({
+const point_1 = __importDefault(require("./point"));
+const EarRegionSchema = new mongoose.Schema({
     name: {
         type: String,
         unique: true,
         required: true
     },
-    treatments: [{
-            type: symptomTreatmentSchema
-        }]
+    description: {
+        type: String
+    }
 });
-exports.default = mongoose.model("Symptom", SymptomSchema);
-//# sourceMappingURL=symptom.js.map
+EarRegionSchema.post('findOneAndDelete', function (doc) {
+    return __awaiter(this, void 0, void 0, function* () {
+        if (doc) {
+            console.log('%s has been removed', doc._id);
+            yield point_1.default.updateMany({ 'partOfEar': doc._id }, { 'partOfEar': undefined });
+        }
+    });
+});
+exports.default = mongoose.model("EarRegion", EarRegionSchema);
+//# sourceMappingURL=earRegion.js.map

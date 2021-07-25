@@ -21,6 +21,7 @@ export class AddTreatmentDialog {
     masterPoints: Point[] = [];
     primaryPoints: Point[] = [];
     supplementalPoints: Point[] = [];
+    
     filteredMasterPoints: Observable<Point[]>;
 
     masterPointsCtrl = new FormControl();
@@ -37,9 +38,10 @@ export class AddTreatmentDialog {
         private pointService: PointService,
         @Inject(MAT_DIALOG_DATA) public data: any
     ) {
-        // this.filteredMasterPoints = this.treatmentForm.valueChanges.pipe(
-        //     map((pointName: string | null) => pointName ? this._filter(pointName) : this.allPoints.slice())
-        // );
+        this.filteredMasterPoints = this.masterPointsCtrl.valueChanges.pipe(
+            startWith(null as string),
+            map((pointName: string | null) => pointName ? this._filter(pointName) : this.allPoints.slice())
+        );
     }
     
     ngOnInit() {

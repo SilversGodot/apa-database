@@ -18,10 +18,24 @@ var __importStar = (this && this.__importStar) || function (mod) {
     __setModuleDefault(result, mod);
     return result;
 };
+var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.PointSchema = void 0;
 const mongoose = __importStar(require("mongoose"));
-exports.PointSchema = new mongoose.Schema({
+const foreign_key_helper_1 = __importDefault(require("../helpers/foreign-key-helper"));
+const treatment_1 = __importDefault(require("./treatment"));
+const bodyPart_1 = __importDefault(require("./bodyPart"));
+const PointSchema = new mongoose.Schema({
     name: {
         type: String,
         unique: true,
@@ -50,16 +64,45 @@ exports.PointSchema = new mongoose.Schema({
             }
         }],
     partOfEar: {
-        type: String,
-        default: ""
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'EarRegion',
+        validate: {
+            validator: function (v) {
+                return __awaiter(this, void 0, void 0, function* () {
+                    return yield foreign_key_helper_1.default(mongoose.model("EarRegion"), v);
+                });
+            },
+            message: `Ear region doesn't exist`
+        }
     },
-    bodyPart: {
-        type: String,
-        default: ""
-    },
+    bodyParts: [{
+            type: String
+        }],
     videoLink: {
         type: String,
         default: ""
     }
 });
+// add bodyPart if point has any new bodyParts
+PointSchema.post('save', function (doc) {
+    return __awaiter(this, void 0, void 0, function* () {
+        if (doc) {
+            doc.bodyParts.forEach(function (n) {
+                bodyPart_1.default.findOneAndUpdate({ name: n }, { name: n }, { upsert: true }, function (err, doc) {
+                    if (err)
+                        console.log("Add bodyPart Error: ", err);
+                });
+            });
+        }
+    });
+});
+PointSchema.post('findOneAndDelete', function (doc) {
+    return __awaiter(this, void 0, void 0, function* () {
+        if (doc) {
+            console.log('%s has been removed', doc._id);
+            yield treatment_1.default.updateMany({ 'points.point': doc._id }, { '$set': { 'points.$.isDeleted': true } });
+        }
+    });
+});
+exports.default = mongoose.model("Point", PointSchema);
 //# sourceMappingURL=point.js.map

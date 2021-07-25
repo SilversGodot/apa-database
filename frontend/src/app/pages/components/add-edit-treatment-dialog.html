@@ -26,12 +26,13 @@
                             <input
                                 #masterPointInput
                                 placeholder="Add master point..."
+                                [formControl]="masterPointsCtrl"
                                 [matAutocomplete]="autoMasterPoints"
                                 [matChipInputFor]="masterPointsChips"
                                 (matChipInputTokenEnd)="addMasterPoint($event)">
                           </mat-chip-list>
                           <mat-autocomplete #autoMasterPoints="matAutocomplete" (optionSelected)="selectedMasterPoint($event)">
-                            <mat-option *ngFor="let point of allPoints" [value]="point">
+                            <mat-option *ngFor="let point of filteredMasterPoints | async" [value]="point.name">
                                 {{point.name}}
                             </mat-option>
                           </mat-autocomplete>

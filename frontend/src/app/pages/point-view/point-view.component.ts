@@ -145,7 +145,7 @@ export class PointViewComponent implements OnInit {
 
       if(result) {
         this.pointService.deletePoint(point._id)
-        .subscribe(() => this.dataSource.data = this.dataSource.data.filter(l => l._id != point._id));
+          .subscribe(() => this.dataSource.data = this.dataSource.data.filter(l => l._id != point._id));
       }
     });
   }

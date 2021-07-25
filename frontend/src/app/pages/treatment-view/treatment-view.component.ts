@@ -6,6 +6,9 @@ import { MatDialog } from '@angular/material/dialog';
 import Treatment from 'src/app/models/treatment';
 import { TreatmentService } from '@app/services/treatment.service';
 import { AddTreatmentDialog } from '../components/add-treatment-dialog';
+import { EditTreatmentDialog } from '../components/edit-treatment-dialog';
+import { DeleteTreatmentDialog } from '../components/delete-treatment-dialog';
+
 import Point from '@app/models/point';
 import TreatmentPoint from '@app/models/treatmentPoint';
 
@@ -49,8 +52,6 @@ export class TreatmentViewComponent implements OnInit {
     });
 
     dialogRef.afterClosed().subscribe(result => {
-      console.log(`Add Treatment Dialog result: ${result}`);
-
       if(!result) {
         return;
       }
@@ -95,6 +96,84 @@ export class TreatmentViewComponent implements OnInit {
       this.treatmentService.createTreatment(newTreatment)
         .subscribe(() => this.treatmentService.getTreatments()
           .subscribe((treatments: Treatment[]) => this.treatments = treatments));
+    });
+  }
+
+  openEditDialog(treatment: Treatment) {
+    const dialogRef = this.dialog.open(EditTreatmentDialog, {
+      width: '500px',
+      disableClose: true,
+      data: { 
+        title: "Edit Treatment",
+        treatment: treatment,
+      }
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if(!result) {
+        return;
+      }
+      let editedTreatment: any = {
+        _id: '',
+        name: '',
+        description: '',
+        points: []
+      };
+      editedTreatment._id = result._id;
+      editedTreatment.name = result.name;
+      editedTreatment.description = result.description;
+      for (let point of result.masterPoints) {
+        let newTreatmentPoint: any = {
+          point: '',
+          type: ''
+        };
+        newTreatmentPoint.point = point._id;
+        newTreatmentPoint.type = 'master';
+        editedTreatment.points.push(newTreatmentPoint);
+      }
+      for (let point of result.primaryPoints) {
+        let newTreatmentPoint: any = {
+          point: '',
+          type: ''
+        };
+        newTreatmentPoint.point = point._id;
+        newTreatmentPoint.type = 'primary';
+        editedTreatment.points.push(newTreatmentPoint);
+      }
+      for (let point of result.supplementalPoints) {
+        let newTreatmentPoint: any = {
+          point: '',
+          type: ''
+        };
+        newTreatmentPoint.point = point._id;
+        newTreatmentPoint.type = 'supplemental';
+        editedTreatment.points.push(newTreatmentPoint);
+      }
+      
+      this.treatmentService.updateTreatment(editedTreatment)
+        .subscribe(() => this.treatmentService.getTreatments()
+          .subscribe((treatments: Treatment[]) => this.treatments = treatments));
+    });
+  }
+
+  openDeleteDialog(treatment: Treatment) {
+    const dialogRef = this.dialog.open(DeleteTreatmentDialog, {
+      width: '400px',
+      disableClose: true,
+      data: {
+        title: 'Delete Treatment',
+        treatment: treatment
+      }
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      console.log(`Delete Point Dialog result: ${result}`);
+
+      if(result) {
+        this.treatmentService.deleteTreatment(treatment._id)
+        .subscribe(() => this.treatmentService.getTreatments()
+          .subscribe((treatments: Treatment[]) => this.treatments = treatments));
+      }
     });
   }
 }

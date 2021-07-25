@@ -13,8 +13,8 @@ import { AddPointDialog } from './pages/components/add-point-dialog';
 import { EditPointDialog } from './pages/components/edit-point-dialog';
 import { DeletePointDialog } from './pages/components/delete-point-dialog';
 import { AddTreatmentDialog } from './pages/components/add-treatment-dialog';
-// import { EditTreatmentDialog } from './pages/components/edit-treatment-dialog';
-// import { DeleteTreatmentDialog } from './pages/components/delete-treatment-dialog';
+import { EditTreatmentDialog } from './pages/components/edit-treatment-dialog';
+import { DeleteTreatmentDialog } from './pages/components/delete-treatment-dialog';
 
 
 
@@ -26,7 +26,9 @@ import { AddTreatmentDialog } from './pages/components/add-treatment-dialog';
     AddPointDialog,
     EditPointDialog,
     DeletePointDialog,
-    AddTreatmentDialog
+    AddTreatmentDialog,
+    EditTreatmentDialog,
+    DeleteTreatmentDialog
   ],
   imports: [
     BrowserModule,

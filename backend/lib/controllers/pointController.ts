@@ -5,7 +5,7 @@ import Point from '../database/models/point';
 export class PointController {
     public getPoints (req: Request, res: Response){
         Point.find({})
-        .populate('partOfEar bodyParts')
+        .populate('partOfEar')
         .exec((err: any, points: any) => {
             res.send(points);
             if (err) console.log(err)
@@ -33,9 +33,10 @@ export class PointController {
                 'function': req.body.function,
                 'partOfEar': req.body.partOfEar,
                 'bodyParts': req.body.bodyParts,
-                'region': req.body.region,
                 'videoLink': req.body.videoLink
             });
+
+            console.log(point);
 
             await point.save();
             res.send(point); 

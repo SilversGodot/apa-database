@@ -57,7 +57,9 @@ PointSchema.post('save', async function(doc) {
             BodyPart.findOneAndUpdate(
                 { name: n }, 
                 { name: n } , 
-                { upsert: true });
+                { upsert: true }, function(err, doc) {
+                    if(err) console.log("Add bodyPart Error: ", err);
+                });
         }); 
     }
 });

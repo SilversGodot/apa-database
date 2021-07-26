@@ -18,17 +18,12 @@ export class EarRegionViewComponent implements OnInit {
   dataSource: MatTableDataSource<EarRegion>;
   isLoading = true;
 
-  editEarRegion: any;
-  oldEarRegion: any;
-  editdisabled: boolean = false;
-
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
 
   constructor(
     public dialog: MatDialog,
     private earRegionService: EarRegionService
   ) { 
-
   }
 
   ngOnInit(): void {

@@ -51,7 +51,7 @@
                     <button mat-icon-button color="primary" title="Save" (click)="update(element); element.isEdit = !element.isEdit;">
                         <mat-icon>save</mat-icon>
                     </button>
-                    <button mat-icon-button color="warn" title="Cancel">
+                    <button mat-icon-button color="warn" title="Cancel" (click)="element.isEdit = !element.isEdit">
                         <mat-icon>undo</mat-icon>
                     </button>
                 </div>

@@ -12,9 +12,10 @@ import { TreatmentViewComponent } from './pages/treatment-view/treatment-view.co
 import { EarRegionViewComponent } from './pages/earRegion-view/earRegion-view.component';
 import { AddPointDialog } from './pages/components/add-point-dialog';
 import { EditPointDialog } from './pages/components/edit-point-dialog';
-import { DeleteDialog } from './pages/components/delete-dialog';
 import { AddTreatmentDialog } from './pages/components/add-treatment-dialog';
 import { EditTreatmentDialog } from './pages/components/edit-treatment-dialog';
+import { AddEarRegionDialog } from './pages/components/add-earRegion-dialog';
+import { DeleteDialog } from './pages/components/delete-dialog';
 
 
 
@@ -26,9 +27,10 @@ import { EditTreatmentDialog } from './pages/components/edit-treatment-dialog';
     EarRegionViewComponent,
     AddPointDialog,
     EditPointDialog,
-    DeleteDialog,
     AddTreatmentDialog,
-    EditTreatmentDialog
+    EditTreatmentDialog,
+    AddEarRegionDialog,
+    DeleteDialog
   ],
   imports: [
     BrowserModule,

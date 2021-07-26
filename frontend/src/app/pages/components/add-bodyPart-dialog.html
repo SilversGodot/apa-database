@@ -1,0 +1,28 @@
+<form [formGroup]="bodyPartForm" (ngSubmit)="submit();">
+    <h2 mat-dialog-title>{{data.title}}</h2>
+    <mat-dialog-content class="mat-typography">
+        <table class="full-width" cellspacing="0">
+            <tr>
+                <td>
+                    <mat-form-field class="full-width" appearance="fill">
+                        <mat-label>Name</mat-label>
+                        <input matInput placeholder="Enter name of body part" formControlName="name" required>
+                    </mat-form-field>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <mat-form-field class="full-width" appearance="fill">
+                        <mat-label>Description</mat-label>
+                        <textarea matInput cdkTextareaAutosize rows="3" formControlName="description" placeholder="Enter description"></textarea>
+                    </mat-form-field>
+                </td>
+            </tr>
+        </table>
+    </mat-dialog-content>
+    
+    <mat-dialog-actions>
+        <button mat-button mat-dialog-close>Cancel</button>
+        <button mat-raised-button [disabled]="!bodyPartForm.valid" (click)="submit()">Submit</button>
+    </mat-dialog-actions>
+</form>

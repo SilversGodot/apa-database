@@ -1,16 +1,14 @@
-import { Component, Inject, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { animate, state, style, transition, trigger } from '@angular/animations';
-import { MatTable } from '@angular/material/table';
+import { MatTableDataSource } from '@angular/material/table';
 import { MatDialog } from '@angular/material/dialog';
+import { MatPaginator } from '@angular/material/paginator';
 
 import Treatment from 'src/app/models/treatment';
 import { TreatmentService } from '@app/services/treatment.service';
 import { AddTreatmentDialog } from '../components/add-treatment-dialog';
 import { EditTreatmentDialog } from '../components/edit-treatment-dialog';
 import { DeleteDialog } from '../components/delete-dialog';
-
-import Point from '@app/models/point';
-import TreatmentPoint from '@app/models/treatmentPoint';
 
 @Component({
   selector: 'app-treatment-view',
@@ -25,11 +23,11 @@ import TreatmentPoint from '@app/models/treatmentPoint';
   ]
 })
 export class TreatmentViewComponent implements OnInit {
+  dataSource: MatTableDataSource<Treatment>;
   columnsToDisplay = ['name', 'points', 'action'];
   expandedTreatment: Treatment | null;
-  treatments: Treatment[] = [];
 
-  @ViewChild(MatTable, { static: true }) table: MatTable<any>;
+  @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
 
   constructor(
     public dialog: MatDialog,
@@ -38,8 +36,13 @@ export class TreatmentViewComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.dataSource = new MatTableDataSource<Treatment>([]);
+
     this.treatmentService.getTreatments()
-      .subscribe((treatments: Treatment[]) => this.treatments = treatments);
+      .subscribe((treatments: Treatment[]) => {
+        this.dataSource.data = treatments;
+        this.dataSource.paginator = this.paginator;
+      });
   }
 
   openAddNewDialog() {
@@ -95,7 +98,7 @@ export class TreatmentViewComponent implements OnInit {
       
       this.treatmentService.createTreatment(newTreatment)
         .subscribe(() => this.treatmentService.getTreatments()
-          .subscribe((treatments: Treatment[]) => this.treatments = treatments));
+          .subscribe((treatments: Treatment[]) => this.dataSource.data = treatments));
     });
   }
 
@@ -152,7 +155,7 @@ export class TreatmentViewComponent implements OnInit {
       
       this.treatmentService.updateTreatment(editedTreatment)
         .subscribe(() => this.treatmentService.getTreatments()
-          .subscribe((treatments: Treatment[]) => this.treatments = treatments));
+          .subscribe((treatments: Treatment[]) => this.dataSource.data = treatments));
     });
   }
 
@@ -172,7 +175,7 @@ export class TreatmentViewComponent implements OnInit {
       if(result) {
         this.treatmentService.deleteTreatment(treatment._id)
         .subscribe(() => this.treatmentService.getTreatments()
-          .subscribe((treatments: Treatment[]) => this.treatments = treatments));
+          .subscribe((treatments: Treatment[]) => this.dataSource.data = treatments));
       }
     });
   }

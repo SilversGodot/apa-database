@@ -3,39 +3,55 @@
 <mat-dialog-content class="mat-typography">
     <table class="full-width" cellspacing="0">
         <tr>
-            <td style="padding-right: 8px;">
-                <mat-form-field class="full-width" appearance="fill">
-                    <mat-label>Code</mat-label>
-                    <input matInput placeholder="Enter point code" formControlName="code" required>
-                </mat-form-field>
+            <td td style="padding-right: 8px; width: 60%;">
+                <table class="full-width" cellspacing="0">
+                    <tr>
+                        <td style="padding-right: 8px;" colspan="2">
+                            <mat-form-field class="full-width" appearance="fill">
+                                <mat-label>Code</mat-label>
+                                <input matInput placeholder="Enter point code" formControlName="code" required>
+                            </mat-form-field>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="padding-right: 8px;" colspan="2">
+                            <mat-form-field class="full-width" appearance="fill">
+                                <mat-label>Name</mat-label>
+                                <input matInput placeholder="Enter point name" formControlName="name" required>
+                            </mat-form-field>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="padding-right: 8px;" colspan="2">
+                            <mat-form-field class="full-width" appearance="fill">
+                                <mat-label>Region of ear</mat-label>
+                                <mat-select formControlName="partOfEar" required>
+                                    <mat-option>Please select...</mat-option>
+                                    <mat-option *ngFor="let earRegion of data.earRegions" [value]="earRegion._id">
+                                      {{earRegion.name}}
+                                    </mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="padding-right: 8px;">
+                            <mat-label>X coordinate: </mat-label>
+                        </td>
+                        <td style="padding-right: 8px;">
+                            <mat-label>Y coordinate: </mat-label>
+                        </td>
+                    </tr>
+                </table>
             </td>
-            <td rowspan="3" style="text-align: center;">
-                <img src="../../../assets/img/ear.jpg" width="50%">
-            </td>              
+            <td td style="padding-right: 8px; width: 40%;">
+                <ear-svg></ear-svg>
+            </td>
         </tr>
+    </table>
+    <table class="full-width" cellspacing="0">    
         <tr>
             <td style="padding-right: 8px;">
-                <mat-form-field class="full-width" appearance="fill">
-                    <mat-label>Name</mat-label>
-                    <input matInput placeholder="Enter point name" formControlName="name" required>
-                </mat-form-field>
-            </td>            
-        </tr>      
-        <tr>         
-            <td style="padding-right: 8px;">
-                <mat-form-field class="full-width" appearance="fill">
-                    <mat-label>Region of ear</mat-label>
-                    <mat-select formControlName="partOfEar" required>
-                        <mat-option>Please select...</mat-option>
-                        <mat-option *ngFor="let earRegion of data.earRegions" [value]="earRegion._id">
-                          {{earRegion.name}}
-                        </mat-option>
-                    </mat-select>
-                </mat-form-field>
-            </td>           
-        </tr>
-        <tr>
-            <td style="padding-right: 8px;" colspan="2">
                 <mat-form-field class="full-width" appearance="fill">                  
                     <mat-label>Body part</mat-label>
                     <mat-chip-list #bodyPartList aria-label="Body Part selection" formControlName="bodyParts" > 
@@ -63,7 +79,7 @@
             </td>
         </tr>      
         <tr>
-            <td style="padding-right: 8px;" colspan="2">
+            <td style="padding-right: 8px;">
                 <mat-form-field class="full-width" appearance="fill">
                     <mat-label>Function</mat-label>
                     <textarea matInput cdkTextareaAutosize rows="3" formControlName="function" placeholder="Enter point function"></textarea>
@@ -71,7 +87,7 @@
             </td>
         </tr>
         <tr>
-            <td style="padding-right: 8px;" colspan="2">
+            <td style="padding-right: 8px;">
                 <mat-form-field class="example-full-width" class="full-width" appearance="fill">
                     <mat-label>Video Link</mat-label>
                     <input matInput placeholder="Enter video link" formControlName="videoLink">

@@ -19,6 +19,8 @@ import { AddEarRegionDialog } from './pages/components/add-earRegion-dialog';
 import { AddBodyPartDialog } from './pages/components/add-bodyPart-dialog';
 import { DeleteDialog } from './pages/components/delete-dialog';
 
+import { SvgComponent } from './pages/components/ear.component';
+
 
 
 @NgModule({
@@ -34,7 +36,8 @@ import { DeleteDialog } from './pages/components/delete-dialog';
     EditTreatmentDialog,
     AddEarRegionDialog,
     AddBodyPartDialog,
-    DeleteDialog
+    DeleteDialog,
+    SvgComponent
   ],
   imports: [
     BrowserModule,

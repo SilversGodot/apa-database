@@ -48,7 +48,7 @@ export class EarRegionViewComponent implements OnInit {
       disableClose: true,
       data: { 
         title: "Add Region of Ear", 
-        point: new EarRegion
+        earRegion: null
       }
     });
 

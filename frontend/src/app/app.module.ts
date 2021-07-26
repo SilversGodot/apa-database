@@ -10,11 +10,13 @@ import { AppComponent } from './app.component';
 import { PointViewComponent } from './pages/point-view/point-view.component';
 import { TreatmentViewComponent } from './pages/treatment-view/treatment-view.component';
 import { EarRegionViewComponent } from './pages/earRegion-view/earRegion-view.component';
+import { BodyPartViewComponent } from './pages/bodyPart-view/bodyPart-view.component';
 import { AddPointDialog } from './pages/components/add-point-dialog';
 import { EditPointDialog } from './pages/components/edit-point-dialog';
 import { AddTreatmentDialog } from './pages/components/add-treatment-dialog';
 import { EditTreatmentDialog } from './pages/components/edit-treatment-dialog';
 import { AddEarRegionDialog } from './pages/components/add-earRegion-dialog';
+import { AddBodyPartDialog } from './pages/components/add-bodyPart-dialog';
 import { DeleteDialog } from './pages/components/delete-dialog';
 
 
@@ -25,11 +27,13 @@ import { DeleteDialog } from './pages/components/delete-dialog';
     PointViewComponent,
     TreatmentViewComponent,
     EarRegionViewComponent,
+    BodyPartViewComponent,
     AddPointDialog,
     EditPointDialog,
     AddTreatmentDialog,
     EditTreatmentDialog,
     AddEarRegionDialog,
+    AddBodyPartDialog,
     DeleteDialog
   ],
   imports: [

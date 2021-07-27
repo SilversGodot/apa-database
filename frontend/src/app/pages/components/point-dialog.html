@@ -52,10 +52,10 @@
         <mat-chip-list #bodyPartList aria-label="Body Part selection" formControlName="bodyParts" > 
           <mat-chip *ngFor="let bodyPart of data.point.bodyParts" 
             [selectable]="selectable"
-            [removable]="removable" 
+            [removable]="!readOnlyMode" 
             (removed)="remove(bodyPart)">
             {{bodyPart}}
-            <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
+            <mat-icon matChipRemove *ngIf="!readOnlyMode">cancel</mat-icon>
           </mat-chip>
           <input
             #bodyPartsInput

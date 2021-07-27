@@ -1,0 +1,11 @@
+.mat-input-element:disabled {
+  color: rgba(19, 16, 16, 0.863);
+}
+
+.mat-select-disabled .mat-select-value {
+  color: rgba(19, 16, 16, 0.863);
+}
+
+.mat-chip.mat-standard-chip.mat-chip-disabled {
+  opacity: 0.8;
+}

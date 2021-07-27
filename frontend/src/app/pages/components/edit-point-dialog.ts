@@ -1,4 +1,4 @@
-import { Component, Inject, OnInit, AfterViewInit, ElementRef, ViewChild } from '@angular/core';
+import { Component, Inject, OnInit, ElementRef, ViewChild } from '@angular/core';
 import { COMMA, ENTER } from '@angular/cdk/keycodes'
 import { FormControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from "@angular/material/dialog";
@@ -6,7 +6,6 @@ import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { MatChipInputEvent } from '@angular/material/chips';
 import { Observable } from 'rxjs';
 import { map, startWith } from 'rxjs/operators';
-import { SvgComponent } from '../components/ear.component';
 
 import BodyPart from '@app/models/bodyPart';
 
@@ -14,22 +13,16 @@ import BodyPart from '@app/models/bodyPart';
   selector: 'edit-point-dialog',
   templateUrl: 'add-edit-point-dialog.html',
 })
-export class EditPointDialog implements OnInit, AfterViewInit {
+export class EditPointDialog implements OnInit {
   pointForm: FormGroup;
 
   bodyPartsCtrl = new FormControl();
-  visible = true;
   selectable = true;
   removable = true;
   separatorKeysCodes: number[] = [ENTER, COMMA];
-  xy: object;
-
   filteredBodyParts: Observable<BodyPart[]>;
 
   @ViewChild('bodyPartsInput') bodyPartsInput: ElementRef<HTMLInputElement>;
-  @ViewChild(SvgComponent) set earsvg(directive: SvgComponent) {
-    this.xy = directive.spot;
-  };
 
   constructor(
     private formBuilder: FormBuilder,
@@ -47,11 +40,10 @@ export class EditPointDialog implements OnInit, AfterViewInit {
       partOfEar: this.data.point.partOfEar._id, 
       bodyParts: this.bodyPartsCtrl,       
       function: this.data.point.function,
-      videoLink: this.data.point.videoLink
+      videoLink: this.data.point.videoLink,
+      xCoord: this.data.point.location.x,
+      yCoord: this.data.point.location.y
     });
-  }
-
-  ngAfterViewInit(){
   }
 
   closeDialog() {
@@ -92,14 +84,13 @@ export class EditPointDialog implements OnInit, AfterViewInit {
     this.data.point.bodyParts.push(event.option.viewValue);
     this.bodyPartsInput.nativeElement.value = '';
     this.bodyPartsCtrl.setValue(null);
-
-
-    console.log(this.xy);
   }
 
+  //// subscribe event from child component - EarSvg
   coordChangedHandler(event: any)
   {
-    console.log(event);
+    this.pointForm.controls['xCoord'].setValue(event.x);
+    this.pointForm.controls['yCoord'].setValue(event.y);
   }
 
   private _filter(value: string): string[] {

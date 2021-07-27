@@ -1,4 +1,4 @@
-import { Component, ElementRef, AfterViewInit, Output, EventEmitter } from '@angular/core';
+import { Component, ElementRef, AfterViewInit, Output, EventEmitter, Input } from '@angular/core';
 
 @Component({
   selector: 'ear-svg',
@@ -6,6 +6,8 @@ import { Component, ElementRef, AfterViewInit, Output, EventEmitter } from '@ang
   styleUrls: ['./ear.component.css']
 })
 export class SvgComponent implements AfterViewInit {
+    @Input() coordX: number = 0;
+    @Input() coordY: number = 0;
     @Output() coordChanged: EventEmitter<object> = new EventEmitter();
     selectedElement = null;
     spot = null;
@@ -14,7 +16,10 @@ export class SvgComponent implements AfterViewInit {
     }
 
     ngAfterViewInit() {
-        this.spot = this.elementRef.nativeElement.querySelector('circle');     
+        this.spot = this.elementRef.nativeElement.querySelector('circle');
+        this.spot.setAttributeNS(null, "cx", this.coordX);
+        this.spot.setAttributeNS(null, "cy", this.coordY);
+          
         this.spot.addEventListener('mousedown', this.startDrag.bind(this));
         this.spot.addEventListener('mousemove', this.drag.bind(this));
         this.spot.addEventListener('mouseup', this.endDrag.bind(this));

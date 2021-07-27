@@ -6,4 +6,5 @@ export default class Point {
     partOfEar: string;
     bodyParts: string[];
     videoLink?: string;
+    location: object;
 }

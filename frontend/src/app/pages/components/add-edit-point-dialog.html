@@ -26,26 +26,25 @@
                             </mat-option>
                         </mat-select>
                     </mat-form-field>
-                </div>             
+                </div>
             </td>
             <td>
-                <ear-svg (coordChanged)="coordChangedHandler($event)"></ear-svg>
+                <ear-svg [coordX]="data.point.location.x" [coordY]="data.point.location.y" (coordChanged)="coordChangedHandler($event)"></ear-svg>
             </td>
         </tr>
     </table>
-
     <table class="full-width" cellspacing="0">
         <tr>
             <td style="padding-right: 8px;">
                 <mat-form-field appearance="fill">
                     <mat-label>X-coord</mat-label>
-                    <input matInput disabled>
+                    <input matInput formControlName="xCoord">
                 </mat-form-field> 
             </td>
             <td style="padding-right: 8px;">
                 <mat-form-field appearance="fill">
                     <mat-label>Y-coord</mat-label>
-                    <input matInput disabled>
+                    <input matInput formControlName="yCoord">
                 </mat-form-field> 
             </td>
         </tr>   

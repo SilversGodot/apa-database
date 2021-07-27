@@ -90,6 +90,11 @@ export class AddPointDialog {
         }
       }
 
+      coordChangedHandler(event: any)
+      {
+        console.log(event);
+      }
+
       private _filter(value: string): string[] {
         const filterValue = value.toString().toLowerCase();  
         return this.data.bodyParts.filter(bodyPart => bodyPart.name.toLowerCase().includes(filterValue));

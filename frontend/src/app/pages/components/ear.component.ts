@@ -1,4 +1,4 @@
-import { Component, ElementRef, AfterViewInit } from '@angular/core';
+import { Component, ElementRef, AfterViewInit, Output, EventEmitter } from '@angular/core';
 
 @Component({
   selector: 'ear-svg',
@@ -6,6 +6,7 @@ import { Component, ElementRef, AfterViewInit } from '@angular/core';
   styleUrls: ['./ear.component.css']
 })
 export class SvgComponent implements AfterViewInit {
+    @Output() coordChanged: EventEmitter<object> = new EventEmitter();
     selectedElement = null;
     spot = null;
 
@@ -35,10 +36,10 @@ export class SvgComponent implements AfterViewInit {
         }
     }
 
-    endDrag(event: any) {
-        // let x = this.selectedElement.getAttributeNS(null, "cx");
-        // let y = this.selectedElement.getAttributeNS(null, "cy");
-        // console.log("CX: " + x + ", CY:" + y);    
+    endDrag(event: any) {      
         this.selectedElement = null;
+        let x = this.spot.getAttributeNS(null, "cx");
+        let y = this.spot.getAttributeNS(null, "cy");
+        this.coordChanged.emit({ "x": x, "y": y });
     }
 }

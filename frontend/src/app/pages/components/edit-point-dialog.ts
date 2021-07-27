@@ -1,4 +1,4 @@
-import { Component, Inject, OnInit, ElementRef, ViewChild } from '@angular/core';
+import { Component, Inject, OnInit, AfterViewInit, ElementRef, ViewChild } from '@angular/core';
 import { COMMA, ENTER } from '@angular/cdk/keycodes'
 import { FormControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from "@angular/material/dialog";
@@ -6,6 +6,7 @@ import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { MatChipInputEvent } from '@angular/material/chips';
 import { Observable } from 'rxjs';
 import { map, startWith } from 'rxjs/operators';
+import { SvgComponent } from '../components/ear.component';
 
 import BodyPart from '@app/models/bodyPart';
 
@@ -13,7 +14,7 @@ import BodyPart from '@app/models/bodyPart';
   selector: 'edit-point-dialog',
   templateUrl: 'add-edit-point-dialog.html',
 })
-export class EditPointDialog implements OnInit {
+export class EditPointDialog implements OnInit, AfterViewInit {
   pointForm: FormGroup;
 
   bodyPartsCtrl = new FormControl();
@@ -21,10 +22,14 @@ export class EditPointDialog implements OnInit {
   selectable = true;
   removable = true;
   separatorKeysCodes: number[] = [ENTER, COMMA];
+  xy: object;
 
   filteredBodyParts: Observable<BodyPart[]>;
 
   @ViewChild('bodyPartsInput') bodyPartsInput: ElementRef<HTMLInputElement>;
+  @ViewChild(SvgComponent) set earsvg(directive: SvgComponent) {
+    this.xy = directive.spot;
+  };
 
   constructor(
     private formBuilder: FormBuilder,
@@ -44,6 +49,9 @@ export class EditPointDialog implements OnInit {
       function: this.data.point.function,
       videoLink: this.data.point.videoLink
     });
+  }
+
+  ngAfterViewInit(){
   }
 
   closeDialog() {
@@ -84,6 +92,14 @@ export class EditPointDialog implements OnInit {
     this.data.point.bodyParts.push(event.option.viewValue);
     this.bodyPartsInput.nativeElement.value = '';
     this.bodyPartsCtrl.setValue(null);
+
+
+    console.log(this.xy);
+  }
+
+  coordChangedHandler(event: any)
+  {
+    console.log(event);
   }
 
   private _filter(value: string): string[] {

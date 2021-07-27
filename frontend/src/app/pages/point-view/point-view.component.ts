@@ -12,7 +12,7 @@ import { PointService } from '@app/services/point.service';
 import { EarRegionService } from '@app/services/earRegion.service';
 import { BodyPartService } from '@app/services/bodyPart.service';
 
-import { AddEditPointDialog } from '../components/point-dialog';
+import { PointDialog } from '../components/point-dialog';
 import { DeleteDialog } from '../components/delete-dialog';
 
 @Component({
@@ -63,23 +63,21 @@ export class PointViewComponent implements OnInit {
       .subscribe((bodyParts: BodyPart[]) => this.bodyParts = bodyParts);
   }
 
-  openAddEditDialog(point: Point) {
-    let action = "Edit Point";
-
+  openPointDialog(point: Point, action: string) {
     if(!point)
     {
       point = new Point();
       point.location = { "x": 1, "y": 1 };
       point.bodyParts = [];
       point.partOfEar = '';
-      action = "Add Point";
+      action = "Add";
     }
 
-    const dialogRef = this.dialog.open(AddEditPointDialog, {
+    const dialogRef = this.dialog.open(PointDialog, {
       width: '500px',
       disableClose: true,
       data: { 
-        title: action, 
+        action: action, 
         point: point, 
         earRegions: this.earRegions,
         bodyParts: this.bodyParts
@@ -91,7 +89,7 @@ export class PointViewComponent implements OnInit {
         return;
       }
 
-      if(action == "Add Point"){
+      if(action === "Add"){
         let newpoint: Point = new Point;
         newpoint.code = result.code;
         newpoint.name = result.name;
@@ -104,7 +102,7 @@ export class PointViewComponent implements OnInit {
         this.pointService.createPoint(newpoint)
         .subscribe(() => this.pointService.getPoints()
         .subscribe((points: Point[]) => this.dataSource.data = points));
-      } else {
+      } else if(action === "Edit") {
         point.code = result.code;
         point.name = result.name;
         point.partOfEar = result.partOfEar;

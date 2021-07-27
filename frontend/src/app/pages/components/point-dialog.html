@@ -1,5 +1,5 @@
 <form [formGroup]="pointForm" (ngSubmit)="submit();">
-<h2 mat-dialog-title>{{data.title}}</h2>
+<h2 mat-dialog-title>{{data.action}} Point</h2>
 <mat-dialog-content class="mat-typography">
     <table>
         <tr>
@@ -41,7 +41,8 @@
                 </div>           
             </td>
             <td>
-                <ear-svg [coordX]="data.point.location.x" [coordY]="data.point.location.y" (coordChanged)="coordChangedHandler($event)"></ear-svg>
+                <ear-svg [coord]="{x: data.point.location.x, y: data.point.location.y }" [action]="data.action" (coordChanged)="coordChangedHandler($event)">
+                </ear-svg>
             </td>
         </tr>
     </table>
@@ -83,7 +84,7 @@
 </mat-dialog-content>
 
 <mat-dialog-actions>
-    <button mat-button mat-dialog-close>Cancel</button>
-    <button mat-raised-button [disabled]="!pointForm.valid" (click)="submit()">{{data.title === 'Add Point' ? 'Submit' : 'Update'}}</button>
+    <button mat-button mat-dialog-close>{{data.action != 'View' ? 'Cancel' : 'Close'}}</button>
+    <button mat-raised-button *ngIf="data.action != 'View'" [disabled]="!pointForm.valid" (click)="submit()">{{data.action === 'Add' ? 'Submit' : 'Update'}}</button>
 </mat-dialog-actions>
 </form> 

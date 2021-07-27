@@ -124,6 +124,7 @@ export class PointViewComponent implements OnInit {
       point.bodyParts = result.bodyParts;
       point.function = result.function;
       point.videoLink = result.videoLink;
+      point.location = {"x": result.xCoord, "y": result.yCoord, "z": 0};
 
       console.log(point);
 

@@ -1,4 +1,3 @@
-import * as mongoose from 'mongoose';
 import { Request, Response } from 'express';
 import Point from '../database/models/point';
 
@@ -33,7 +32,8 @@ export class PointController {
                 'function': req.body.function,
                 'partOfEar': req.body.partOfEar,
                 'bodyParts': req.body.bodyParts,
-                'videoLink': req.body.videoLink
+                'videoLink': req.body.videoLink,
+                'location': req.body.location
             });
 
             console.log(point);

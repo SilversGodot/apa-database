@@ -17,11 +17,9 @@ export class EditPointDialog implements OnInit {
   pointForm: FormGroup;
 
   bodyPartsCtrl = new FormControl();
-  visible = true;
   selectable = true;
   removable = true;
   separatorKeysCodes: number[] = [ENTER, COMMA];
-
   filteredBodyParts: Observable<BodyPart[]>;
 
   @ViewChild('bodyPartsInput') bodyPartsInput: ElementRef<HTMLInputElement>;
@@ -42,7 +40,9 @@ export class EditPointDialog implements OnInit {
       partOfEar: this.data.point.partOfEar._id, 
       bodyParts: this.bodyPartsCtrl,       
       function: this.data.point.function,
-      videoLink: this.data.point.videoLink
+      videoLink: this.data.point.videoLink,
+      xCoord: this.data.point.location.x,
+      yCoord: this.data.point.location.y
     });
   }
 
@@ -84,6 +84,13 @@ export class EditPointDialog implements OnInit {
     this.data.point.bodyParts.push(event.option.viewValue);
     this.bodyPartsInput.nativeElement.value = '';
     this.bodyPartsCtrl.setValue(null);
+  }
+
+  //// subscribe event from child component - EarSvg
+  coordChangedHandler(event: any)
+  {
+    this.pointForm.controls['xCoord'].setValue(event.x);
+    this.pointForm.controls['yCoord'].setValue(event.y);
   }
 
   private _filter(value: string): string[] {

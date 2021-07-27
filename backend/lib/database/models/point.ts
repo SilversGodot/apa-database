@@ -17,7 +17,7 @@ const PointSchema = new mongoose.Schema({
         type: String,
         default: ""
     },
-    location : [{
+    location : {
         x: {
             type: Number,
             default: 0
@@ -30,7 +30,7 @@ const PointSchema = new mongoose.Schema({
             type: Number,
             default: 0
         }
-    }],
+    },
     partOfEar: {
         type : mongoose.Schema.Types.ObjectId,
         ref: 'EarRegion',

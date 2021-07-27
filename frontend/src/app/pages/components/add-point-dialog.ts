@@ -1,4 +1,4 @@
-import { Component, ElementRef, ViewChild, Inject } from '@angular/core';
+import { Component, OnInit, ElementRef, ViewChild, Inject } from '@angular/core';
 import { COMMA, ENTER } from '@angular/cdk/keycodes'
 import { FormControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from "@angular/material/dialog";
@@ -14,8 +14,9 @@ import Point from '@app/models/point';
     selector: 'add-point-dialog',
     templateUrl: 'add-edit-point-dialog.html',
   })
-export class AddPointDialog {
+export class AddPointDialog implements OnInit {
   pointForm: FormGroup;
+  
   bodyPartsCtrl = new FormControl();
   selectable = true;
   removable = true;
@@ -35,14 +36,18 @@ export class AddPointDialog {
 
   ngOnInit() {
     this.data.point = new Point();
+    this.data.point.location = { "x": 1, "y": 1 };
     this.data.point.bodyParts = [];
+
     this.pointForm = this.formBuilder.group({
       code: ['', Validators.required],
       name: ['', Validators.required],
       partOfEar: '',
       bodyParts: this.bodyPartsCtrl,
       function: '',
-      videoLink: ''
+      videoLink: '',
+      xCoord: '',
+      yCoord: ''
     });
   }
 
@@ -88,6 +93,12 @@ export class AddPointDialog {
           this.bodyPartsInput.nativeElement.value = '';
           this.bodyPartsCtrl.setValue(null);
         }
+      }
+
+      coordChangedHandler(event: any)
+      {
+        this.pointForm.controls['xCoord'].setValue(event.x);
+        this.pointForm.controls['yCoord'].setValue(event.y);
       }
 
       private _filter(value: string): string[] {

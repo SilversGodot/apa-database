@@ -4,8 +4,8 @@ import { MAT_DIALOG_DATA, MatDialogRef } from "@angular/material/dialog";
 import BodyPart from '@app/models/bodyPart';
 
 @Component({
-    selector: 'add-bodyPart-dialog',
-    templateUrl: 'add-bodyPart-dialog.html',
+    selector: 'bodyPart-dialog',
+    templateUrl: 'bodyPart-dialog.html',
   })
 export class AddBodyPartDialog {
     bodyPartForm: FormGroup;

@@ -1,0 +1,90 @@
+<form [formGroup]="pointForm" (ngSubmit)="submit();">
+<h2 mat-dialog-title>{{data.action}} Point</h2>
+<mat-dialog-content class="mat-typography">
+    <table>
+        <tr>
+            <td>
+                <div>
+                    <mat-form-field appearance="fill">
+                        <mat-label>Code</mat-label>
+                        <input matInput placeholder="Enter point code" formControlName="code" required>
+                    </mat-form-field>
+                </div>
+                <div>
+                    <mat-form-field appearance="fill">
+                        <mat-label>Name</mat-label>
+                        <input matInput placeholder="Enter point name" formControlName="name" required>
+                    </mat-form-field>
+                </div>
+                <div>
+                    <mat-form-field appearance="fill">
+                        <mat-label>Region of ear</mat-label>
+                        <mat-select formControlName="partOfEar" required>
+                            <mat-option>Please select...</mat-option>
+                            <mat-option *ngFor="let earRegion of data.earRegions" [value]="earRegion._id">
+                              {{earRegion.name}}
+                            </mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                </div>
+                <div>
+                    <mat-form-field appearance="fill">
+                        <mat-label>X-coord</mat-label>
+                        <input matInput formControlName="xCoord">
+                    </mat-form-field> 
+                </div>
+                <div>
+                    <mat-form-field appearance="fill">
+                        <mat-label>Y-coord</mat-label>
+                        <input matInput formControlName="yCoord">
+                    </mat-form-field>                     
+                </div>           
+            </td>
+            <td>
+                <ear-svg [coord]="{x: data.point.location.x, y: data.point.location.y }" [action]="data.action" (coordChanged)="coordChangedHandler($event)">
+                </ear-svg>
+            </td>
+        </tr>
+    </table>
+
+    <mat-form-field class="full-width" appearance="fill">                  
+        <mat-label>Body part</mat-label>
+        <mat-chip-list #bodyPartList aria-label="Body Part selection" formControlName="bodyParts" > 
+          <mat-chip *ngFor="let bodyPart of data.point.bodyParts" 
+            [selectable]="selectable"
+            [removable]="removable" 
+            (removed)="remove(bodyPart)">
+            {{bodyPart}}
+            <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
+          </mat-chip>
+          <input
+            #bodyPartsInput
+            [formControl]="bodyPartsCtrl"
+            [matAutocomplete]="auto"
+            [matChipInputFor]="bodyPartList"
+            [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+            (matChipInputTokenEnd)="add($event)">
+        </mat-chip-list>
+        <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selected($event)">
+            <mat-option *ngFor="let bodyPart of filteredBodyParts | async" [value]="bodyPart.name">
+              {{bodyPart.name}}
+            </mat-option>
+          </mat-autocomplete>                                    
+    </mat-form-field>
+
+    <mat-form-field class="full-width" appearance="fill">
+        <mat-label>Function</mat-label>
+        <textarea matInput cdkTextareaAutosize rows="3" formControlName="function" placeholder="Enter point function"></textarea>
+    </mat-form-field>
+
+    <mat-form-field class="example-full-width" class="full-width" appearance="fill">
+        <mat-label>Video Link</mat-label>
+        <input matInput placeholder="Enter video link" formControlName="videoLink">
+    </mat-form-field> 
+</mat-dialog-content>
+
+<mat-dialog-actions>
+    <button mat-button mat-dialog-close>{{data.action != 'View' ? 'Cancel' : 'Close'}}</button>
+    <button mat-raised-button *ngIf="data.action != 'View'" [disabled]="!pointForm.valid" (click)="submit()">{{data.action === 'Add' ? 'Submit' : 'Update'}}</button>
+</mat-dialog-actions>
+</form> 

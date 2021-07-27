@@ -6,8 +6,8 @@ import { Component, ElementRef, AfterViewInit, Output, EventEmitter, Input } fro
   styleUrls: ['./ear.component.css']
 })
 export class SvgComponent implements AfterViewInit {
-    @Input() coordX: number = 0;
-    @Input() coordY: number = 0;
+    @Input() coord = {"x": 1, "y": 1};
+    @Input() action: string;
     @Output() coordChanged: EventEmitter<object> = new EventEmitter();
     selectedElement = null;
     spot = null;
@@ -17,13 +17,16 @@ export class SvgComponent implements AfterViewInit {
 
     ngAfterViewInit() {
         this.spot = this.elementRef.nativeElement.querySelector('circle');
-        this.spot.setAttributeNS(null, "cx", this.coordX);
-        this.spot.setAttributeNS(null, "cy", this.coordY);
-          
-        this.spot.addEventListener('mousedown', this.startDrag.bind(this));
-        this.spot.addEventListener('mousemove', this.drag.bind(this));
-        this.spot.addEventListener('mouseup', this.endDrag.bind(this));
-        this.spot.addEventListener('mouseleave', this.endDrag.bind(this));
+        this.spot.setAttributeNS(null, "cx", this.coord.x);
+        this.spot.setAttributeNS(null, "cy", this.coord.y);
+
+        if(this.action != 'View')
+        {
+            this.spot.addEventListener('mousedown', this.startDrag.bind(this));
+            this.spot.addEventListener('mousemove', this.drag.bind(this));
+            this.spot.addEventListener('mouseup', this.endDrag.bind(this));
+            this.spot.addEventListener('mouseleave', this.endDrag.bind(this));
+        }
     }
 
     startDrag(event: any) {

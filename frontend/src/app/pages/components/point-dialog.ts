@@ -10,10 +10,10 @@ import { map, startWith } from 'rxjs/operators';
 import BodyPart from '@app/models/bodyPart';
 
 @Component({
-  selector: 'edit-point-dialog',
-  templateUrl: 'add-edit-point-dialog.html',
+  selector: 'point-dialog',
+  templateUrl: 'point-dialog.html',
 })
-export class EditPointDialog implements OnInit {
+export class PointDialog implements OnInit {
   pointForm: FormGroup;
 
   bodyPartsCtrl = new FormControl();
@@ -26,7 +26,7 @@ export class EditPointDialog implements OnInit {
 
   constructor(
     private formBuilder: FormBuilder,
-    private dialogRef: MatDialogRef<EditPointDialog>,
+    private dialogRef: MatDialogRef<PointDialog>,
     @Inject(MAT_DIALOG_DATA) public data: any) {
       this.filteredBodyParts = this.bodyPartsCtrl.valueChanges.pipe(
         startWith(null as string),
@@ -35,15 +35,19 @@ export class EditPointDialog implements OnInit {
 
   ngOnInit() {
     this.pointForm = this.formBuilder.group({
-      code: [this.data.point.code, Validators.required],
-      name: [this.data.point.name, Validators.required],
-      partOfEar: this.data.point.partOfEar._id, 
+      code: [{ value: this.data.point.code, disabled: this.data.action === 'View' }, Validators.required],
+      name: [{ value: this.data.point.name, disabled: this.data.action === 'View' }, Validators.required],
+      partOfEar: { value: this.data.point.partOfEar._id, disabled: this.data.action === 'View' }, 
       bodyParts: this.bodyPartsCtrl,       
-      function: this.data.point.function,
-      videoLink: this.data.point.videoLink,
-      xCoord: this.data.point.location.x,
-      yCoord: this.data.point.location.y
+      function: { value: this.data.point.function, disabled: this.data.action === 'View' },
+      videoLink: { value: this.data.point.videoLink, disabled: this.data.action === 'View' },
+      xCoord: { value: this.data.point.location.x, disabled: true },
+      yCoord: { value: this.data.point.location.y, disabled: true }
     });
+
+    if (this.data.action === 'View') {
+      this.bodyPartsCtrl.disable();
+    }
   }
 
   closeDialog() {
@@ -55,6 +59,8 @@ export class EditPointDialog implements OnInit {
       return;
     }
 
+    this.pointForm.controls['xCoord'].enable();
+    this.pointForm.controls['yCoord'].enable();
     this.bodyPartsCtrl.setValue(this.data.point.bodyParts);
     this.dialogRef.close(this.pointForm.value);
   }

@@ -6,7 +6,7 @@ import { MatPaginator } from '@angular/material/paginator';
 import EarRegion from '@app/models/earRegion';
 import { EarRegionService } from '@app/services/earRegion.service';
 import { DeleteDialog } from '@app/pages/components/delete-dialog';
-import { AddEarRegionDialog } from '@app/pages/components/add-earRegion-dialog';
+import { AddEarRegionDialog } from '@app/pages/components/earRegion-dialog';
 
 @Component({
   selector: 'app-earRegion-view',

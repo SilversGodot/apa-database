@@ -4,8 +4,8 @@ import { MAT_DIALOG_DATA, MatDialogRef } from "@angular/material/dialog";
 import EarRegion from '@app/models/earRegion';
 
 @Component({
-    selector: 'add-point-dialog',
-    templateUrl: 'add-earRegion-dialog.html',
+    selector: 'point-dialog',
+    templateUrl: 'earRegion-dialog.html',
   })
 export class AddEarRegionDialog {
     earRegionForm: FormGroup;

@@ -12,13 +12,14 @@ import BodyPart from '@app/models/bodyPart';
 @Component({
   selector: 'point-dialog',
   templateUrl: 'point-dialog.html',
+  styleUrls: ['point-dialog.css'],
 })
 export class PointDialog implements OnInit {
   pointForm: FormGroup;
 
   bodyPartsCtrl = new FormControl();
   selectable = true;
-  removable = true;
+  readOnlyMode = this.data.action === 'View';
   separatorKeysCodes: number[] = [ENTER, COMMA];
   filteredBodyParts: Observable<BodyPart[]>;
 
@@ -35,17 +36,17 @@ export class PointDialog implements OnInit {
 
   ngOnInit() {
     this.pointForm = this.formBuilder.group({
-      code: [{ value: this.data.point.code, disabled: this.data.action === 'View' }, Validators.required],
-      name: [{ value: this.data.point.name, disabled: this.data.action === 'View' }, Validators.required],
-      partOfEar: { value: this.data.point.partOfEar._id, disabled: this.data.action === 'View' }, 
+      code: [{ value: this.data.point.code, disabled: this.readOnlyMode }, Validators.required],
+      name: [{ value: this.data.point.name, disabled: this.readOnlyMode }, Validators.required],
+      partOfEar: { value: this.data.point.partOfEar._id, disabled: this.readOnlyMode }, 
       bodyParts: this.bodyPartsCtrl,       
-      function: { value: this.data.point.function, disabled: this.data.action === 'View' },
-      videoLink: { value: this.data.point.videoLink, disabled: this.data.action === 'View' },
+      function: { value: this.data.point.function, disabled: this.readOnlyMode },
+      videoLink: { value: this.data.point.videoLink, disabled: this.readOnlyMode },
       xCoord: { value: this.data.point.location.x, disabled: true },
       yCoord: { value: this.data.point.location.y, disabled: true }
     });
 
-    if (this.data.action === 'View') {
+    if (this.readOnlyMode) {
       this.bodyPartsCtrl.disable();
     }
   }

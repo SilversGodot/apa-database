@@ -10,8 +10,8 @@ import { map, startWith } from 'rxjs/operators';
 import BodyPart from '@app/models/bodyPart';
 
 @Component({
-  selector: 'add-edit-point-dialog',
-  templateUrl: 'add-edit-point-dialog.html',
+  selector: 'point-dialog',
+  templateUrl: 'point-dialog.html',
 })
 export class AddEditPointDialog implements OnInit {
   pointForm: FormGroup;

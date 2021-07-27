@@ -6,7 +6,7 @@ import { MatPaginator } from '@angular/material/paginator';
 import BodyPart from '@app/models/bodyPart';
 import { BodyPartService } from '@app/services/bodyPart.service';
 import { DeleteDialog } from '@app/pages/components/delete-dialog';
-import { AddBodyPartDialog } from '@app/pages/components/add-bodyPart-dialog';
+import { AddBodyPartDialog } from '@app/pages/components/bodyPart-dialog';
 
 @Component({
   selector: 'app-bodyPart-view',

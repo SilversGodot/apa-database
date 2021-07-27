@@ -11,11 +11,11 @@ import { PointViewComponent } from './pages/point-view/point-view.component';
 import { TreatmentViewComponent } from './pages/treatment-view/treatment-view.component';
 import { EarRegionViewComponent } from './pages/earRegion-view/earRegion-view.component';
 import { BodyPartViewComponent } from './pages/bodyPart-view/bodyPart-view.component';
-import { AddEditPointDialog } from './pages/components/add-edit-point-dialog';
+import { AddEditPointDialog } from './pages/components/point-dialog';
 import { AddTreatmentDialog } from './pages/components/add-treatment-dialog';
 import { EditTreatmentDialog } from './pages/components/edit-treatment-dialog';
-import { AddEarRegionDialog } from './pages/components/add-earRegion-dialog';
-import { AddBodyPartDialog } from './pages/components/add-bodyPart-dialog';
+import { AddEarRegionDialog } from './pages/components/earRegion-dialog';
+import { AddBodyPartDialog } from './pages/components/bodyPart-dialog';
 import { DeleteDialog } from './pages/components/delete-dialog';
 
 import { SvgComponent } from './pages/components/ear.component';

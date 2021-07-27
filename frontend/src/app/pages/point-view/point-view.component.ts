@@ -12,7 +12,7 @@ import { PointService } from '@app/services/point.service';
 import { EarRegionService } from '@app/services/earRegion.service';
 import { BodyPartService } from '@app/services/bodyPart.service';
 
-import { AddEditPointDialog } from '../components/add-edit-point-dialog';
+import { AddEditPointDialog } from '../components/point-dialog';
 import { DeleteDialog } from '../components/delete-dialog';
 
 @Component({

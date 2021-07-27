@@ -12,8 +12,7 @@ import { PointService } from '@app/services/point.service';
 import { EarRegionService } from '@app/services/earRegion.service';
 import { BodyPartService } from '@app/services/bodyPart.service';
 
-import { AddPointDialog } from '../components/add-point-dialog';
-import { EditPointDialog } from '../components/edit-point-dialog';
+import { AddEditPointDialog } from '../components/add-edit-point-dialog';
 import { DeleteDialog } from '../components/delete-dialog';
 
 @Component({
@@ -64,47 +63,23 @@ export class PointViewComponent implements OnInit {
       .subscribe((bodyParts: BodyPart[]) => this.bodyParts = bodyParts);
   }
 
-  openAddNewDialog() {
-    const dialogRef = this.dialog.open(AddPointDialog, {
-      width: '550px',
-      disableClose: true,
-      data: { 
-        title: "Add Point", 
-        point: new Point, 
-        earRegions: this.earRegions,
-        bodyParts: this.bodyParts
-      }
-    });
+  openAddEditDialog(point: Point) {
+    let action = "Edit Point";
 
-    dialogRef.afterClosed().subscribe(result => {
-      console.log(`Add Point Dialog result: ${result}`);
+    if(!point)
+    {
+      point = new Point();
+      point.location = { "x": 1, "y": 1 };
+      point.bodyParts = [];
+      point.partOfEar = '';
+      action = "Add Point";
+    }
 
-      if(!result) {
-        return;
-      }
-
-      let point: Point = new Point;
-      point.code = result.code;
-      point.name = result.name;
-      point.partOfEar = result.partOfEar;
-      point.bodyParts = result.bodyParts;
-      point.function = result.function;
-      point.videoLink = result.videoLink
-
-      console.log(point);
-
-      this.pointService.createPoint(point)
-      .subscribe(() => this.pointService.getPoints()
-      .subscribe((points: Point[]) => this.dataSource.data = points));
-    });
-  }
-
-  openEditDialog(point: Point) {
-    const dialogRef = this.dialog.open(EditPointDialog, {
+    const dialogRef = this.dialog.open(AddEditPointDialog, {
       width: '500px',
       disableClose: true,
       data: { 
-        title: "Edit Point", 
+        title: action, 
         point: point, 
         earRegions: this.earRegions,
         bodyParts: this.bodyParts
@@ -112,25 +87,36 @@ export class PointViewComponent implements OnInit {
     });
 
     dialogRef.afterClosed().subscribe(result => {
-      console.log(`Edit Point Dialog result: ${result.bodyParts}`);
-
       if(!result) {
         return;
       }
 
-      point.code = result.code;
-      point.name = result.name;
-      point.partOfEar = result.partOfEar;
-      point.bodyParts = result.bodyParts;
-      point.function = result.function;
-      point.videoLink = result.videoLink;
-      point.location = {"x": result.xCoord, "y": result.yCoord, "z": 0};
-
-      console.log(point);
-
-      this.pointService.updatePoint(point)
-      .subscribe(() => this.pointService.getPoints()
-      .subscribe((points: Point[]) => this.dataSource.data = points));
+      if(action == "Add Point"){
+        let newpoint: Point = new Point;
+        newpoint.code = result.code;
+        newpoint.name = result.name;
+        newpoint.partOfEar = result.partOfEar;
+        newpoint.bodyParts = result.bodyParts;
+        newpoint.function = result.function;
+        newpoint.videoLink = result.videoLink;
+        newpoint.location = {"x": result.xCoord, "y": result.yCoord, "z": 0};
+  
+        this.pointService.createPoint(newpoint)
+        .subscribe(() => this.pointService.getPoints()
+        .subscribe((points: Point[]) => this.dataSource.data = points));
+      } else {
+        point.code = result.code;
+        point.name = result.name;
+        point.partOfEar = result.partOfEar;
+        point.bodyParts = result.bodyParts;
+        point.function = result.function;
+        point.videoLink = result.videoLink;
+        point.location = {"x": result.xCoord, "y": result.yCoord, "z": 0};
+  
+        this.pointService.updatePoint(point)
+        .subscribe(() => this.pointService.getPoints()
+        .subscribe((points: Point[]) => this.dataSource.data = points));
+      }
     });  
   }
 
@@ -145,8 +131,6 @@ export class PointViewComponent implements OnInit {
     });
 
     dialogRef.afterClosed().subscribe(result => {
-      console.log(`Delete Point Dialog result: ${result}`);
-
       if(result) {
         this.pointService.deletePoint(point._id)
           .subscribe(() => this.dataSource.data = this.dataSource.data.filter(l => l._id != point._id));

@@ -2,7 +2,7 @@
     <mat-toolbar color="primary">
         Points
     </mat-toolbar>
-    <button mat-icon-button color="primary" (click)="openAddNewDialog()">
+    <button mat-icon-button color="primary" (click)="openAddEditDialog(null)">
         <mat-icon>post_add</mat-icon> Add New
     </button>
 
@@ -35,12 +35,15 @@
         <ng-container matColumnDef="action">
             <th mat-header-cell *matHeaderCellDef class="headerCell">Action</th>
             <td mat-cell *matCellDef="let point" class="action-link">
-                <button mat-icon-button color="primary" title="Edit" (click)="openEditDialog(point)">
+                <button mat-icon-button color="primary" title="View">
+                    <mat-icon>visibility</mat-icon>
+                </button>                
+                <button mat-icon-button color="primary" title="Edit" (click)="openAddEditDialog(point)">
                   <mat-icon>edit_note</mat-icon>
-                </button>                 
+                </button>
                 <button mat-icon-button color="warn" title="Delete" (click)="openDeleteDialog(point)">
                   <mat-icon>clear</mat-icon>
-                </button>      
+                </button>
             </td>
         </ng-container>
 

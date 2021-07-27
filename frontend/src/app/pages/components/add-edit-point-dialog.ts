@@ -10,10 +10,10 @@ import { map, startWith } from 'rxjs/operators';
 import BodyPart from '@app/models/bodyPart';
 
 @Component({
-  selector: 'edit-point-dialog',
+  selector: 'add-edit-point-dialog',
   templateUrl: 'add-edit-point-dialog.html',
 })
-export class EditPointDialog implements OnInit {
+export class AddEditPointDialog implements OnInit {
   pointForm: FormGroup;
 
   bodyPartsCtrl = new FormControl();
@@ -26,7 +26,7 @@ export class EditPointDialog implements OnInit {
 
   constructor(
     private formBuilder: FormBuilder,
-    private dialogRef: MatDialogRef<EditPointDialog>,
+    private dialogRef: MatDialogRef<AddEditPointDialog>,
     @Inject(MAT_DIALOG_DATA) public data: any) {
       this.filteredBodyParts = this.bodyPartsCtrl.valueChanges.pipe(
         startWith(null as string),
@@ -44,6 +44,9 @@ export class EditPointDialog implements OnInit {
       xCoord: this.data.point.location.x,
       yCoord: this.data.point.location.y
     });
+
+    this.pointForm.controls['xCoord'].disable();
+    this.pointForm.controls['yCoord'].disable();
   }
 
   closeDialog() {
@@ -55,6 +58,8 @@ export class EditPointDialog implements OnInit {
       return;
     }
 
+    this.pointForm.controls['xCoord'].enable();
+    this.pointForm.controls['yCoord'].enable();
     this.bodyPartsCtrl.setValue(this.data.point.bodyParts);
     this.dialogRef.close(this.pointForm.value);
   }

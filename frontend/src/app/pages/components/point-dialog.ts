@@ -38,10 +38,12 @@ export class PointDialog implements OnInit {
     this.pointForm = this.formBuilder.group({
       code: [{ value: this.data.point.code, disabled: this.readOnlyMode }, Validators.required],
       name: [{ value: this.data.point.name, disabled: this.readOnlyMode }, Validators.required],
-      partOfEar: { value: this.data.point.partOfEar._id, disabled: this.readOnlyMode }, 
-      bodyParts: this.bodyPartsCtrl,       
+      partOfEar: { value: this.data.point.partOfEar._id, disabled: this.readOnlyMode },
       function: { value: this.data.point.function, disabled: this.readOnlyMode },
       videoLink: { value: this.data.point.videoLink, disabled: this.readOnlyMode },
+      //// set bodyParts as FormControl to be accessed by MatChip event
+      bodyParts: this.bodyPartsCtrl,       
+      //// disable x, y corrdination inputs, we get the values from ear.component
       xCoord: { value: this.data.point.location.x, disabled: true },
       yCoord: { value: this.data.point.location.y, disabled: true }
     });
@@ -60,10 +62,19 @@ export class PointDialog implements OnInit {
       return;
     }
 
+    //// enable x, y coordination input control before submit form. 
+    //// disabled input controls are ingnored.
     this.pointForm.controls['xCoord'].enable();
     this.pointForm.controls['yCoord'].enable();
     this.bodyPartsCtrl.setValue(this.data.point.bodyParts);
     this.dialogRef.close(this.pointForm.value);
+  }
+
+  //// subscribe event from child component - EarSvg
+  coordChangedHandler(event: any)
+  {
+    this.pointForm.controls['xCoord'].setValue(event.x);
+    this.pointForm.controls['yCoord'].setValue(event.y);
   }
 
   //// BodyPart auto complete
@@ -91,13 +102,6 @@ export class PointDialog implements OnInit {
     this.data.point.bodyParts.push(event.option.viewValue);
     this.bodyPartsInput.nativeElement.value = '';
     this.bodyPartsCtrl.setValue(null);
-  }
-
-  //// subscribe event from child component - EarSvg
-  coordChangedHandler(event: any)
-  {
-    this.pointForm.controls['xCoord'].setValue(event.x);
-    this.pointForm.controls['yCoord'].setValue(event.y);
   }
 
   private _filter(value: string): string[] {

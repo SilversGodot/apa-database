@@ -8,6 +8,7 @@ import { MaterialModule } from './material-module';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { LoginComponent } from './pages/login-view/login.component';
+import { PointListViewComponent } from './pages/point-view/point-list-view.component';
 import { PointViewComponent } from './pages/point-view/point-view.component';
 import { TreatmentViewComponent } from './pages/treatment-view/treatment-view.component';
 import { SymptomViewComponent } from './pages/symptom-view/symptom-view.component';
@@ -22,12 +23,11 @@ import { DeleteDialog } from './pages/components/delete-dialog';
 
 import { SvgComponent } from './pages/components/ear.component';
 
-
-
 @NgModule({
   declarations: [
     AppComponent,
     LoginComponent,
+    PointListViewComponent,
     PointViewComponent,
     TreatmentViewComponent,
     SymptomViewComponent,

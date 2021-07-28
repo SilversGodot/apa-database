@@ -5,8 +5,8 @@ import BodyPart from '@app/models/bodyPart';
 
 @Component({
     selector: 'bodyPart-dialog',
-    templateUrl: 'bodyPart-dialog.html',
-  })
+    templateUrl: 'bodyPart-dialog.html'
+})
 export class AddBodyPartDialog {
     bodyPartForm: FormGroup;
 

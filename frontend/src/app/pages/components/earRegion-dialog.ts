@@ -5,33 +5,33 @@ import EarRegion from '@app/models/earRegion';
 
 @Component({
     selector: 'point-dialog',
-    templateUrl: 'earRegion-dialog.html',
-  })
+    templateUrl: 'earRegion-dialog.html'
+})
 export class AddEarRegionDialog {
-    earRegionForm: FormGroup;
+  earRegionForm: FormGroup;
 
   constructor(
     private formBuilder: FormBuilder,
     private dialogRef: MatDialogRef<AddEarRegionDialog>,
     @Inject(MAT_DIALOG_DATA) public data: any) {
-    }
+  }
 
-    ngOnInit() {
-        this.data.earRegion = new EarRegion();
-        this.earRegionForm = this.formBuilder.group({
-            description: [''],
-            name: ['', Validators.required]
-        });
-    }
+  ngOnInit() {
+    this.data.earRegion = new EarRegion();
+    this.earRegionForm = this.formBuilder.group({
+      name: ['', Validators.required],
+      description: ['']  
+    });
+  }
 
-    closeDialog() {
-        this.dialogRef.close();
-    }
+  closeDialog() {
+    this.dialogRef.close();
+  }
 
-    submit() {        
-        if (this.earRegionForm.invalid) {
-          return;
-        }
-        this.dialogRef.close(this.earRegionForm.value);
+  submit() {        
+    if (this.earRegionForm.invalid) {
+      return;
     }
+      this.dialogRef.close(this.earRegionForm.value);
+  }
 }

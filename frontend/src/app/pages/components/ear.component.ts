@@ -20,12 +20,15 @@ export class SvgComponent implements AfterViewInit {
         this.spot.setAttributeNS(null, "cx", this.coord.x);
         this.spot.setAttributeNS(null, "cy", this.coord.y);
 
+        //// ReadOnly mode doesnot allow drag
         if(this.action != 'View')
         {
             this.spot.addEventListener('mousedown', this.startDrag.bind(this));
             this.spot.addEventListener('mousemove', this.drag.bind(this));
             this.spot.addEventListener('mouseup', this.endDrag.bind(this));
             this.spot.addEventListener('mouseleave', this.endDrag.bind(this));
+        } else {
+            this.spot.setAttribute("style", "cursor: auto;");
         }
     }
 
@@ -48,6 +51,8 @@ export class SvgComponent implements AfterViewInit {
         this.selectedElement = null;
         let x = this.spot.getAttributeNS(null, "cx");
         let y = this.spot.getAttributeNS(null, "cy");
+
+        //// Notify parent component the new x and y coordination
         this.coordChanged.emit({ "x": x, "y": y });
     }
 }

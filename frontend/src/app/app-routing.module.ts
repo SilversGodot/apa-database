@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { BodyPartViewComponent } from './pages/bodyPart-view/bodyPart-view.component';
-import { EarRegionViewComponent } from './pages/earRegion-view/earRegion-view.component';
+import { EarZoneViewComponent } from './pages/earZone-view/earZone-view.component';
 import { LoginComponent } from './pages/login-view/login.component';
 import { PointListViewComponent } from './pages/point-view/point-list-view.component';
 import { PointViewComponent } from './pages/point-view/point-view.component';
@@ -16,7 +16,7 @@ const routes: Routes = [
   { path: 'treatments', component: TreatmentViewComponent },
   { path: 'treatments/:treatmentId', component: TreatmentViewComponent },
   { path: 'symptoms', component: SymptomViewComponent },
-  { path: 'earParts', component: EarRegionViewComponent },
+  { path: 'earZones', component: EarZoneViewComponent },
   { path: 'bodyParts', component: BodyPartViewComponent },
 ];
 

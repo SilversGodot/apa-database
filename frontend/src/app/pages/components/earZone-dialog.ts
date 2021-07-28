@@ -1,26 +1,26 @@
 import { Component, Inject } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from "@angular/material/dialog";
-import EarRegion from '@app/models/earRegion';
+import EarZone from '@app/models/earZone';
 
 @Component({
-    selector: 'point-dialog',
-    templateUrl: 'earRegion-dialog.html'
+    selector: 'earZone-dialog',
+    templateUrl: 'earZone-dialog.html'
 })
-export class AddEarRegionDialog {
-  earRegionForm: FormGroup;
+export class AddEarZoneDialog {
+  earZoneForm: FormGroup;
 
   constructor(
     private formBuilder: FormBuilder,
-    private dialogRef: MatDialogRef<AddEarRegionDialog>,
+    private dialogRef: MatDialogRef<AddEarZoneDialog>,
     @Inject(MAT_DIALOG_DATA) public data: any) {
   }
 
   ngOnInit() {
-    this.data.earRegion = new EarRegion();
-    this.earRegionForm = this.formBuilder.group({
+    this.data.earZone = new EarZone();
+    this.earZoneForm = this.formBuilder.group({
       name: ['', Validators.required],
-      description: ['']  
+      alias: []  
     });
   }
 
@@ -29,9 +29,9 @@ export class AddEarRegionDialog {
   }
 
   submit() {        
-    if (this.earRegionForm.invalid) {
+    if (this.earZoneForm.invalid) {
       return;
     }
-      this.dialogRef.close(this.earRegionForm.value);
+      this.dialogRef.close(this.earZoneForm.value);
   }
 }

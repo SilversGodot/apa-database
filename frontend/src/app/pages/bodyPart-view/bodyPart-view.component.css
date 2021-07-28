@@ -6,6 +6,17 @@ table {
   width: 100%;
 }
 
+mat-card {
+  max-width: 960px;
+  margin: 2em auto;
+}
+
+mat-card-content {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
 .headerCell {
   font-size: 14px;
   font-weight: 600;

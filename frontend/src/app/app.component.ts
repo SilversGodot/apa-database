@@ -6,5 +6,10 @@ import { Component } from '@angular/core';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  title = 'frontend';
+  title = 'Auricular Point Acupressure';
+  isAuthenticated = false;
+
+  async logout(): Promise<void> {
+    // todo
+  }
 }

@@ -7,6 +7,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MaterialModule } from './material-module';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
+import { LoginComponent } from './pages/login-view/login.component';
 import { PointViewComponent } from './pages/point-view/point-view.component';
 import { TreatmentViewComponent } from './pages/treatment-view/treatment-view.component';
 import { EarRegionViewComponent } from './pages/earRegion-view/earRegion-view.component';
@@ -25,6 +26,7 @@ import { SvgComponent } from './pages/components/ear.component';
 @NgModule({
   declarations: [
     AppComponent,
+    LoginComponent,
     PointViewComponent,
     TreatmentViewComponent,
     EarRegionViewComponent,

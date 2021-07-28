@@ -1,1 +1,46 @@
+<mat-toolbar color="primary" class="expanded-toolbar">
+    <span>
+      <button mat-button routerLink="/">{{title}}</button>
+      <button mat-button routerLink="/">
+        <mat-icon>home</mat-icon>
+    </button>
+      <button mat-button routerLink="/points">
+        <mat-icon>touch_app</mat-icon>
+        Points
+      </button>
+      <button mat-button routerLink="/treatments">
+        <mat-icon>health_and_safety</mat-icon>
+        Treatments
+      </button>
+      <button mat-button routerLink="/symptoms">
+        <mat-icon>sick</mat-icon>
+        Symptoms
+      </button>
+      <button mat-button [mat-menu-trigger-for]="menu">
+        <mat-icon>build</mat-icon>
+        Utilities
+      </button>           
+    </span>
+    <div fxLayout="row" fxShow="false" fxShow.gt-sm>
+      <button mat-button routerLink="/login" *ngIf="!isAuthenticated">
+        <mat-icon>power_settings_new</mat-icon>
+        Login
+      </button>
+      <button mat-button *ngIf="isAuthenticated" (click)="logout()">
+        <mat-icon>exit_to_app</mat-icon>
+        Logout
+      </button>
+    </div>
+  </mat-toolbar>
+  <mat-menu x-position="before" #menu="matMenu">
+    <button mat-menu-item routerLink="/earParts">
+      <mat-icon>hearing</mat-icon>
+      Region of Ear
+    </button>
+    <button mat-menu-item routerLink="/bodyParts">
+      <mat-icon>accessibility</mat-icon>
+      Body Part
+    </button>
+  </mat-menu>
+
 <router-outlet></router-outlet>

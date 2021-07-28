@@ -1,78 +1,80 @@
-<div class="container">
-    <mat-toolbar color="primary">
-        Points
-    </mat-toolbar>
-    <button mat-icon-button color="primary" (click)="openPointDialog(null, 'Add')">
-        <mat-icon>post_add</mat-icon> Add New
-    </button>
-
-    <table mat-table [dataSource]="dataSource" multiTemplateDataRows class="mat-elevation-z8">
-        <!-- Code Column -->
-        <ng-container matColumnDef="code">
-            <th mat-header-cell *matHeaderCellDef class="headerCell">Code</th>
-            <td mat-cell *matCellDef="let point" (click)="expandedPoint = expandedPoint === point ? null : point"> {{point.code}} </td>
-        </ng-container>
+<mat-card>
+    <mat-card-content>
+        <mat-toolbar color="primary">
+            Points
+        </mat-toolbar>
+        <button mat-icon-button color="primary" (click)="openPointDialog(null, 'Add')">
+            <mat-icon>post_add</mat-icon> Add New
+        </button>
     
-        <!-- Name Column -->
-        <ng-container matColumnDef="name">
-            <th mat-header-cell *matHeaderCellDef class="headerCell">Name</th>
-            <td mat-cell *matCellDef="let point" (click)="expandedPoint = expandedPoint === point ? null : point"> {{point.name}} </td>
-        </ng-container>
+        <table mat-table [dataSource]="dataSource" multiTemplateDataRows class="mat-elevation-z8">
+            <!-- Code Column -->
+            <ng-container matColumnDef="code">
+                <th mat-header-cell *matHeaderCellDef class="headerCell">Code</th>
+                <td mat-cell *matCellDef="let point" (click)="expandedPoint = expandedPoint === point ? null : point"> {{point.code}} </td>
+            </ng-container>
+        
+            <!-- Name Column -->
+            <ng-container matColumnDef="name">
+                <th mat-header-cell *matHeaderCellDef class="headerCell">Name</th>
+                <td mat-cell *matCellDef="let point" (click)="expandedPoint = expandedPoint === point ? null : point"> {{point.name}} </td>
+            </ng-container>
+        
+            <!-- Part Of Ear Column -->
+            <ng-container matColumnDef="partOfEar">
+                <th mat-header-cell *matHeaderCellDef class="headerCell">Region of Ear</th>
+                <td mat-cell *matCellDef="let point" (click)="expandedPoint = expandedPoint === point ? null : point">{{point.partOfEar.name}}</td>
+            </ng-container>
+        
+            <!-- Body Parts Column -->
+            <ng-container matColumnDef="bodyParts">
+                <th mat-header-cell *matHeaderCellDef class="headerCell">Body Parts</th>
+                <td mat-cell *matCellDef="let point" (click)="expandedPoint = expandedPoint === point ? null : point"> {{point.bodyParts.join(', ')}} </td>
+            </ng-container>
     
-        <!-- Part Of Ear Column -->
-        <ng-container matColumnDef="partOfEar">
-            <th mat-header-cell *matHeaderCellDef class="headerCell">Region of Ear</th>
-            <td mat-cell *matCellDef="let point" (click)="expandedPoint = expandedPoint === point ? null : point">{{point.partOfEar.name}}</td>
-        </ng-container>
+            <!-- Action Column -->
+            <ng-container matColumnDef="action">
+                <th mat-header-cell *matHeaderCellDef class="headerCell">Action</th>
+                <td mat-cell *matCellDef="let point" class="action-link">
+                    <button mat-icon-button color="primary" title="View" (click)="openPointDialog(point, 'View')">
+                        <mat-icon>visibility</mat-icon>
+                    </button>                
+                    <button mat-icon-button color="primary" title="Edit" (click)="openPointDialog(point, 'Edit')">
+                      <mat-icon>edit_note</mat-icon>
+                    </button>
+                    <button mat-icon-button color="warn" title="Delete" (click)="openDeleteDialog(point)">
+                      <mat-icon>clear</mat-icon>
+                    </button>
+                </td>
+            </ng-container>
     
-        <!-- Body Parts Column -->
-        <ng-container matColumnDef="bodyParts">
-            <th mat-header-cell *matHeaderCellDef class="headerCell">Body Parts</th>
-            <td mat-cell *matCellDef="let point" (click)="expandedPoint = expandedPoint === point ? null : point"> {{point.bodyParts.join(', ')}} </td>
-        </ng-container>
-
-        <!-- Action Column -->
-        <ng-container matColumnDef="action">
-            <th mat-header-cell *matHeaderCellDef class="headerCell">Action</th>
-            <td mat-cell *matCellDef="let point" class="action-link">
-                <button mat-icon-button color="primary" title="View" (click)="openPointDialog(point, 'View')">
-                    <mat-icon>visibility</mat-icon>
-                </button>                
-                <button mat-icon-button color="primary" title="Edit" (click)="openPointDialog(point, 'Edit')">
-                  <mat-icon>edit_note</mat-icon>
-                </button>
-                <button mat-icon-button color="warn" title="Delete" (click)="openDeleteDialog(point)">
-                  <mat-icon>clear</mat-icon>
-                </button>
-            </td>
-        </ng-container>
-
-        <!-- Expanded Content Column - The detail row is made up of this one column that spans across all columns -->
-        <ng-container matColumnDef="expandedDetail">
-            <td mat-cell *matCellDef="let point" [attr.colspan]="columnsToDisplay.length">
-                <div class="content-detail" [@detailExpand]="point == expandedPoint ? 'expanded' : 'collapsed'">
-                    <div class="header">Functions: </div>
-                    <div class="content-description">
-                        {{point.function}}
+            <!-- Expanded Content Column - The detail row is made up of this one column that spans across all columns -->
+            <ng-container matColumnDef="expandedDetail">
+                <td mat-cell *matCellDef="let point" [attr.colspan]="columnsToDisplay.length">
+                    <div class="content-detail" [@detailExpand]="point == expandedPoint ? 'expanded' : 'collapsed'">
+                        <div class="header">Functions: </div>
+                        <div class="content-description">
+                            {{point.function}}
+                        </div>
+                        <div class="header">Video Link:</div>
+                        <div class="content-description">
+                            <a href="{{point.videoLink}}" target="_blank">{{point.videoLink}}</a>
+                        </div>
+                        <div class="header">Treatments: </div>
+                        <div class="content-description">
+                            N/A
+                        </div>                            
                     </div>
-                    <div class="header">Video Link:</div>
-                    <div class="content-description">
-                        <a href="{{point.videoLink}}" target="_blank">{{point.videoLink}}</a>
-                    </div>
-                    <div class="header">Treatments: </div>
-                    <div class="content-description">
-                        N/A
-                    </div>                            
-                </div>
-            </td>
-        </ng-container>
-
-        <tr mat-header-row *matHeaderRowDef="columnsToDisplay"></tr>
-        <tr mat-row *matRowDef="let point; columns: columnsToDisplay;" class="main-row" [class.expanded-row]="expandedPoint === point"></tr>
-        <tr mat-row *matRowDef="let row; columns: ['expandedDetail']" class="detail-row"></tr>
-    </table>
-    <mat-paginator [pageSizeOptions]="[5, 10, 20]" [pageSize]="10" showFirstLastButtons class="mat-elevation-z8"></mat-paginator>
-</div>
+                </td>
+            </ng-container>
+    
+            <tr mat-header-row *matHeaderRowDef="columnsToDisplay"></tr>
+            <tr mat-row *matRowDef="let point; columns: columnsToDisplay;" class="main-row" [class.expanded-row]="expandedPoint === point"></tr>
+            <tr mat-row *matRowDef="let row; columns: ['expandedDetail']" class="detail-row"></tr>
+        </table>
+        <mat-paginator [pageSizeOptions]="[5, 10, 20]" [pageSize]="10" showFirstLastButtons class="mat-elevation-z8"></mat-paginator>        
+    </mat-card-content>
+</mat-card>
 
 <div *ngIf="isLoading" style="display: flex; justify-content: center; align-items: center; background: white; height: 50px;">
   <mat-progress-spinner color="primary" mode="indeterminate" value=50></mat-progress-spinner>

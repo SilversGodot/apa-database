@@ -1,20 +1,20 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { PointViewComponent } from './point-view.component';
+import { PointListViewComponent } from './point-list-view.component';
 
 describe('PointViewComponent', () => {
-  let component: PointViewComponent;
-  let fixture: ComponentFixture<PointViewComponent>;
+  let component: PointListViewComponent;
+  let fixture: ComponentFixture<PointListViewComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ PointViewComponent ]
+      declarations: [ PointListViewComponent ]
     })
     .compileComponents();
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(PointViewComponent);
+    fixture = TestBed.createComponent(PointListViewComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

@@ -1,0 +1,50 @@
+<div class="container">
+    <mat-toolbar color="primary">
+        Symptoms
+    </mat-toolbar>
+    <button mat-icon-button color="primary" (click)="openAddNewDialog()">
+        <mat-icon>post_add</mat-icon> Add New
+    </button>
+
+    <table mat-table [dataSource]="dataSource" multiTemplateDataRows class="mat-elevation-z8">
+        <ng-container matColumnDef="name">
+            <th mat-header-cell *matHeaderCellDef class="headerCell">Name</th>
+            <td mat-cell *matCellDef="let symptom" (click)="expandedSymptom = expandedSymptom === symptom ? null : symptom">{{symptom.name}}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="points">
+            <th mat-header-cell *matHeaderCellDef class="headerCell">Description</th>
+            <td mat-cell *matCellDef="let symptom" (click)="expandedSymptom = expandedSymptom === symptom ? null : symptom">{{ symptom.description }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="action">
+            <th mat-header-cell *matHeaderCellDef class="headerCell">Action</th>
+            <td mat-cell *matCellDef="let symptom" class="action-link">
+                <button mat-icon-button color="primary" title="Edit" (click)="openEditDialog(symptom)">
+                  <mat-icon>edit_note</mat-icon>
+                </button>                 
+                <button mat-icon-button color="warn" title="Delete" (click)="openDeleteDialog(symptom)">
+                  <mat-icon>clear</mat-icon>
+                </button>
+            </td>
+        </ng-container>
+
+        <ng-container matColumnDef="expandedDetail">
+            <td mat-cell *matCellDef="let symptom" [attr.colspan]="columnsToDisplay.length">
+                <div class="content-detail" [@detailExpand]="symptom == expandedSymptom ? 'expanded' : 'collapsed'">
+                    <div class="headerCell">Treatments: </div>
+                    <div *ngFor="let treatment of symptom.treatments" class="content-description">
+                        <ul>
+                            <li>{{treatment.name}}</li>
+                        </ul>
+                    </div>
+                </div>
+            </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="columnsToDisplay"></tr>
+        <tr mat-row *matRowDef="let symptom; columns: columnsToDisplay;" class="main-row" [class.expanded-row]="expandedSymptom === symptom"></tr>
+        <tr mat-row *matRowDef="let row; columns: ['expandedDetail']" class="detail-row"></tr>
+    </table>
+    <mat-paginator [pageSizeOptions]="[5, 10, 20]" [pageSize]="10" showFirstLastButtons class="mat-elevation-z8"></mat-paginator>
+</div>

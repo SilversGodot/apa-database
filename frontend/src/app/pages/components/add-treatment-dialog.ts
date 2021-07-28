@@ -21,8 +21,10 @@ export class AddTreatmentDialog {
     masterPoints: Point[] = [];
     primaryPoints: Point[] = [];
     supplementalPoints: Point[] = [];
-    
+
     filteredMasterPoints: Observable<Point[]>;
+    filteredPrimaryPoints: Observable<Point[]>;
+    filteredSupplementalPoints: Observable<Point[]>;
 
     masterPointsCtrl = new FormControl();
     primaryPointsCtrl = new FormControl();
@@ -39,6 +41,14 @@ export class AddTreatmentDialog {
         @Inject(MAT_DIALOG_DATA) public data: any
     ) {
         this.filteredMasterPoints = this.masterPointsCtrl.valueChanges.pipe(
+            startWith(null as string),
+            map((pointName: string | null) => pointName ? this._filter(pointName) : this.allPoints.slice())
+        );
+        this.filteredPrimaryPoints = this.primaryPointsCtrl.valueChanges.pipe(
+            startWith(null as string),
+            map((pointName: string | null) => pointName ? this._filter(pointName) : this.allPoints.slice())
+        );
+        this.filteredSupplementalPoints = this.supplementalPointsCtrl.valueChanges.pipe(
             startWith(null as string),
             map((pointName: string | null) => pointName ? this._filter(pointName) : this.allPoints.slice())
         );

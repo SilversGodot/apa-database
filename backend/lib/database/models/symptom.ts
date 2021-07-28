@@ -25,7 +25,10 @@ const SymptomSchema = new mongoose.Schema({
     },
     treatments: [{
         type : symptomTreatmentSchema
-    }]
+    }],
+    description: {
+        type: String
+    }
 });
 
 export default mongoose.model("Symptom", SymptomSchema);

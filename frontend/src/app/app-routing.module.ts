@@ -5,6 +5,7 @@ import { EarRegionViewComponent } from './pages/earRegion-view/earRegion-view.co
 import { LoginComponent } from './pages/login-view/login.component';
 import { PointViewComponent } from './pages/point-view/point-view.component';
 import { TreatmentViewComponent } from './pages/treatment-view/treatment-view.component';
+import { SymptomViewComponent } from './pages/symptom-view/symptom-view.component';
 
 const routes: Routes = [
   { path: '', redirectTo: 'points', pathMatch: 'full' },
@@ -13,6 +14,7 @@ const routes: Routes = [
   { path: 'points/:pointId', component: PointViewComponent },
   { path: 'treatments', component: TreatmentViewComponent },
   { path: 'treatments/:treatmentId', component: TreatmentViewComponent },
+  { path: 'symptoms', component: SymptomViewComponent },
   { path: 'earParts', component: EarRegionViewComponent },
   { path: 'bodyParts', component: BodyPartViewComponent },
 ];

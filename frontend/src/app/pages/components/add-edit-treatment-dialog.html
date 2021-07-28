@@ -55,12 +55,13 @@
                             <input
                                 #primaryPointInput
                                 placeholder="New primary point..."
+                                [formControl]="primaryPointsCtrl"
                                 [matAutocomplete]="autoPrimaryPoints"
                                 [matChipInputFor]="primaryPointsChips"
                                 (matChipInputTokenEnd)="addPrimaryPoint($event)">
                           </mat-chip-list>
                           <mat-autocomplete #autoPrimaryPoints="matAutocomplete" (optionSelected)="selectedPrimaryPoint($event)">
-                            <mat-option *ngFor="let point of allPoints" [value]="point">
+                            <mat-option *ngFor="let point of filteredPrimaryPoints | async" [value]="point.name">
                                 {{point.name}}
                             </mat-option>
                           </mat-autocomplete>
@@ -83,12 +84,13 @@
                             <input
                                 #supplementalPointInput
                                 placeholder="New supplemental point..."
+                                [formControl]="supplementalPointsCtrl"
                                 [matAutocomplete]="autoSupplementalPoints"
                                 [matChipInputFor]="supplementalPointsChips"
                                 (matChipInputTokenEnd)="addSupplementalPoint($event)">
                           </mat-chip-list>
                           <mat-autocomplete #autoSupplementalPoints="matAutocomplete" (optionSelected)="selectedSupplementalPoint($event)">
-                            <mat-option *ngFor="let point of allPoints" [value]="point">
+                            <mat-option *ngFor="let point of filteredSupplementalPoints | async" [value]="point.name">
                                 {{point.name}}
                             </mat-option>
                           </mat-autocomplete>

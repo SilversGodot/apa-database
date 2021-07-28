@@ -19,7 +19,8 @@ export class SymptomController {
     public addSymptom (req: Request, res: Response){
         (new Symptom({
             'name': req.body.name,
-            'treatments': req.body.treatments
+            'treatments': req.body.treatments,
+            'description': req.body.description
         })).save()
             .then((symptom: any) => res.send(symptom))
             .catch((error: any) => console.log(error));        

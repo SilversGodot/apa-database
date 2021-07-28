@@ -10,6 +10,7 @@ import { AppComponent } from './app.component';
 import { LoginComponent } from './pages/login-view/login.component';
 import { PointViewComponent } from './pages/point-view/point-view.component';
 import { TreatmentViewComponent } from './pages/treatment-view/treatment-view.component';
+import { SymptomViewComponent } from './pages/symptom-view/symptom-view.component';
 import { EarRegionViewComponent } from './pages/earRegion-view/earRegion-view.component';
 import { BodyPartViewComponent } from './pages/bodyPart-view/bodyPart-view.component';
 import { PointDialog } from './pages/components/point-dialog';
@@ -29,6 +30,7 @@ import { SvgComponent } from './pages/components/ear.component';
     LoginComponent,
     PointViewComponent,
     TreatmentViewComponent,
+    SymptomViewComponent,
     EarRegionViewComponent,
     BodyPartViewComponent,
     PointDialog,

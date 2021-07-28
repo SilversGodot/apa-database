@@ -1,4 +1,3 @@
-import * as mongoose from 'mongoose';
 import { Request, Response } from 'express';
 import EarZone from '../database/models/earZone';
 
@@ -24,8 +23,7 @@ export class EarZoneController {
         else {
             try {
                 earZone = new EarZone({
-                    'name': req.body.name,
-                    'alias': []
+                    'name': req.body.name
                 });
     
                 await earZone.save();
@@ -37,8 +35,6 @@ export class EarZoneController {
     }
 
     public updateEarZone (req: Request, res: Response) {
-        console.log(req.body);
-
         EarZone.findOneAndUpdate({_id: req.params.earZoneId}, {$set: req.body})
         .then((earZone: any) => res.send(earZone))
         .catch((error: any) => console.log(error));

@@ -8,23 +8,25 @@
         </button>
     
         <table mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8">
-            <!-- Code Column -->
-            <ng-container matColumnDef="code">
-                <th mat-header-cell *matHeaderCellDef mat-sort-header class="headerCell">Code</th>
-                <td mat-cell *matCellDef="let point">
-                    <a routerLink="/points/{{point._id}}">{{point.code}}</a>
-                </td>
-            </ng-container>
-        
             <!-- Name Column -->
             <ng-container matColumnDef="name">
                 <th mat-header-cell *matHeaderCellDef class="headerCell">Name</th>
-                <td mat-cell *matCellDef="let point"> {{point.name}} </td>
+                <td mat-cell *matCellDef="let point">
+                    <a routerLink="/points/{{point._id}}">{{point.name}}</a>               
+                </td>
             </ng-container>
-        
+
+            <!-- Ear Zone Column -->
+            <ng-container matColumnDef="earZones">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header class="headerCell">Chinese Ear Zones</th>
+                <td mat-cell *matCellDef="let point">
+                    {{point.earZone}}
+                </td>
+            </ng-container>
+              
             <!-- Part Of Ear Column -->
             <ng-container matColumnDef="partOfEar">
-                <th mat-header-cell *matHeaderCellDef class="headerCell">Region of Ear</th>
+                <th mat-header-cell *matHeaderCellDef class="headerCell">European Ear Zones</th>
                 <td mat-cell *matCellDef="let point">{{point.partOfEar.name}}</td>
             </ng-container>
         

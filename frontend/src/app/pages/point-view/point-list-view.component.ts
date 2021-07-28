@@ -1,5 +1,4 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { animate, state, style, transition, trigger } from '@angular/animations';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
@@ -19,18 +18,10 @@ import { DeleteDialog } from '../components/delete-dialog';
 @Component({
   selector: 'point-list-view',
   templateUrl: './point-list-view.component.html',
-  styleUrls: ['./point-list-view.component.css'],
-  animations: [
-    trigger('detailExpand', [
-      state('collapsed', style({height: '0px', minHeight: '0'})),
-      state('expanded', style({height: '*'})),
-      transition('expanded <=> collapsed', animate('225ms cubic-bezier(0.4, 0.0, 0.2, 1)')),
-    ]),
-  ]
+  styleUrls: ['./point-list-view.component.css']
 })
 export class PointListViewComponent implements OnInit {
   columnsToDisplay = ['code', 'name', 'partOfEar', 'bodyParts', 'action'];
-  expandedPoint: Point | null;
   dataSource: MatTableDataSource<Point>;
   earRegions: EarRegion[] = [];
   bodyParts: BodyPart[] = [];

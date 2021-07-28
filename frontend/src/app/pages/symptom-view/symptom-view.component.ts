@@ -69,17 +69,22 @@ export class SymptomViewComponent implements OnInit {
 			newSymptom._id = result._id;
 			newSymptom.name = result._id;
 			newSymptom.description = result.description;
+			newSymptom.treatments = [];
 			
-			for (let treatmentId of result.treatments) {
-
+			for (let treatment of result.treatments) {
+				newSymptom.treatments.push(treatment._id);
 			}
 
 			console.log(newSymptom);
 			if (action==='Add') {
-
+				this.symptomService.createSymptom(newSymptom)
+					.subscribe(() => this.symptomService.getSymptoms()
+				  		.subscribe((symptom: Symptom[]) => this.dataSource.data = symptom));
 			}
 			else if (action==='Edit') {
-
+				this.symptomService.updateSymptom(newSymptom)
+					.subscribe(() => this.symptomService.getSymptoms()
+				  		.subscribe((symptom: Symptom[]) => this.dataSource.data = symptom));
 			}
 		});
     }

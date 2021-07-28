@@ -21,7 +21,7 @@ import { DeleteDialog } from '../components/delete-dialog';
   styleUrls: ['./point-list-view.component.css']
 })
 export class PointListViewComponent implements OnInit {
-  columnsToDisplay = ['code', 'name', 'partOfEar', 'bodyParts', 'action'];
+  columnsToDisplay = ['name', 'earZones', 'partOfEar', 'bodyParts', 'action'];
   dataSource: MatTableDataSource<Point>;
   earRegions: EarRegion[] = [];
   bodyParts: BodyPart[] = [];
@@ -49,6 +49,8 @@ export class PointListViewComponent implements OnInit {
 
         //// sorting data must after get the datasource or sorting won't work. 
         this.dataSource.sort = this.sort;
+
+        console.log(points);
       });
 
     this.earRegionService.getEarRegions()

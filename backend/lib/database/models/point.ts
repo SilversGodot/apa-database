@@ -9,11 +9,11 @@ const PointSchema = new mongoose.Schema({
         unique: true,
         required: true
     },
-    alias: [{
-        name: { type: String, default: ""},
-        lang: { type: String, default: "en"}
+    alias: [{ 
+        type: String, 
+        default: "" 
     }],
-    earZones: [{
+    chineseEarZones: [{
         type : mongoose.Schema.Types.ObjectId,
         ref: 'EarZone',
         validate: {
@@ -22,6 +22,16 @@ const PointSchema = new mongoose.Schema({
             },
             message: `Ear zone doesn't exist`
         }       
+    }],
+    europeanEarZones: [{
+        type : mongoose.Schema.Types.ObjectId,
+        ref: 'EarZone',
+        validate: {
+            validator: async function(v: any) {
+                return await FKHelper(mongoose.model("EarZone"), v)
+            },
+            message: `Ear zone doesn't exist`
+        }        
     }],
     earAnatomy: {
         type: String,
@@ -65,20 +75,6 @@ const PointSchema = new mongoose.Schema({
     videoLink: {
         type: String,
         default: ""
-    }
-});
-
-// add bodyPart if point has any new bodyParts
-PointSchema.post('save', async function(doc) {
-    if (doc) {
-        doc.bodyParts.forEach(function(n: string) {
-            BodyPart.findOneAndUpdate(
-                { name: n }, 
-                { name: n }, 
-                { upsert: true }, function(err, doc) {
-                    if(err) console.log("Add bodyPart Error: ", err);
-                });
-        }); 
     }
 });
 

@@ -6,9 +6,9 @@ import { MatPaginator } from '@angular/material/paginator';
 
 import Treatment from 'src/app/models/treatment';
 import { TreatmentService } from '@app/services/treatment.service';
-import { AddTreatmentDialog } from '../components/add-treatment-dialog';
-import { EditTreatmentDialog } from '../components/edit-treatment-dialog';
+import { TreatmentDialog } from '../components/treatment-dialog';
 import { DeleteDialog } from '../components/delete-dialog';
+import { stringify } from '@angular/compiler/src/util';
 
 @Component({
   selector: 'app-treatment-view',
@@ -45,12 +45,18 @@ export class TreatmentViewComponent implements OnInit {
       });
   }
 
-  openAddNewDialog() {
-    const dialogRef = this.dialog.open(AddTreatmentDialog, {
-      width: '450px',
+  openTreatmentDialog(treatment: Treatment, action: string) {
+    if (!treatment) {
+      treatment = new Treatment();
+      action = 'Add';
+    }
+
+    const dialogRef = this.dialog.open(TreatmentDialog, {
+      width: '500px',
       disableClose: true,
-      data: {
-        title: "Add Treatment"
+      data: { 
+        action: action, 
+        treatment: treatment
       }
     });
 
@@ -60,10 +66,12 @@ export class TreatmentViewComponent implements OnInit {
       }
 
       let newTreatment: any = {
+        _id: '',
         name: '',
         description: '',
         points: []
       };
+      newTreatment._id = result._id;
       newTreatment.name = result.name;
       newTreatment.description = result.description;
       for (let point of result.masterPoints) {
@@ -96,66 +104,16 @@ export class TreatmentViewComponent implements OnInit {
 
       console.log(newTreatment);
       
-      this.treatmentService.createTreatment(newTreatment)
+      if (action==='Add') {
+        this.treatmentService.createTreatment(newTreatment)
         .subscribe(() => this.treatmentService.getTreatments()
           .subscribe((treatments: Treatment[]) => this.dataSource.data = treatments));
-    });
-  }
-
-  openEditDialog(treatment: Treatment) {
-    const dialogRef = this.dialog.open(EditTreatmentDialog, {
-      width: '500px',
-      disableClose: true,
-      data: { 
-        title: "Edit Treatment",
-        treatment: treatment,
       }
-    });
-
-    dialogRef.afterClosed().subscribe(result => {
-      if(!result) {
-        return;
-      }
-      let editedTreatment: any = {
-        _id: '',
-        name: '',
-        description: '',
-        points: []
-      };
-      editedTreatment._id = result._id;
-      editedTreatment.name = result.name;
-      editedTreatment.description = result.description;
-      for (let point of result.masterPoints) {
-        let newTreatmentPoint: any = {
-          point: '',
-          type: ''
-        };
-        newTreatmentPoint.point = point._id;
-        newTreatmentPoint.type = 'master';
-        editedTreatment.points.push(newTreatmentPoint);
-      }
-      for (let point of result.primaryPoints) {
-        let newTreatmentPoint: any = {
-          point: '',
-          type: ''
-        };
-        newTreatmentPoint.point = point._id;
-        newTreatmentPoint.type = 'primary';
-        editedTreatment.points.push(newTreatmentPoint);
-      }
-      for (let point of result.supplementalPoints) {
-        let newTreatmentPoint: any = {
-          point: '',
-          type: ''
-        };
-        newTreatmentPoint.point = point._id;
-        newTreatmentPoint.type = 'supplemental';
-        editedTreatment.points.push(newTreatmentPoint);
-      }
-      
-      this.treatmentService.updateTreatment(editedTreatment)
+      else if (action==='Edit') {
+        this.treatmentService.updateTreatment(newTreatment)
         .subscribe(() => this.treatmentService.getTreatments()
           .subscribe((treatments: Treatment[]) => this.dataSource.data = treatments));
+      }
     });
   }
 

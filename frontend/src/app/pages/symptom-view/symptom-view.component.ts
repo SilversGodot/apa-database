@@ -43,10 +43,12 @@ export class SymptomViewComponent implements OnInit {
         });
     }
 
-    openAddNewDialog() {}
+    openSymptomDialog(symptom: Symptom) {
 
-    openEditDialog(treatment: Treatment) {}
+    }
 
-    openDeleteDialog(treatment: Treatment) {}
+    openDeleteDialog(symptom: Symptom) {
+
+    }
 
 }

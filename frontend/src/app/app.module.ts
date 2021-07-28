@@ -12,12 +12,12 @@ import { PointListViewComponent } from './pages/point-view/point-list-view.compo
 import { PointViewComponent } from './pages/point-view/point-view.component';
 import { TreatmentViewComponent } from './pages/treatment-view/treatment-view.component';
 import { SymptomViewComponent } from './pages/symptom-view/symptom-view.component';
-import { EarRegionViewComponent } from './pages/earRegion-view/earRegion-view.component';
+import { EarZoneViewComponent } from './pages/earZone-view/earZone-view.component';
 import { BodyPartViewComponent } from './pages/bodyPart-view/bodyPart-view.component';
 import { PointDialog } from './pages/components/point-dialog';
 import { AddTreatmentDialog } from './pages/components/add-treatment-dialog';
 import { EditTreatmentDialog } from './pages/components/edit-treatment-dialog';
-import { AddEarRegionDialog } from './pages/components/earRegion-dialog';
+import { AddEarZoneDialog } from './pages/components/earZone-dialog';
 import { AddBodyPartDialog } from './pages/components/bodyPart-dialog';
 import { DeleteDialog } from './pages/components/delete-dialog';
 
@@ -31,12 +31,12 @@ import { SvgComponent } from './pages/components/ear.component';
     PointViewComponent,
     TreatmentViewComponent,
     SymptomViewComponent,
-    EarRegionViewComponent,
+    EarZoneViewComponent,
     BodyPartViewComponent,
     PointDialog,
     AddTreatmentDialog,
     EditTreatmentDialog,
-    AddEarRegionDialog,
+    AddEarZoneDialog,
     AddBodyPartDialog,
     DeleteDialog,
     SvgComponent

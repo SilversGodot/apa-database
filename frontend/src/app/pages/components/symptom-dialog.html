@@ -13,27 +13,27 @@
             <tr>
                 <td>
                     <mat-form-field class="full-width" appearance="fill">
-                        <mat-label>Master Points</mat-label>
-                        <mat-chip-list #masterPointsChips formControlName="masterPoints">
+                        <mat-label>Treatments</mat-label>
+                        <mat-chip-list #treatmentChips formControlName="treatments">
                             <mat-chip
-                                *ngFor="let point of masterPoints"
+                                *ngFor="let treatment of treatments"
                                 [selectable]="selectable"
                                 [removable]="removable"
-                                (removed)="removeMasterPoint(point)">
-                                {{point.name}}
+                                (removed)="removeTreatment(treatment)">
+                                {{treatment.name}}
                                 <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
                             </mat-chip>
                             <input
-                                #masterPointInput
-                                placeholder="Add master point..."
-                                [formControl]="masterPointsCtrl"
-                                [matAutocomplete]="autoMasterPoints"
-                                [matChipInputFor]="masterPointsChips"
-                                (matChipInputTokenEnd)="addMasterPoint($event)">
+                                #treatmentInput
+                                placeholder="Add treatment..."
+                                [formControl]="treatmentCtrl"
+                                [matAutocomplete]="autoTreatments"
+                                [matChipInputFor]="treatmentChips"
+                                (matChipInputTokenEnd)="addTreatment($event)">
                           </mat-chip-list>
-                          <mat-autocomplete #autoMasterPoints="matAutocomplete" (optionSelected)="selectedMasterPoint($event)">
-                            <mat-option *ngFor="let point of filteredMasterPoints | async" [value]="point.name">
-                                {{point.name}}
+                          <mat-autocomplete #autoTreatments="matAutocomplete" (optionSelected)="selectedTreatment($event)">
+                            <mat-option *ngFor="let treatment of filteredTreatments | async" [value]="treatment.name">
+                                {{treatment.name}}
                             </mat-option>
                           </mat-autocomplete>
                     </mat-form-field>
@@ -52,6 +52,6 @@
     
     <mat-dialog-actions>
         <button mat-button mat-dialog-close>Cancel</button>
-        <button mat-raised-button [disabled]="!treatmentForm.valid" (click)="submit()">Submit</button>
+        <button mat-raised-button [disabled]="!symptomForm.valid" (click)="submit()">Submit</button>
     </mat-dialog-actions>
 </form>

@@ -11,11 +11,11 @@ import { SymptomService } from '@app/services/symptom.service';
 import { SymptomDialog } from '../components/symptom-dialog';
 
 @Component({
-    selector: 'app-symptom-view',
-    templateUrl: './symptom-view.component.html',
-    styleUrls: ['./symptom-view.component.css'],
-    animations: [
-      trigger('detailExpand', [
+        selector: 'app-symptom-view',
+        templateUrl: './symptom-view.component.html',
+        styleUrls: ['./symptom-view.component.css'],
+        animations: [
+            trigger('detailExpand', [
         state('collapsed', style({height: '0px', minHeight: '0'})),
         state('expanded', style({height: '*'})),
         transition('expanded <=> collapsed', animate('225ms cubic-bezier(0.4, 0.0, 0.2, 1)')),
@@ -46,19 +46,42 @@ export class SymptomViewComponent implements OnInit {
     }
 
     openSymptomDialog(symptom: Symptom, action: string) {
-      if (!symptom) {
-        let newSymptom = new Symptom();
-        action = 'Add';
-      }
+      	if (!symptom) {
+        	symptom = new Symptom();
+        	action = 'Add';
+      	}
 
-      const dialogRef = this.dialog.open(SymptomDialog, {
-        width: '500px',
-        disableClose: true,
-        data: { 
-          action: action, 
-          symptom: symptom
-        }
-      });
+      	const dialogRef = this.dialog.open(SymptomDialog, {
+        	width: '500px',
+        	disableClose: true,
+        	data: { 
+          		action: action, 
+          		symptom: symptom
+        	}
+	  	});
+		
+		dialogRef.afterClosed().subscribe(result => {
+			if (!result) {
+				return;
+			}
+
+			let newSymptom = new Symptom();
+			newSymptom._id = result._id;
+			newSymptom.name = result._id;
+			newSymptom.description = result.description;
+			
+			for (let treatmentId of result.treatments) {
+
+			}
+
+			console.log(newSymptom);
+			if (action==='Add') {
+
+			}
+			else if (action==='Edit') {
+
+			}
+		});
     }
 
     openDeleteDialog(symptom: Symptom) {

@@ -2,6 +2,7 @@ import { Request, Response } from "express";
 import { PointController } from "../controllers/pointController";
 import { TreatmentController } from "../controllers/treatmentController";
 import { SymptomController } from "../controllers/symptomController";
+import { EarZoneController } from "../controllers/earZoneController";
 import { EarRegionController } from "../controllers/earRegionController";
 import { BodyPartController } from "../controllers/bodyPartController";
 
@@ -9,6 +10,7 @@ export class Routes {
     public pointController: PointController = new PointController();
     public treatmentController: TreatmentController = new TreatmentController();
     public symptomController: SymptomController = new SymptomController();
+    public earZoneController: EarZoneController = new EarZoneController();
     public earRegionController: EarRegionController = new EarRegionController();
     public bodyPartController: BodyPartController = new BodyPartController();
 
@@ -59,6 +61,16 @@ export class Routes {
         .get(this.earRegionController.getEarRegion)
         .patch(this.earRegionController.updateEarRegion)
         .delete(this.earRegionController.deleteEarRegion);
+
+        /* EarZone CRUD */
+        app.route('/earzone')
+            .get(this.earZoneController.getEarZones)
+            .post(this.earZoneController.addEarZone);
+                    
+        app.route('/earzone/:earZoneId')
+            .get(this.earZoneController.getEarZones)
+            .patch(this.earZoneController.updateEarZone)
+            .delete(this.earZoneController.deleteEarZone);
 
         /* Body Part CRUD */
         app.route('/bodypart')

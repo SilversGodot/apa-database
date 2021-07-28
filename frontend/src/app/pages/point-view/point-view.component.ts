@@ -38,6 +38,8 @@ export class PointViewComponent implements OnInit {
             .subscribe((point: Point) => {
             this.point = point;
             this.isLoading = false;
+
+            console.log(point);
         });
 
         this.earRegionService.getEarRegions()

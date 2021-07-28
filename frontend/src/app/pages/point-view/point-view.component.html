@@ -1,6 +1,8 @@
 <div *ngIf="point">
     <h2>{{point.name | uppercase}} Details</h2>
-    <div><span>id: </span>{{point.code}}</div>
+    <div>
+      <span>Code: </span>{{point.code}}
+    </div>
     <div>
       <label for="point-name">Name: </label>
       <input id="point-name" [(ngModel)]="point.name" placeholder="Point name"/>

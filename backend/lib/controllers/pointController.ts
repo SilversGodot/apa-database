@@ -4,7 +4,7 @@ import Point from '../database/models/point';
 export class PointController {
     public getPoints (req: Request, res: Response){
         Point.find({})
-        .populate('partOfEar')
+        .populate('earZones')
         .exec((err: any, points: any) => {
             res.send(points);
             if (err) console.log(err)
@@ -13,7 +13,7 @@ export class PointController {
 
     public getPoint (req: Request, res: Response){
         Point.findOne({_id: req.params.pointId})
-        .populate('partOfEar')
+        .populate('earZones')
         .exec((err: any, point: any) => {
             res.send(point);
             if (err) console.log(err)
@@ -28,10 +28,10 @@ export class PointController {
         } else {
             point = new Point({
                 'name': req.body.name,
-                'code': req.body.code,
+                'alias': req.body.alias,
+                'earZones': req.body.earZones,
+                'earAnatomy': req.body.earAnatomy,
                 'function': req.body.function,
-                'partOfEar': req.body.partOfEar,
-                'bodyParts': req.body.bodyParts,
                 'videoLink': req.body.videoLink,
                 'location': req.body.location
             });

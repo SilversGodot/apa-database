@@ -9,9 +9,23 @@ const PointSchema = new mongoose.Schema({
         unique: true,
         required: true
     },
-    code: {
+    alias: [{
+        name: { type: String, default: ""},
+        lang: { type: String, default: "en"}
+    }],
+    earZones: [{
+        type : mongoose.Schema.Types.ObjectId,
+        ref: 'EarZone',
+        validate: {
+            validator: async function(v: any) {
+                return await FKHelper(mongoose.model("EarZone"), v)
+            },
+            message: `Ear zone doesn't exist`
+        }       
+    }],
+    earAnatomy: {
         type: String,
-        default: ""
+        default: ""      
     },
     function: {
         type: String,
@@ -30,6 +44,10 @@ const PointSchema = new mongoose.Schema({
             type: Number,
             default: 0
         }
+    },
+    code: {
+        type: String,
+        default: ""
     },
     partOfEar: {
         type : mongoose.Schema.Types.ObjectId,

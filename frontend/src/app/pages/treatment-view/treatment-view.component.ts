@@ -8,7 +8,6 @@ import Treatment from 'src/app/models/treatment';
 import { TreatmentService } from '@app/services/treatment.service';
 import { TreatmentDialog } from '../components/treatment-dialog';
 import { DeleteDialog } from '../components/delete-dialog';
-import { stringify } from '@angular/compiler/src/util';
 
 @Component({
   selector: 'app-treatment-view',

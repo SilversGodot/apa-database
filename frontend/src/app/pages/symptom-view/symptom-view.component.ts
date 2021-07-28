@@ -8,6 +8,8 @@ import Treatment from 'src/app/models/treatment';
 import Symptom from 'src/app/models/symptom';
 import { SymptomService } from '@app/services/symptom.service';
 
+import { SymptomDialog } from '../components/symptom-dialog';
+
 @Component({
     selector: 'app-symptom-view',
     templateUrl: './symptom-view.component.html',
@@ -43,8 +45,20 @@ export class SymptomViewComponent implements OnInit {
         });
     }
 
-    openSymptomDialog(symptom: Symptom) {
+    openSymptomDialog(symptom: Symptom, action: string) {
+      if (!symptom) {
+        let newSymptom = new Symptom();
+        action = 'Add';
+      }
 
+      const dialogRef = this.dialog.open(SymptomDialog, {
+        width: '500px',
+        disableClose: true,
+        data: { 
+          action: action, 
+          symptom: symptom
+        }
+      });
     }
 
     openDeleteDialog(symptom: Symptom) {

@@ -16,6 +16,7 @@ import { EarRegionViewComponent } from './pages/earRegion-view/earRegion-view.co
 import { BodyPartViewComponent } from './pages/bodyPart-view/bodyPart-view.component';
 import { PointDialog } from './pages/components/point-dialog';
 import { TreatmentDialog } from './pages/components/treatment-dialog';
+import { SymptomDialog } from './pages/components/symptom-dialog';
 import { AddEarRegionDialog } from './pages/components/earRegion-dialog';
 import { AddBodyPartDialog } from './pages/components/bodyPart-dialog';
 import { DeleteDialog } from './pages/components/delete-dialog';
@@ -34,6 +35,7 @@ import { SvgComponent } from './pages/components/ear.component';
     BodyPartViewComponent,
     PointDialog,
     TreatmentDialog,
+    SymptomDialog,
     AddEarRegionDialog,
     AddBodyPartDialog,
     DeleteDialog,

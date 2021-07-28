@@ -82,7 +82,7 @@ export class TreatmentDialog {
             this.masterPointsCtrl.disable();
             this.primaryPointsCtrl.disable();
             this.supplementalPointsCtrl.disable();
-          }
+        }
 
         this.pointService.getPoints()
             .subscribe((points: Point[]) => this.allPoints = points);

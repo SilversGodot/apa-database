@@ -2,7 +2,7 @@
     <mat-toolbar color="primary">
         Symptoms
     </mat-toolbar>
-    <button mat-icon-button color="primary" (click)="openSymptomDialog(null)">
+    <button mat-icon-button color="primary" (click)="openSymptomDialog(null, 'Add')">
         <mat-icon>post_add</mat-icon> Add New
     </button>
 
@@ -20,11 +20,14 @@
         <ng-container matColumnDef="action">
             <th mat-header-cell *matHeaderCellDef class="headerCell">Action</th>
             <td mat-cell *matCellDef="let symptom" class="action-link">
-                <button mat-icon-button color="primary" title="Edit" (click)="openSymptomDialog(symptom)">
-                  <mat-icon>edit_note</mat-icon>
+                <button mat-icon-button color="primary" title="View" (click)="openSymptomDialog(symptom, 'View')">
+                    <mat-icon>visibility</mat-icon>
+                </button> 
+                <button mat-icon-button color="primary" title="Edit" (click)="openSymptomDialog(symptom, 'Edit')">
+                    <mat-icon>edit_note</mat-icon>
                 </button>                 
                 <button mat-icon-button color="warn" title="Delete" (click)="openDeleteDialog(symptom)">
-                  <mat-icon>clear</mat-icon>
+                    <mat-icon>clear</mat-icon>
                 </button>
             </td>
         </ng-container>

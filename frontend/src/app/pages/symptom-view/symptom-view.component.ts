@@ -23,7 +23,7 @@ import { SymptomService } from '@app/services/symptom.service';
 
 export class SymptomViewComponent implements OnInit {
     dataSource: MatTableDataSource<Symptom>;
-    columnsToDisplay = ['name', 'action'];
+    columnsToDisplay = ['name', 'description', 'action'];
     expandedSymptom: Symptom | null;
 
     @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;

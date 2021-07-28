@@ -13,7 +13,7 @@ export class PointController {
 
     public getPoint (req: Request, res: Response){
         Point.findOne({_id: req.params.pointId})
-        .populate('partOfEar bodyParts')
+        .populate('partOfEar')
         .exec((err: any, point: any) => {
             res.send(point);
             if (err) console.log(err)

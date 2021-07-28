@@ -12,7 +12,7 @@
             <td mat-cell *matCellDef="let symptom" (click)="expandedSymptom = expandedSymptom === symptom ? null : symptom">{{symptom.name}}</td>
         </ng-container>
 
-        <ng-container matColumnDef="points">
+        <ng-container matColumnDef="description">
             <th mat-header-cell *matHeaderCellDef class="headerCell">Description</th>
             <td mat-cell *matCellDef="let symptom" (click)="expandedSymptom = expandedSymptom === symptom ? null : symptom">{{ symptom.description }}</td>
         </ng-container>

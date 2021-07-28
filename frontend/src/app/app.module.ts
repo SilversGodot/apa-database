@@ -17,7 +17,7 @@ import { BodyPartViewComponent } from './pages/bodyPart-view/bodyPart-view.compo
 import { PointDialog } from './pages/components/point-dialog';
 import { TreatmentDialog } from './pages/components/treatment-dialog';
 import { SymptomDialog } from './pages/components/symptom-dialog';
-import { AddEarRegionDialog } from './pages/components/earRegion-dialog';
+import { AddEarZoneDialog } from './pages/components/earZone-dialog';
 import { AddBodyPartDialog } from './pages/components/bodyPart-dialog';
 import { DeleteDialog } from './pages/components/delete-dialog';
 
@@ -34,15 +34,9 @@ import { SvgComponent } from './pages/components/ear.component';
     EarZoneViewComponent,
     BodyPartViewComponent,
     PointDialog,
-<<<<<<< HEAD
     TreatmentDialog,
     SymptomDialog,
-    AddEarRegionDialog,
-=======
-    AddTreatmentDialog,
-    EditTreatmentDialog,
     AddEarZoneDialog,
->>>>>>> 0126288d3cecf69c11e57482717c55ef301ef0f0
     AddBodyPartDialog,
     DeleteDialog,
     SvgComponent

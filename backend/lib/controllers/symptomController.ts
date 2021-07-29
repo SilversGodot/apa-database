@@ -6,6 +6,7 @@ import Treatment from '../database/models/treatment';
 export class SymptomController {
     public getSymptoms (req: Request, res: Response){
         Symptom.find({})
+        .populate('treatments')
         .then((symptoms: any[]) => res.send(symptoms))
         .catch((error: any) => console.log(error));
     }

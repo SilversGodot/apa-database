@@ -1,12 +1,18 @@
+import EarZone from '@app/models/earZone';
+
 export default class Point {
     _id?: string;
     name: string;
-    code: string;
+    alias: string[];
     earAnatomy: string;
     function: string;
+    chineseEarZones: EarZone[];
+    europeanEarZones: EarZone[];
+    videoLink?: string;
+    location: { x: number, y: number, z: number };
+
+    /// to-do: remove
+    code: string;
     partOfEar: string;
     bodyParts: string[];
-    videoLink?: string;
-    location: object;
-    earZones: object[];
 }

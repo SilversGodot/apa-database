@@ -21,7 +21,7 @@ import { DeleteDialog } from '../components/delete-dialog';
   styleUrls: ['./point-list-view.component.css']
 })
 export class PointListViewComponent implements OnInit {
-  columnsToDisplay = ['name', 'earZones', 'partOfEar', 'bodyParts', 'action'];
+  columnsToDisplay = ['name', 'alias', 'chineseEarZones', 'europeanEarZones', 'action'];
   dataSource: MatTableDataSource<Point>;
   earRegions: EarRegion[] = [];
   bodyParts: BodyPart[] = [];
@@ -64,7 +64,7 @@ export class PointListViewComponent implements OnInit {
     if(!point)
     {
       point = new Point();
-      point.location = { "x": 1, "y": 1 };
+      point.location = { "x": 1, "y": 1, "z": 0 };
       point.bodyParts = [];
       point.partOfEar = '';
       action = "Add";

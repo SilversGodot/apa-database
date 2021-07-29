@@ -1,11 +1,86 @@
-<div *ngIf="point">
-    <h2>{{point.name | uppercase}} Details</h2>
-    <div>
-      <span>Code: </span>{{point.code}}
-    </div>
-    <div>
-      <label for="point-name">Name: </label>
-      <input id="point-name" [(ngModel)]="point.name" placeholder="Point name"/>
-    </div>
-    <button (click)="goBack()">go back</button>
-  </div>
+<form *ngIf="point" [formGroup]="pointForm">
+  <button mat-button (click)="goBack()">
+    <mat-icon>arrow_back</mat-icon>
+    Back to Acupoint list
+  </button>
+
+  <mat-card>
+    <mat-card-title>
+      <h2>Acupoint Detail</h2>
+    </mat-card-title>
+    <mat-card-content>
+      <div class="row">
+        <div class="column">
+          <mat-form-field appearance="fill">
+            <mat-label>Name</mat-label>
+            <input matInput formControlName="name" placeholder="Enter name" required>
+          </mat-form-field>
+    
+          <mat-form-field appearance="fill">
+            <mat-label>Alias</mat-label>
+            <input matInput formControlName="alias" placeholder="Enter other names">
+          </mat-form-field>
+
+          <mat-form-field appearance="fill">                  
+            <mat-label>Ear Zones - Chinese</mat-label>
+            <mat-chip-list #earZoneList aria-label="Ear Zone selection" formControlName="earZonesChinese" > 
+              <mat-chip *ngFor="let earZone of point.chineseEarZones" 
+                [selectable]="selectable"
+                [removable]="!readOnlyMode" 
+                (removed)="remove(earZone)">
+                {{earZone.name}}
+                <mat-icon matChipRemove *ngIf="!readOnlyMode">cancel</mat-icon>
+              </mat-chip>
+              <input
+                #earZonesChineseInput
+                [formControl]="earZone_zh"
+                [matAutocomplete]="auto"
+                [matChipInputFor]="earZoneList"
+                [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+                (matChipInputTokenEnd)="add($event)">
+            </mat-chip-list>
+            <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn" (optionSelected)="selected($event)">
+              <mat-option *ngFor="let earZone of filteredEarZones | async" [value]="earZone">
+                {{earZone.name}}
+              </mat-option>
+            </mat-autocomplete>                                             
+          </mat-form-field>
+    
+          <mat-form-field appearance="fill">
+            <mat-label>Ear Zones - European</mat-label>
+            <input matInput placeholder="Enter ear zone" required>
+          </mat-form-field>
+
+          <mat-form-field appearance="fill">
+            <mat-label>X-coord</mat-label>
+            <input matInput formControlName="xCoord">
+          </mat-form-field> 
+
+          <mat-form-field appearance="fill">
+            <mat-label>Y-coord</mat-label>
+            <input matInput formControlName="yCoord">
+          </mat-form-field>                               
+        </div>
+        <div class="column">
+          <ear-svg [coord]="{x: point.location.x, y: point.location.y, z: 0 }">
+          </ear-svg>          
+        </div>
+      </div>
+
+      <mat-form-field class="full-width" appearance="fill">
+        <mat-label>Anatomy</mat-label>
+        <textarea matInput cdkTextareaAutosize rows="3" formControlName="earAnatomy" placeholder="Enter point function"></textarea>
+      </mat-form-field>      
+
+      <mat-form-field class="full-width" appearance="fill">
+        <mat-label>Function</mat-label>
+        <textarea matInput cdkTextareaAutosize rows="3" formControlName="function" placeholder="Enter point function"></textarea>
+      </mat-form-field>
+
+      <mat-form-field class="example-full-width" class="full-width" appearance="fill">
+        <mat-label>Video Link</mat-label>
+        <input matInput placeholder="Enter video link" formControlName="videoLink">
+      </mat-form-field>          
+    </mat-card-content>
+  </mat-card>
+</form>

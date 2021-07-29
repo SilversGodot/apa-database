@@ -16,24 +16,28 @@
                 </td>
             </ng-container>
 
-            <!-- Ear Zone Column -->
-            <ng-container matColumnDef="earZones">
+            <!-- Alias Column -->
+            <ng-container matColumnDef="alias">
+                <th mat-header-cell *matHeaderCellDef class="headerCell">Alias</th>
+                <td mat-cell *matCellDef="let point">
+                    {{point.alias.join(', ')}}
+                </td>
+            </ng-container>            
+
+            <!-- Chinese Ear Zones Column -->
+            <ng-container matColumnDef="chineseEarZones">
                 <th mat-header-cell *matHeaderCellDef mat-sort-header class="headerCell">Chinese Ear Zones</th>
                 <td mat-cell *matCellDef="let point">
-                    {{point.earZone}}
+                    {{point.chineseEarZones}}
                 </td>
             </ng-container>
               
-            <!-- Part Of Ear Column -->
-            <ng-container matColumnDef="partOfEar">
+            <!-- European Ear Zones Column -->
+            <ng-container matColumnDef="europeanEarZones">
                 <th mat-header-cell *matHeaderCellDef class="headerCell">European Ear Zones</th>
-                <td mat-cell *matCellDef="let point">{{point.partOfEar.name}}</td>
-            </ng-container>
-        
-            <!-- Body Parts Column -->
-            <ng-container matColumnDef="bodyParts">
-                <th mat-header-cell *matHeaderCellDef class="headerCell">Body Parts</th>
-                <td mat-cell *matCellDef="let point"> {{point.bodyParts.join(', ')}} </td>
+                <td mat-cell *matCellDef="let point">
+                    {{point.europeanEarZones}}
+                </td>
             </ng-container>
     
             <!-- Action Column -->

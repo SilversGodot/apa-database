@@ -6,7 +6,7 @@ import { Component, ElementRef, AfterViewInit, Output, EventEmitter, Input } fro
   styleUrls: ['./ear.component.css']
 })
 export class SvgComponent implements AfterViewInit {
-    @Input() coord = {"x": 1, "y": 1};
+    @Input() coord = { "x": 1, "y": 1, "z": 0 };
     @Input() action: string;
     @Output() coordChanged: EventEmitter<object> = new EventEmitter();
     selectedElement = null;

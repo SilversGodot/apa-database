@@ -41,13 +41,13 @@
                 </div>           
             </td>
             <td>
-                <ear-svg [coord]="{x: data.point.location.x, y: data.point.location.y }" [action]="data.action" (coordChanged)="coordChangedHandler($event)">
+                <ear-svg [coord]="{x: data.point.location.x, y: data.point.location.y, z:data.point.location.z }" [action]="data.action" (coordChanged)="coordChangedHandler($event)">
                 </ear-svg>
             </td>
         </tr>
     </table>
 
-    <mat-form-field class="full-width" appearance="fill">                  
+    <mat-form-field class="full-width" appearance="fill">
         <mat-label>Body part</mat-label>
         <mat-chip-list #bodyPartList aria-label="Body Part selection" formControlName="bodyParts" > 
           <mat-chip *ngFor="let bodyPart of data.point.bodyParts" 
@@ -69,7 +69,7 @@
             <mat-option *ngFor="let bodyPart of filteredBodyParts | async" [value]="bodyPart.name">
               {{bodyPart.name}}
             </mat-option>
-          </mat-autocomplete>                                    
+        </mat-autocomplete>                                    
     </mat-form-field>
 
     <mat-form-field class="full-width" appearance="fill">

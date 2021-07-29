@@ -9,6 +9,7 @@ import Symptom from 'src/app/models/symptom';
 import { SymptomService } from '@app/services/symptom.service';
 
 import { SymptomDialog } from '../components/symptom-dialog';
+import { DeleteDialog } from '../components/delete-dialog';
 
 @Component({
         selector: 'app-symptom-view',
@@ -49,7 +50,7 @@ export class SymptomViewComponent implements OnInit {
       	if (!symptom) {
         	symptom = new Symptom();
         	action = 'Add';
-      	}
+		}
 
       	const dialogRef = this.dialog.open(SymptomDialog, {
         	width: '500px',
@@ -90,7 +91,21 @@ export class SymptomViewComponent implements OnInit {
     }
 
     openDeleteDialog(symptom: Symptom) {
-
+		const dialogRef = this.dialog.open(DeleteDialog, {
+			width: '400px',
+			disableClose: true,
+			data: {
+			  "type": "Treatment",
+			  "object": ` ${symptom.name}`
+			}
+		  });
+		
+		dialogRef.afterClosed().subscribe(result => {
+			if(result) {
+			  this.symptomService.deleteSymptom(symptom._id)
+			  .subscribe(() => this.symptomService.getSymptoms()
+				.subscribe((symptoms: Symptom[]) => this.dataSource.data = symptoms));
+			}
+		});
     }
-
 }

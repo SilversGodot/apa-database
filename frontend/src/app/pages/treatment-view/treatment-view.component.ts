@@ -127,8 +127,6 @@ export class TreatmentViewComponent implements OnInit {
     });
 
     dialogRef.afterClosed().subscribe(result => {
-      console.log(`Delete Point Dialog result: ${result}`);
-
       if(result) {
         this.treatmentService.deleteTreatment(treatment._id)
         .subscribe(() => this.treatmentService.getTreatments()

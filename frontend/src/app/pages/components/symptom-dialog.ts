@@ -52,6 +52,10 @@ export class SymptomDialog {
             this.treatmentCtrl.disable();
         }
 
+        for (let treatment of this.data.symptom.treatments) {
+            this.treatments.push(treatment);
+        }
+
         this.treatmentService.getTreatments()
             .subscribe((points: Treatment[]) => this.allTreatments = points);
     }
@@ -72,6 +76,7 @@ export class SymptomDialog {
             const result = this.allTreatments.filter(treatment => treatment.name===value);
             if (result[0]) {
                 this.treatments.push(result[0]);
+                console.log(result[0]);
             }
         }
     

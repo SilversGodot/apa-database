@@ -25,7 +25,6 @@
                             </mat-chip>
                             <input
                                 #masterPointInput
-                                placeholder="Add master point..."
                                 [formControl]="masterPointsCtrl"
                                 [matAutocomplete]="autoMasterPoints"
                                 [matChipInputFor]="masterPointsChips"
@@ -54,7 +53,6 @@
                             </mat-chip>
                             <input
                                 #primaryPointInput
-                                placeholder="New primary point..."
                                 [formControl]="primaryPointsCtrl"
                                 [matAutocomplete]="autoPrimaryPoints"
                                 [matChipInputFor]="primaryPointsChips"
@@ -83,7 +81,6 @@
                             </mat-chip>
                             <input
                                 #supplementalPointInput
-                                placeholder="New supplemental point..."
                                 [formControl]="supplementalPointsCtrl"
                                 [matAutocomplete]="autoSupplementalPoints"
                                 [matChipInputFor]="supplementalPointsChips"
@@ -110,6 +107,6 @@
     
     <mat-dialog-actions>
         <button mat-button mat-dialog-close>Cancel</button>
-        <button mat-raised-button [disabled]="!treatmentForm.valid" (click)="submit()">Submit</button>
+        <button mat-raised-button *ngIf="data.action != 'View'" [disabled]="!treatmentForm.valid" (click)="submit()">Submit</button>
     </mat-dialog-actions>
 </form>

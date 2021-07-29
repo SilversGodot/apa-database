@@ -25,7 +25,6 @@
                             </mat-chip>
                             <input
                                 #treatmentInput
-                                placeholder="Add treatment..."
                                 [formControl]="treatmentCtrl"
                                 [matAutocomplete]="autoTreatments"
                                 [matChipInputFor]="treatmentChips"
@@ -52,6 +51,6 @@
     
     <mat-dialog-actions>
         <button mat-button mat-dialog-close>Cancel</button>
-        <button mat-raised-button [disabled]="!symptomForm.valid" (click)="submit()">Submit</button>
+        <button mat-raised-button *ngIf="data.action != 'View'" [disabled]="!symptomForm.valid" (click)="submit()">Submit</button>
     </mat-dialog-actions>
 </form>

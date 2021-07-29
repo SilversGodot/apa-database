@@ -67,7 +67,7 @@ export class SymptomViewComponent implements OnInit {
 
 			let newSymptom = new Symptom();
 			newSymptom._id = result._id;
-			newSymptom.name = result._id;
+			newSymptom.name = result.name;
 			newSymptom.description = result.description;
 			newSymptom.treatments = [];
 			

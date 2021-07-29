@@ -1,8 +1,13 @@
 import * as mongoose from 'mongoose';
 import FKHelper from '../helpers/foreign-key-helper';
 
-const symptomTreatmentSchema = new mongoose.Schema({
-    treatment: {
+const SymptomSchema = new mongoose.Schema({
+    name: {
+        type: String,
+        unique: true,
+        required: true
+    },
+    treatments: [{
         type : mongoose.Schema.Types.ObjectId,
         ref: 'Treatment',
         validate: {
@@ -11,20 +16,6 @@ const symptomTreatmentSchema = new mongoose.Schema({
             },
             message: `Treatment doesn't exist`
         }
-    }
-},
-{ 
-    _id : false 
-});
-
-const SymptomSchema = new mongoose.Schema({
-    name: {
-        type: String,
-        unique: true,
-        required: true
-    },
-    treatments: [{
-        type : symptomTreatmentSchema
     }],
     description: {
         type: String

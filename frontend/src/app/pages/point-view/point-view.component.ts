@@ -84,6 +84,36 @@ export class PointViewComponent implements OnInit {
         }
     }
 
+    submit() {
+        if (this.pointForm.invalid) {
+            console.log("Invalid submit");
+            return;
+        }
+    
+        //// enable x, y coordination input control before submit form. 
+        //// disabled input controls are ingnored.
+        this.pointForm.controls['xCoord'].enable();
+        this.pointForm.controls['yCoord'].enable();
+        this.earZone_zh.setValue(this.point.chineseEarZones);
+
+        this.point.name = this.pointForm.controls['name'].value;
+        this.point.function = this.pointForm.controls["function"].value;
+        this.point.videoLink = this.pointForm.controls["videoLink"].value;
+        this.point.location = { 
+            "x": this.pointForm.controls['xCoord'].value, 
+            "y": this.pointForm.controls['yCoord'].value, 
+            "z": 0
+        };
+        this.point.chineseEarZones = this.earZone_zh.value;
+  
+        this.pointService.updatePoint(this.point)
+        .subscribe(() => this.pointService.getPoint(this.point._id)
+        .subscribe((point: Point) => {
+            this.point = point;
+            console.log(point);
+        }));
+    }
+
     goBack(): void {
         this.location.back();
     }    

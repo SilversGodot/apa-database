@@ -12,7 +12,9 @@ export default class Point {
     location: { x: number, y: number, z: number };
 
     /// to-do: remove
-    code: string;
+    code: number;
     partOfEar: string;
     bodyParts: string[];
+
+    chineseEarZoneString: string;
 }

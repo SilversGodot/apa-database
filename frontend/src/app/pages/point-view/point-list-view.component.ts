@@ -21,7 +21,7 @@ import { DeleteDialog } from '../components/delete-dialog';
   styleUrls: ['./point-list-view.component.css']
 })
 export class PointListViewComponent implements OnInit {
-  columnsToDisplay = ['name', 'alias', 'chineseEarZones', 'europeanEarZones', 'action'];
+  columnsToDisplay = ['code', 'name', 'alias', 'chineseEarZones', 'europeanEarZones', 'action'];
   dataSource: MatTableDataSource<Point>;
   earRegions: EarRegion[] = [];
   bodyParts: BodyPart[] = [];
@@ -43,15 +43,31 @@ export class PointListViewComponent implements OnInit {
     
     this.pointService.getPoints()
       .subscribe((points: Point[]) => {
-        this.dataSource.data = points;
-        this.dataSource.paginator = this.paginator;
-        this.isLoading = false;
+        points.forEach(point => {
+          point.chineseEarZoneString = point.chineseEarZones
+            .map(function(zone) { 
+              return zone.name 
+            }).join(" - ");
+        });
+
+        this.dataSource.data = points.sort((n1,n2) => {
+          if (Number(n1.code) > Number(n2.code)) {
+            return 1;
+          }
+      
+          if (Number(n1.code) < Number(n2.code)) {
+            return -1;
+          }
+      
+          return 0;
+        });
+
+      this.dataSource.paginator = this.paginator;
+      this.isLoading = false;
 
         //// sorting data must after get the datasource or sorting won't work. 
-        this.dataSource.sort = this.sort;
-
-        console.log(points);
-      });
+      this.dataSource.sort = this.sort;
+    });
 
     this.earRegionService.getEarRegions()
       .subscribe((earRegions: EarRegion[]) => this.earRegions = earRegions);
@@ -71,7 +87,7 @@ export class PointListViewComponent implements OnInit {
     }
 
     const dialogRef = this.dialog.open(PointDialog, {
-      width: '500px',
+      width: '550px',
       disableClose: true,
       data: { 
         action: action, 
@@ -87,11 +103,12 @@ export class PointListViewComponent implements OnInit {
       }
 
       if(action === "Add"){
+        console.log(result);
+        
         let newpoint: Point = new Point;
         newpoint.code = result.code;
         newpoint.name = result.name;
-        newpoint.partOfEar = result.partOfEar;
-        newpoint.bodyParts = result.bodyParts;
+        newpoint.earAnatomy = result.earAnatomy;
         newpoint.function = result.function;
         newpoint.videoLink = result.videoLink;
         newpoint.location = {"x": result.xCoord, "y": result.yCoord, "z": 0};
@@ -102,8 +119,6 @@ export class PointListViewComponent implements OnInit {
       } else if(action === "Edit") {
         point.code = result.code;
         point.name = result.name;
-        point.partOfEar = result.partOfEar;
-        point.bodyParts = result.bodyParts;
         point.function = result.function;
         point.videoLink = result.videoLink;
         point.location = {"x": result.xCoord, "y": result.yCoord, "z": 0};

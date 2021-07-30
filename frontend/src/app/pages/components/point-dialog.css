@@ -9,3 +9,25 @@
 .mat-chip.mat-standard-chip.mat-chip-disabled {
   opacity: 0.8;
 }
+
+.column {
+  float: left;
+  width: 50%;
+}
+
+.column-left {
+  float: left;
+  width: 60%;
+}
+
+.column-right {
+  float: left;
+  width: 40%;
+}
+
+/* Clear floats after the columns */
+.row:after {
+  content: "";
+  display: table;
+  clear: both;
+}

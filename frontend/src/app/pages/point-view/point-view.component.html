@@ -10,7 +10,12 @@
     </mat-card-title>
     <mat-card-content>
       <div class="row">
-        <div class="column">
+        <div class="column-left">
+          <mat-form-field appearance="fill">
+            <mat-label>Code</mat-label>
+            <input matInput formControlName="code" placeholder="Enter code" required>
+          </mat-form-field>
+
           <mat-form-field appearance="fill">
             <mat-label>Name</mat-label>
             <input matInput formControlName="name" placeholder="Enter name" required>
@@ -18,28 +23,40 @@
     
           <mat-form-field appearance="fill">
             <mat-label>Alias</mat-label>
-            <input matInput formControlName="alias" placeholder="Enter other names">
+            <mat-chip-list #aliasChips formControlName="alias" > 
+              <mat-chip *ngFor="let aliasName of point.alias"
+                [removable]="!readOnlyMode">
+                {{aliasName}}
+                <mat-icon matChipRemove *ngIf="!readOnlyMode">cancel</mat-icon>
+              </mat-chip>
+              <input
+                #aliasInput
+                [formControl]="earZone_zh"
+                [matChipInputFor]="aliasChips"
+                [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+                (matChipInputTokenEnd)="add($event)">
+            </mat-chip-list>            
           </mat-form-field>
 
           <mat-form-field appearance="fill">                  
-            <mat-label>Ear Zones - Chinese</mat-label>
-            <mat-chip-list #earZoneList aria-label="Ear Zone selection" formControlName="earZonesChinese" > 
+            <mat-label>Ear Zone - Chinese</mat-label>
+            <mat-chip-list #earZoneChineseChips formControlName="earZonesChinese" > 
               <mat-chip *ngFor="let earZone of point.chineseEarZones" 
                 [selectable]="selectable"
                 [removable]="!readOnlyMode" 
-                (removed)="remove(earZone)">
+                (removed)="chineseEarZoneRemove(earZone)">
                 {{earZone.name}}
                 <mat-icon matChipRemove *ngIf="!readOnlyMode">cancel</mat-icon>
               </mat-chip>
               <input
                 #earZonesChineseInput
                 [formControl]="earZone_zh"
-                [matAutocomplete]="auto"
-                [matChipInputFor]="earZoneList"
+                [matAutocomplete]="autoEarZone_zh"
+                [matChipInputFor]="earZoneChineseChips"
                 [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
                 (matChipInputTokenEnd)="add($event)">
             </mat-chip-list>
-            <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn" (optionSelected)="selected($event)">
+            <mat-autocomplete #autoEarZone_zh="matAutocomplete" [displayWith]="displayEarZoneName" (optionSelected)="chineseEarZoneSelected($event)">
               <mat-option *ngFor="let earZone of filteredEarZones | async" [value]="earZone">
                 {{earZone.name}}
               </mat-option>
@@ -47,23 +64,49 @@
           </mat-form-field>
     
           <mat-form-field appearance="fill">
-            <mat-label>Ear Zones - European</mat-label>
-            <input matInput placeholder="Enter ear zone" required>
-          </mat-form-field>
+            <mat-label>Ear Zone - European</mat-label>
+            <mat-chip-list #earZoneEuropeanChips formControlName="earZonesEuropean" > 
+              <mat-chip *ngFor="let earZone of point.europeanEarZones" 
+                [selectable]="selectable"
+                [removable]="!readOnlyMode" 
+                (removed)="europeanEarZoneRemove(earZone)">
+                {{earZone.name}}
+                <mat-icon matChipRemove *ngIf="!readOnlyMode">cancel</mat-icon>
+              </mat-chip>
+              <input
+                #earZonesEuropeanInput
+                [formControl]="earZone_eu"
+                [matAutocomplete]="autoEarZone_eu"
+                [matChipInputFor]="earZoneEuropeanChips"
+                [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+                (matChipInputTokenEnd)="add($event)">
+            </mat-chip-list>
+            <mat-autocomplete #autoEarZone_eu="matAutocomplete" [displayWith]="displayEarZoneName" (optionSelected)="europeanEarZoneSelected($event)">
+              <mat-option *ngFor="let earZone of filteredEarZones | async" [value]="earZone">
+                {{earZone.name}}
+              </mat-option>
+            </mat-autocomplete>  
+          </mat-form-field>                              
+        </div>
+        <div class="column-right">
+          <ear-svg [coord]="{x: point.location.x, y: point.location.y, z: 0 }" (coordChanged)="coordChangedHandler($event)">
+          </ear-svg>          
+        </div>
+      </div>
 
-          <mat-form-field appearance="fill">
+      <div class="row">
+        <div class="column">
+          <mat-form-field>
             <mat-label>X-coord</mat-label>
             <input matInput formControlName="xCoord">
           </mat-form-field> 
+        </div>
 
-          <mat-form-field appearance="fill">
+        <div class="column">
+          <mat-form-field>
             <mat-label>Y-coord</mat-label>
             <input matInput formControlName="yCoord">
-          </mat-form-field>                               
-        </div>
-        <div class="column">
-          <ear-svg [coord]="{x: point.location.x, y: point.location.y, z: 0 }">
-          </ear-svg>          
+          </mat-form-field> 
         </div>
       </div>
 

@@ -38,11 +38,10 @@ export class PointDialog implements OnInit {
     this.pointForm = this.formBuilder.group({
       code: [{ value: this.data.point.code, disabled: this.readOnlyMode }, Validators.required],
       name: [{ value: this.data.point.name, disabled: this.readOnlyMode }, Validators.required],
-      partOfEar: { value: this.data.point.partOfEar._id, disabled: this.readOnlyMode },
       function: { value: this.data.point.function, disabled: this.readOnlyMode },
+      earAnatomy: { value: this.data.point.earAnatomy, disabled: this.readOnlyMode },
       videoLink: { value: this.data.point.videoLink, disabled: this.readOnlyMode },
-      //// set bodyParts as FormControl to be accessed by MatChip event
-      bodyParts: this.bodyPartsCtrl,       
+
       //// disable x, y corrdination inputs, we get the values from ear.component
       xCoord: { value: this.data.point.location.x, disabled: true },
       yCoord: { value: this.data.point.location.y, disabled: true }

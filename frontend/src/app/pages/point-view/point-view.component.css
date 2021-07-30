@@ -18,6 +18,16 @@ mat-form-field {
   width: 50%;
 }
 
+.column-left {
+  float: left;
+  width: 55%;
+}
+
+.column-right {
+  float: left;
+  width: 45%;
+}
+
 /* Clear floats after the columns */
 .row:after {
   content: "";

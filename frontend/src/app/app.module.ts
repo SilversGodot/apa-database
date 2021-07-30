@@ -13,12 +13,10 @@ import { PointViewComponent } from './pages/point-view/point-view.component';
 import { TreatmentViewComponent } from './pages/treatment-view/treatment-view.component';
 import { SymptomViewComponent } from './pages/symptom-view/symptom-view.component';
 import { EarZoneViewComponent } from './pages/earZone-view/earZone-view.component';
-import { BodyPartViewComponent } from './pages/bodyPart-view/bodyPart-view.component';
 import { PointDialog } from './pages/components/point-dialog';
 import { TreatmentDialog } from './pages/components/treatment-dialog';
 import { SymptomDialog } from './pages/components/symptom-dialog';
 import { AddEarZoneDialog } from './pages/components/earZone-dialog';
-import { AddBodyPartDialog } from './pages/components/bodyPart-dialog';
 import { DeleteDialog } from './pages/components/delete-dialog';
 
 import { SvgComponent } from './pages/components/ear.component';
@@ -32,12 +30,10 @@ import { SvgComponent } from './pages/components/ear.component';
     TreatmentViewComponent,
     SymptomViewComponent,
     EarZoneViewComponent,
-    BodyPartViewComponent,
     PointDialog,
     TreatmentDialog,
     SymptomDialog,
     AddEarZoneDialog,
-    AddBodyPartDialog,
     DeleteDialog,
     SvgComponent
   ],

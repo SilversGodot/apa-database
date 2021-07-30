@@ -4,6 +4,7 @@ import EarZone from '../database/models/earZone';
 export class EarZoneController {
     public getEarZones (req: Request, res: Response) {
         EarZone.find({})
+        .sort('name')
         .then((earZones: any[]) => res.send(earZones))
         .catch((error: any) => console.log(error));
     }

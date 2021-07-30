@@ -1,7 +1,6 @@
 import * as mongoose from 'mongoose';
 import FKHelper from '../helpers/foreign-key-helper';
 import Treatment from './treatment';
-import BodyPart from './bodyPart';
 
 const PointSchema = new mongoose.Schema({
     name: {
@@ -59,22 +58,9 @@ const PointSchema = new mongoose.Schema({
         type: String,
         default: ""
     },
-    partOfEar: {
-        type : mongoose.Schema.Types.ObjectId,
-        ref: 'EarRegion',
-        validate: {
-            validator: async function(v: any) {
-                return await FKHelper(mongoose.model("EarRegion"), v)
-            },
-            message: `Ear region doesn't exist`
-        }
-    },
-    bodyParts : [{
-        type : String
-    }],
     videoLink: {
-        type: String,
-        default: ""
+        type: Number,
+        default: 0
     }
 });
 

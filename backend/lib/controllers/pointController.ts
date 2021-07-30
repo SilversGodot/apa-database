@@ -4,8 +4,10 @@ import Point from '../database/models/point';
 export class PointController {
     public getPoints (req: Request, res: Response){
         Point.find({})
+        .sort('code')
         .populate('chineseEarZones europeanEarZones')
         .exec((err: any, points: any) => {
+
             res.send(points);
             if (err) console.log(err)
         });
@@ -27,6 +29,7 @@ export class PointController {
             return res.status(400).send({ 'message': 'Point already exisits!' });
         } else {
             point = new Point({
+                'code': req.body.code,
                 'name': req.body.name,
                 'alias': req.body.alias,
                 'chineseEarZones': req.body.chineseEarZones,

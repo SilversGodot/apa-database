@@ -64,8 +64,18 @@
     </mat-form-field> 
 </mat-dialog-content>
 
-<mat-dialog-actions>
-    <button mat-button mat-dialog-close>{{data.action != 'View' ? 'Cancel' : 'Close'}}</button>
-    <button mat-raised-button *ngIf="data.action != 'View'" [disabled]="!pointForm.valid" (click)="submit()">{{data.action === 'Add' ? 'Submit' : 'Update'}}</button>
+<mat-dialog-actions layout="row">        
+    <div class="row">
+        <div class="column">
+            <a mat-raised-button href="/points/{{data.point._id}}">
+                <mat-icon>open_in_new</mat-icon>
+                Go to Point page
+            </a>
+        </div>
+        <div class="column text-right">
+            <button mat-button mat-dialog-close>{{data.action != 'View' ? 'Cancel' : 'Close'}}</button>
+            <button mat-raised-button *ngIf="data.action != 'View'" [disabled]="!pointForm.valid" (click)="submit()">{{data.action === 'Add' ? 'Submit' : 'Update'}}</button>
+        </div>
+      </div>
 </mat-dialog-actions>
 </form> 

@@ -93,6 +93,6 @@
             <button mat-button mat-dialog-close>{{data.action != 'View' ? 'Cancel' : 'Close'}}</button>
             <button mat-raised-button *ngIf="data.action != 'View'" [disabled]="!pointForm.valid" (click)="submit()">{{data.action === 'Add' ? 'Submit' : 'Update'}}</button>
         </div>
-      </div>
+    </div>
 </mat-dialog-actions>
 </form> 

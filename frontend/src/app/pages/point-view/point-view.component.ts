@@ -167,6 +167,7 @@ export class PointViewComponent implements OnInit {
     }
 
     displayEarZoneName(earZone: EarZone): string {
+        console.log(earZone, "X: ");
         return earZone && earZone.name ? earZone.name : '';
     }
 

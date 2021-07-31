@@ -68,11 +68,10 @@ export class PointDialog implements OnInit {
   }
 
   chineseEarZoneRemove(earZone: EarZone): void {
-    // const index = this.point.chineseEarZones.indexOf(earZone);
-    
-    //if (index >= 0) {
-    //    this.point.chineseEarZones.splice(index, 1);
-    // }
+    const index = this.data.point.chineseEarZones.indexOf(earZone);
+    if (index >= 0) {
+        this.data.point.chineseEarZones.splice(index, 1);
+    }
 }
 
   displayEarZoneName(earZone: EarZone): string {
@@ -113,7 +112,6 @@ export class PointDialog implements OnInit {
 
   private _filter(name: string): EarZone[] {
     const filterValue = name.toLowerCase();
- 
-     return this.earZones.filter(earZone => earZone.name.toLowerCase().includes(filterValue));
+    return this.earZones.filter(earZone => earZone.name.toLowerCase().includes(filterValue));
  }
 }

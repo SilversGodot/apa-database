@@ -73,7 +73,7 @@ export class PointListViewComponent implements OnInit {
     }
 
     const dialogRef = this.dialog.open(PointDialog, {
-      width: '550px',
+      width: '600px',
       disableClose: true,
       data: { 
         action: action, 

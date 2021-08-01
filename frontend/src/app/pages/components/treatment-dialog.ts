@@ -1,12 +1,14 @@
 import { Component, Inject, ElementRef, ViewChild } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from "@angular/material/dialog";
-import {MatAutocompleteSelectedEvent} from '@angular/material/autocomplete';
-import {Observable} from 'rxjs';
-import {MatChipInputEvent} from '@angular/material/chips';
-import {map, startWith} from 'rxjs/operators';
+import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
+import { MatChipInputEvent } from '@angular/material/chips';
+
+import { Observable } from 'rxjs';
+import { map, startWith } from 'rxjs/operators';
 
 import Point from 'src/app/models/point';
+import { TreatmentPoint, pointType } from '@app/models/treatmentPoint';
 import { PointService } from '@app/services/point.service';
 
 @Component({
@@ -18,9 +20,9 @@ export class TreatmentDialog {
     removable = true;
     treatmentForm: FormGroup;
     allPoints: Point[] = [];
-    masterPoints: Point[] = [];
-    primaryPoints: Point[] = [];
-    supplementalPoints: Point[] = [];
+    masterPoints: TreatmentPoint[] = [];
+    primaryPoints: TreatmentPoint[] = [];
+    supplementalPoints: TreatmentPoint[] = [];
 
     filteredMasterPoints: Observable<Point[]>;
     filteredPrimaryPoints: Observable<Point[]>;
@@ -40,7 +42,7 @@ export class TreatmentDialog {
         private formBuilder: FormBuilder,
         private dialogRef: MatDialogRef<TreatmentDialog>,
         private pointService: PointService,
-        @Inject(MAT_DIALOG_DATA) public data: any
+        @Inject(MAT_DIALOG_DATA) public data: any,
     ) {
         this.filteredMasterPoints = this.masterPointsCtrl.valueChanges.pipe(
             startWith(null as string),
@@ -66,17 +68,13 @@ export class TreatmentDialog {
             supplementalPoints: this.supplementalPointsCtrl
         });
 
-        for (let treatmentPoint in this.data.treatment.points) {
-            if(this.data.treatment.points[treatmentPoint].type==='master') {
-                this.masterPoints.push(this.data.treatment.points[treatmentPoint].point);
-            }
-            if(this.data.treatment.points[treatmentPoint].type==='primary') {
-                this.primaryPoints.push(this.data.treatment.points[treatmentPoint].point);
-            }
-            if(this.data.treatment.points[treatmentPoint].type==='supplemental') {
-                this.supplementalPoints.push(this.data.treatment.points[treatmentPoint].point);
-            }
-        };
+        console.log("Pass Treatment:", this.data.treatment);
+        console.log("Pass Action:", this.data.action);
+
+
+        this.masterPoints = this.data.treatment.points.filter(point => point.type == 'master');
+        this.primaryPoints = this.data.treatment.points.filter(point => point.type == 'primary');
+        this.supplementalPoints = this.data.treatment.points.filter(point => point.type == 'supplemental');
 
         if (this.readOnlyMode) {
             this.masterPointsCtrl.disable();
@@ -92,9 +90,9 @@ export class TreatmentDialog {
         const value = (event.value || '').trim();
     
         if (value) {
-            const result = this.allPoints.filter(point => point.name===value);
+            const result = this.allPoints.find(point => point.name === value);
             if (result[0]) {
-                this.masterPoints.push(result[0]);
+                this.masterPoints.push(new TreatmentPoint(result, pointType.master));
             }
         }
     
@@ -102,7 +100,7 @@ export class TreatmentDialog {
         event.chipInput!.clear();
     }
 
-    removeMasterPoint(value: Point): void {
+    removeMasterPoint(value: TreatmentPoint): void {
         const index = this.masterPoints.indexOf(value);
     
         if (index >= 0) {
@@ -111,18 +109,18 @@ export class TreatmentDialog {
     }
 
     selectedMasterPoint(event: MatAutocompleteSelectedEvent): void {
-        const result = this.allPoints.filter(point => point.name===event.option.viewValue);
-        this.masterPoints.push(result[0]);
-        this.masterPointInput.nativeElement.value='';
+        const result = this.allPoints.find(point => point.name === event.option.viewValue);
+        this.masterPoints.push(new TreatmentPoint(result, pointType.master));
+        this.masterPointInput.nativeElement.value = ' ';
     }
 
     addPrimaryPoint(event: MatChipInputEvent): void {
         const value = (event.value || '').trim();
     
         if (value) {
-            const result = this.allPoints.filter(point => point.name===value);
+            const result = this.allPoints.find(point => point.name===value);
             if (result[0]) {
-                this.primaryPoints.push(result[0]);
+                this.primaryPoints.push(new TreatmentPoint(result, pointType.primary));
             }
         }
     
@@ -130,7 +128,7 @@ export class TreatmentDialog {
         event.chipInput!.clear();
     }
 
-    removePrimaryPoint(value: Point): void {
+    removePrimaryPoint(value: TreatmentPoint): void {
         const index = this.primaryPoints.indexOf(value);
     
         if (index >= 0) {
@@ -139,18 +137,18 @@ export class TreatmentDialog {
     }
 
     selectedPrimaryPoint(event: MatAutocompleteSelectedEvent): void {
-        const result = this.allPoints.filter(point => point.name===event.option.viewValue);
-        this.primaryPoints.push(result[0]);
-        this.primaryPointInput.nativeElement.value='';
+        const result = this.allPoints.find(point => point.name === event.option.viewValue);
+        this.primaryPoints.push(new TreatmentPoint(result, pointType.primary));
+        this.primaryPointInput.nativeElement.value=' ';
     }
 
     addSupplementalPoint(event: MatChipInputEvent): void {
         const value = (event.value || '').trim();
     
         if (value) {
-            const result = this.allPoints.filter(point => point.name===value);
+            const result = this.allPoints.find(point => point.name===value);
             if (result[0]) {
-                this.supplementalPoints.push(result[0]);
+                this.supplementalPoints.push(new TreatmentPoint(result, pointType.supplemental));
             }
         }
     
@@ -158,7 +156,7 @@ export class TreatmentDialog {
         event.chipInput!.clear();
     }
 
-    removeSupplementalPoint(value: Point): void {
+    removeSupplementalPoint(value: TreatmentPoint): void {
         const index = this.supplementalPoints.indexOf(value);
     
         if (index >= 0) {
@@ -167,9 +165,9 @@ export class TreatmentDialog {
     }
 
     selectedSupplementalPoint(event: MatAutocompleteSelectedEvent): void {
-        const result = this.allPoints.filter(point => point.name===event.option.viewValue);
-        this.supplementalPoints.push(result[0]);
-        this.supplementalPointInput.nativeElement.value='';
+        const result = this.allPoints.find(point => point.name===event.option.viewValue);
+        this.supplementalPoints.push(new TreatmentPoint(result, pointType.supplemental));
+        this.supplementalPointInput.nativeElement.value=' ';
     }
 
     closeDialog() {
@@ -184,6 +182,7 @@ export class TreatmentDialog {
         this.masterPointsCtrl.setValue(this.masterPoints);
         this.primaryPointsCtrl.setValue(this.primaryPoints);
         this.supplementalPointsCtrl.setValue(this.supplementalPoints);
+
         this.dialogRef.close(this.treatmentForm.value);
     }
 

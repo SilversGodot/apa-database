@@ -36,8 +36,9 @@ export class TreatmentController {
                     'points': req.body.points,
                     'description': req.body.description
                 });
-    
+
                 await treatment.save();
+                console.log(treatment);
                 res.send(treatment);
             } catch (err) {
                 res.send({"Error": err});

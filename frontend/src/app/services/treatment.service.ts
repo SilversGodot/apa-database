@@ -10,7 +10,7 @@ export class TreatmentService {
   constructor(private webService: WebService) { }
 
   getTreatments() {
-    return this.webService.get('treatments');
+    return this.webService.get<Treatment[]>('treatments');
   }
 
   createTreatment(treatment: Treatment) {

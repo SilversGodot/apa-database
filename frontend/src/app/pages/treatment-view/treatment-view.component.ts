@@ -5,6 +5,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
 
 import Treatment from 'src/app/models/treatment';
+import { TreatmentPoint, pointType } from '@app/models/treatmentPoint';
 import { TreatmentService } from '@app/services/treatment.service';
 import { TreatmentDialog } from '../components/treatment-dialog';
 import { DeleteDialog } from '../components/delete-dialog';
@@ -41,12 +42,15 @@ export class TreatmentViewComponent implements OnInit {
       .subscribe((treatments: Treatment[]) => {
         this.dataSource.data = treatments;
         this.dataSource.paginator = this.paginator;
+
+        console.log(treatments);
       });
   }
 
   openTreatmentDialog(treatment: Treatment, action: string) {
     if (!treatment) {
       treatment = new Treatment();
+      treatment.points = [];
       action = 'Add';
     }
 
@@ -64,54 +68,24 @@ export class TreatmentViewComponent implements OnInit {
         return;
       }
 
-      let newTreatment: any = {
-        _id: '',
-        name: '',
-        description: '',
-        points: []
-      };
-      newTreatment._id = result._id;
-      newTreatment.name = result.name;
-      newTreatment.description = result.description;
-      for (let point of result.masterPoints) {
-        let newTreatmentPoint: any = {
-          point: '',
-          type: ''
-        };
-        newTreatmentPoint.point = point._id;
-        newTreatmentPoint.type = 'master';
-        newTreatment.points.push(newTreatmentPoint);
-      }
-      for (let point of result.primaryPoints) {
-        let newTreatmentPoint: any = {
-          point: '',
-          type: ''
-        };
-        newTreatmentPoint.point = point._id;
-        newTreatmentPoint.type = 'primary';
-        newTreatment.points.push(newTreatmentPoint);
-      }
-      for (let point of result.supplementalPoints) {
-        let newTreatmentPoint: any = {
-          point: '',
-          type: ''
-        };
-        newTreatmentPoint.point = point._id;
-        newTreatmentPoint.type = 'supplemental';
-        newTreatment.points.push(newTreatmentPoint);
-      }
+      treatment.name = result.name;
+      treatment.description = result.description;
+      treatment.points = this.getTreatPointsWithType(result.masterPoints, 'master')
+        .concat(this.getTreatPointsWithType(result.primaryPoints, 'primary'))
+        .concat(this.getTreatPointsWithType(result.supplementalPoints, 'supplemental'));
 
-      console.log(newTreatment);
-      
-      if (action==='Add') {
-        this.treatmentService.createTreatment(newTreatment)
+      if (action === 'Add') {        
+        this.treatmentService.createTreatment(treatment)
         .subscribe(() => this.treatmentService.getTreatments()
           .subscribe((treatments: Treatment[]) => this.dataSource.data = treatments));
-      }
-      else if (action==='Edit') {
-        this.treatmentService.updateTreatment(newTreatment)
-        .subscribe(() => this.treatmentService.getTreatments()
-          .subscribe((treatments: Treatment[]) => this.dataSource.data = treatments));
+      } else if (action === 'Edit') {
+        console.log(treatment);
+        this.treatmentService.updateTreatment(treatment)
+        .subscribe(
+          () => this.treatmentService.getTreatments()
+            .subscribe((treatments: Treatment[]) => this.dataSource.data = treatments),
+          error => console.log('Update fail: ', error)
+        );
       }
     });
   }
@@ -133,5 +107,15 @@ export class TreatmentViewComponent implements OnInit {
           .subscribe((treatments: Treatment[]) => this.dataSource.data = treatments));
       }
     });
+  }
+
+  private getTreatPointsWithType(points: any, type: string): TreatmentPoint[] {
+    const treatmentPoints = [];
+
+    for (let point of points) {
+      treatmentPoints.push({point: point.point._id, type: type});
+    }
+
+    return treatmentPoints;
   }
 }

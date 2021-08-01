@@ -1,4 +1,4 @@
-import TreatmentPoint from './treatmentPoint';
+import { TreatmentPoint } from './treatmentPoint';
 
 export default class Treatment {
     _id?: string;

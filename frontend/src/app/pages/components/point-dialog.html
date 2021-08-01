@@ -2,52 +2,69 @@
 <h2 mat-dialog-title>{{data.action}} Point</h2>
 <mat-dialog-content class="mat-typography">
     <div class="row">
-        <div class="column">
-            <mat-form-field appearance="fill">
+        <div class="column-left">
+            <mat-form-field class="full-width" appearance="fill">
                 <mat-label>Code</mat-label>
                 <input matInput placeholder="Enter point code" formControlName="code" required>
             </mat-form-field>
 
-            <mat-form-field appearance="fill">
+            <mat-form-field class="full-width" appearance="fill">
                 <mat-label>Name</mat-label>
                 <input matInput placeholder="Enter point name" formControlName="name" required>
             </mat-form-field>
 
-            <mat-form-field appearance="fill">
+            <mat-form-field class="full-width" appearance="fill">
                 <mat-label>Alias</mat-label>
                 <input matInput placeholder="Enter point other names">
             </mat-form-field>
+            
+            <mat-form-field class="full-width" appearance="fill">                  
+                <mat-label>Ear Zone - Chinese</mat-label>
+                <mat-chip-list #earZoneChineseChips formControlName="earZonesChinese" > 
+                  <mat-chip *ngFor="let earZone of data.point.chineseEarZones" 
+                    [selectable]="selectable"
+                    [removable]="!readOnlyMode" 
+                    (removed)="chineseEarZoneRemove(earZone)">
+                    {{earZone.name}}
+                    <mat-icon matChipRemove *ngIf="!readOnlyMode">cancel</mat-icon>
+                  </mat-chip>
+                  <input
+                    #earZonesChineseInput
+                    [formControl]="earZone_zh"
+                    [matAutocomplete]="autoEarZone_zh"
+                    [matChipInputFor]="earZoneChineseChips"
+                    [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+                    (matChipInputTokenEnd)="add($event)">
+                </mat-chip-list>
+                <mat-autocomplete #autoEarZone_zh="matAutocomplete" [displayWith]="displayEarZoneName" (optionSelected)="chineseEarZoneSelected($event)">
+                  <mat-option *ngFor="let earZone of filteredEarZones | async" [value]="earZone">
+                    {{earZone.name}}
+                  </mat-option>
+                </mat-autocomplete>                                             
+            </mat-form-field>            
 
-            <mat-form-field appearance="fill">
-                <mat-label>Ear Zones - Chinese</mat-label>
-                <input matInput>
-            </mat-form-field>
-
-            <mat-form-field appearance="fill">
+            <mat-form-field class="full-width" appearance="fill">
                 <mat-label>Ear Zones - European</mat-label>
                 <input matInput>
             </mat-form-field>    
         </div>
-        <div class="column">
+        <div class="column-right">
             <ear-svg [coord]="{x: data.point.location.x, y: data.point.location.y, z:data.point.location.z }" [action]="data.action" (coordChanged)="coordChangedHandler($event)">
             </ear-svg>
-        </div>
-    </div>
-    <div class="row">
-        <div class="column">
-            <mat-form-field>
-                <mat-label>X-coord</mat-label>
-                <input matInput formControlName="xCoord">
-            </mat-form-field> 
-        </div>
-        <div class="column">
-            <mat-form-field>
-                <mat-label>Y-coord</mat-label>
-                <input matInput formControlName="yCoord">
-            </mat-form-field>             
-        </div>
-    </div>
 
+                <mat-form-field>
+                    <mat-label>X-coord</mat-label>
+                    <input matInput formControlName="xCoord">
+                </mat-form-field> 
+            
+
+                <mat-form-field>
+                    <mat-label>Y-coord</mat-label>
+                    <input matInput formControlName="yCoord">
+                </mat-form-field>             
+           
+        </div>
+    </div>
     <mat-form-field class="full-width" appearance="fill">
         <mat-label>Anatomy</mat-label>
         <textarea matInput cdkTextareaAutosize rows="3" formControlName="earAnatomy" placeholder="Enter ear anatomy"></textarea>
@@ -64,8 +81,18 @@
     </mat-form-field> 
 </mat-dialog-content>
 
-<mat-dialog-actions>
-    <button mat-button mat-dialog-close>{{data.action != 'View' ? 'Cancel' : 'Close'}}</button>
-    <button mat-raised-button *ngIf="data.action != 'View'" [disabled]="!pointForm.valid" (click)="submit()">{{data.action === 'Add' ? 'Submit' : 'Update'}}</button>
+<mat-dialog-actions layout="row">        
+    <div class="row">
+        <div class="column">
+            <a mat-raised-button href="/points/{{data.point._id}}">
+                <mat-icon>open_in_new</mat-icon>
+                Go to Point page
+            </a>
+        </div>
+        <div class="column text-right">
+            <button mat-button mat-dialog-close>{{data.action != 'View' ? 'Cancel' : 'Close'}}</button>
+            <button mat-raised-button *ngIf="data.action != 'View'" [disabled]="!pointForm.valid" (click)="submit()">{{data.action === 'Add' ? 'Submit' : 'Update'}}</button>
+        </div>
+    </div>
 </mat-dialog-actions>
 </form> 

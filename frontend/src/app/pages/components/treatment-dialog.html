@@ -16,12 +16,12 @@
                         <mat-label>Master Points</mat-label>
                         <mat-chip-list #masterPointsChips formControlName="masterPoints">
                             <mat-chip
-                                *ngFor="let point of masterPoints"
+                                *ngFor="let treatmentPoint of masterPoints"
                                 [selectable]="selectable"
                                 [removable]="removable"
-                                (removed)="removeMasterPoint(point)">
-                                {{point.name}}
-                                <mat-icon matChipRemove *ngIf="!readOnlyMode">cancel</mat-icon>
+                                (removed)="removeMasterPoint(treatmentPoint)">
+                                {{treatmentPoint.point.name}}
+                                <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
                             </mat-chip>
                             <input
                                 #masterPointInput
@@ -44,12 +44,12 @@
                         <mat-label>Primary Points</mat-label>
                         <mat-chip-list #primaryPointsChips formControlName="primaryPoints">
                             <mat-chip
-                                *ngFor="let point of primaryPoints"
+                                *ngFor="let primaryPoint of primaryPoints"
                                 [selectable]="selectable"
                                 [removable]="removable"
-                                (removed)="removePrimaryPoint(point)">
-                                {{point.name}}
-                                <mat-icon matChipRemove *ngIf="!readOnlyMode">cancel</mat-icon>
+                                (removed)="removePrimaryPoint(primaryPoint)">
+                                {{primaryPoint.point.name}}
+                                <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
                             </mat-chip>
                             <input
                                 #primaryPointInput
@@ -72,12 +72,12 @@
                         <mat-label>Supplemental Points</mat-label>
                         <mat-chip-list #supplementalPointsChips formControlName="supplementalPoints">
                             <mat-chip
-                                *ngFor="let point of supplementalPoints"
+                                *ngFor="let supplementalPoint of supplementalPoints"
                                 [selectable]="selectable"
                                 [removable]="removable"
-                                (removed)="removeSupplementalPoint(point)">
-                                {{point.name}}
-                                <mat-icon matChipRemove *ngIf="!readOnlyMode">cancel</mat-icon>
+                                (removed)="removeSupplementalPoint(supplementalPoint)">
+                                {{supplementalPoint.point.name}}
+                                <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
                             </mat-chip>
                             <input
                                 #supplementalPointInput

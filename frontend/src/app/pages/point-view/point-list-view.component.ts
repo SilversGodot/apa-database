@@ -3,6 +3,7 @@ import { MatTableDataSource } from '@angular/material/table';
 import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 import Point from 'src/app/models/point';
 
@@ -26,6 +27,7 @@ export class PointListViewComponent implements OnInit {
 
   constructor(
     public dialog: MatDialog,
+    private snackBar: MatSnackBar,
     private pointService: PointService
   ) { 
   }
@@ -71,7 +73,7 @@ export class PointListViewComponent implements OnInit {
     }
 
     const dialogRef = this.dialog.open(PointDialog, {
-      width: '550px',
+      width: '600px',
       disableClose: true,
       data: { 
         action: action, 
@@ -98,6 +100,8 @@ export class PointListViewComponent implements OnInit {
         this.pointService.createPoint(newpoint)
         .subscribe(() => this.pointService.getPoints()
         .subscribe((points: Point[]) => this.dataSource.data = points));
+
+        this.openSnackBar(newpoint.name + " added.", "Dismiss");
       } else if(action === "Edit") {
         point.code = result.code;
         point.name = result.name;
@@ -107,8 +111,11 @@ export class PointListViewComponent implements OnInit {
         point.location = {"x": result.xCoord, "y": result.yCoord, "z": 0};
   
         this.pointService.updatePoint(point)
-        .subscribe(() => this.pointService.getPoints()
-        .subscribe((points: Point[]) => this.dataSource.data = points));
+        .subscribe(() => {
+          this.pointService.getPoints()
+            .subscribe((points: Point[]) => this.dataSource.data = points);
+            this.openSnackBar(point.name + " updated.", "Dismiss");
+        });
       }
     });  
   }
@@ -126,8 +133,21 @@ export class PointListViewComponent implements OnInit {
     dialogRef.afterClosed().subscribe(result => {
       if(result) {
         this.pointService.deletePoint(point._id)
-          .subscribe(() => this.dataSource.data = this.dataSource.data.filter(l => l._id != point._id));
+          .subscribe(
+            res => {
+              this.dataSource.data = this.dataSource.data.filter(l => l._id != point._id);
+              this.openSnackBar(point.name + " deleted.", "Dismiss");
+            }, 
+            err => {
+              console.log(err);
+              this.openSnackBar("Oops!" + point.name + " delete fail.", "Dismiss");
+            }
+          );
       }
     });
+  }
+
+  openSnackBar(message: string, action: string) {
+    this.snackBar.open(message, action, { duration: 3000 });
   }
 }

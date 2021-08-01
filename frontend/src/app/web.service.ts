@@ -12,8 +12,8 @@ export class WebService {
     // 'http://localhost:3000'
   }
 
-  get(uri: string) {
-    return this.http.get(`${this.ROOT_URL}/${uri}`);
+  get<type>(uri: string) {
+    return this.http.get<type>(`${this.ROOT_URL}/${uri}`);
   }
 
   post(uri: string, payload: Object) {

@@ -38,14 +38,14 @@
                     <div class="headerCell">Master Points: </div>
                     <div *ngFor="let point of treatment.points" class="content-description">
                         <ul>
-                            <li *ngIf="point.type=='master'">{{point.point.name}}</li>
+                            <li *ngIf="point.type=='primary'">{{point.point.name}}</li>
                         </ul>
                     </div>
 
                     <div class="headerCell">Primary Points: </div>
                     <div *ngFor="let point of treatment.points" class="content-description">
                         <ul>
-                            <li *ngIf="point.type=='primary'">{{point.point.name}}</li>
+                            <li *ngIf="point.type=='master'">{{point.point.name}}</li>
                         </ul>
                     </div>
                     <div class="headerCell">Supplemental Points: </div>

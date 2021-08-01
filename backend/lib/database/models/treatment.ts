@@ -15,7 +15,7 @@ const treatmentPointSchema = new mongoose.Schema({
     },
     type: {
       type: String,
-      enum: ['primary', 'supplemental', 'master'],
+      enum: ['primary', 'master', 'supplemental'],
       required: true
     },
     isDeleted: {

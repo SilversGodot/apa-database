@@ -21,7 +21,7 @@
                                 [removable]="removable"
                                 (removed)="removeTreatment(treatment)">
                                 {{treatment.name}}
-                                <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
+                                <mat-icon matChipRemove *ngIf="!readOnlyMode">cancel</mat-icon>
                             </mat-chip>
                             <input
                                 #treatmentInput

@@ -21,7 +21,7 @@
                                 [removable]="removable"
                                 (removed)="removeMasterPoint(point)">
                                 {{point.name}}
-                                <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
+                                <mat-icon matChipRemove *ngIf="!readOnlyMode">cancel</mat-icon>
                             </mat-chip>
                             <input
                                 #masterPointInput
@@ -31,9 +31,9 @@
                                 (matChipInputTokenEnd)="addMasterPoint($event)">
                           </mat-chip-list>
                           <mat-autocomplete #autoMasterPoints="matAutocomplete" (optionSelected)="selectedMasterPoint($event)">
-                            <mat-option *ngFor="let point of filteredMasterPoints | async" [value]="point.name">
-                                {{point.name}}
-                            </mat-option>
+                                <mat-option *ngFor="let point of filteredMasterPoints | async" [value]="point.name">
+                                    {{point.name}}
+                                </mat-option>
                           </mat-autocomplete>
                     </mat-form-field>
                 </td>
@@ -49,7 +49,7 @@
                                 [removable]="removable"
                                 (removed)="removePrimaryPoint(point)">
                                 {{point.name}}
-                                <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
+                                <mat-icon matChipRemove *ngIf="!readOnlyMode">cancel</mat-icon>
                             </mat-chip>
                             <input
                                 #primaryPointInput
@@ -77,7 +77,7 @@
                                 [removable]="removable"
                                 (removed)="removeSupplementalPoint(point)">
                                 {{point.name}}
-                                <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
+                                <mat-icon matChipRemove *ngIf="!readOnlyMode">cancel</mat-icon>
                             </mat-chip>
                             <input
                                 #supplementalPointInput

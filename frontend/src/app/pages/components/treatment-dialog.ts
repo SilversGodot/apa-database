@@ -13,16 +13,17 @@ import { PointService } from '@app/services/point.service';
 
 @Component({
     selector: 'treatment-dialog',
-    templateUrl: 'treatment-dialog.html'
+    templateUrl: 'treatment-dialog.html',
+    styleUrls: ['point-dialog.css']
 })
 export class TreatmentDialog {
     selectable = true;
-    removable = true;
+    readOnlyMode = this.data.action === 'View';
     treatmentForm: FormGroup;
     allPoints: Point[] = [];
-    masterPoints: TreatmentPoint[] = [];
-    primaryPoints: TreatmentPoint[] = [];
-    supplementalPoints: TreatmentPoint[] = [];
+    masterPoints: Point[] = [];
+    primaryPoints: Point[] = [];
+    supplementalPoints: Point[] = [];
 
     filteredMasterPoints: Observable<Point[]>;
     filteredPrimaryPoints: Observable<Point[]>;
@@ -32,8 +33,6 @@ export class TreatmentDialog {
     primaryPointsCtrl = new FormControl();
     supplementalPointsCtrl = new FormControl();
 
-    readOnlyMode = this.data.action === 'View';
-    
     @ViewChild('masterPointInput') masterPointInput: ElementRef<HTMLInputElement>;
     @ViewChild('primaryPointInput') primaryPointInput: ElementRef<HTMLInputElement>;
     @ViewChild('supplementalPointInput') supplementalPointInput: ElementRef<HTMLInputElement>;
@@ -60,7 +59,7 @@ export class TreatmentDialog {
     
     ngOnInit() {
         this.treatmentForm = this.formBuilder.group({
-            _id: this.data.treatment._id,
+            _id: this.data.treatment.id,
             name: [this.data.treatment.name, Validators.required],
             description: this.data.treatment.description,
             masterPoints: this.masterPointsCtrl,
@@ -68,9 +67,9 @@ export class TreatmentDialog {
             supplementalPoints: this.supplementalPointsCtrl
         });
 
-        this.masterPoints = this.data.treatment.points.filter(point => point.type == 'master');
-        this.primaryPoints = this.data.treatment.points.filter(point => point.type == 'primary');
-        this.supplementalPoints = this.data.treatment.points.filter(point => point.type == 'supplemental');
+        this.masterPoints = this.data.treatment.masterPoints;
+        this.primaryPoints = this.data.treatment.primaryPoints;
+        this.supplementalPoints = this.data.treatment.supplementalPoints;
 
         if (this.readOnlyMode) {
             this.masterPointsCtrl.disable();
@@ -84,14 +83,24 @@ export class TreatmentDialog {
 
     addPoint(event: MatChipInputEvent, type: pointType): void {
         const value = (event.value || '').trim();
+
         if (value) {    
             const result = this.allPoints.find(point => point.name === value);
-            if (result) {   
-                const newPoint = new TreatmentPoint(result, type);
-                newPoint.point = result[0];
-                console.log("Init a new Point: ", newPoint);
 
-                this.masterPoints.push(newPoint);
+            if (result) {
+                switch(type) {
+                    case pointType.master:
+                        this.masterPoints.push(result);
+                        break;
+
+                    case pointType.primary:
+                        this.primaryPoints.push(result);
+                        break;
+
+                    case pointType.supplemental:
+                        this.supplementalPoints.push(result);
+                        break;
+                }
             }
         }
 
@@ -99,7 +108,7 @@ export class TreatmentDialog {
         event.chipInput!.clear();
     }
 
-    removePoint(value: TreatmentPoint, type: pointType): void {
+    removePoint(value: Point, type: pointType): void {
         let index = -1;
 
         switch (type) {
@@ -131,17 +140,17 @@ export class TreatmentDialog {
 
         switch (type) {
             case pointType.master:
-                this.masterPoints.push(new TreatmentPoint(result, pointType.master));
+                this.masterPoints.push(result);
                 this.masterPointInput.nativeElement.value = ' ';
                 break;
 
             case pointType.primary:
-                this.primaryPoints.push(new TreatmentPoint(result, pointType.primary));
+                this.primaryPoints.push(result);
                 this.primaryPointInput.nativeElement.value=' ';                
                 break;
 
             case pointType.supplemental:
-                this.supplementalPoints.push(new TreatmentPoint(result, pointType.supplemental));
+                this.supplementalPoints.push(result);
                 this.supplementalPointInput.nativeElement.value=' ';                    
                 break;
         }

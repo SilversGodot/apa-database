@@ -1,108 +1,102 @@
 <form [formGroup]="treatmentForm" (ngSubmit)="submit();">
-    <h2 mat-dialog-title>{{data.title}}</h2>
+    <h2 *ngIf="data.treatment.id; else newTreatmentTitle" mat-dialog-title>{{data.treatment.name}}</h2>
+    <ng-template #newTreatmentTitle>
+        <h2 mat-dialog-title>New Treatment</h2>
+    </ng-template>
+
     <mat-dialog-content class="mat-typography">
-        <table class="full-width" cellspacing="0">
-            <tr>
-                <td>
-                    <mat-form-field class="full-width" appearance="fill">
-                        <mat-label>Name</mat-label>
-                        <input matInput placeholder="Enter treatment name" formControlName="name" required>
-                    </mat-form-field>
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    <mat-form-field class="full-width" appearance="fill">
-                        <mat-label>Master Points</mat-label>
-                        <mat-chip-list #masterPointsChips formControlName="masterPoints">
-                            <mat-chip
-                                *ngFor="let treatmentPoint of masterPoints"
-                                [selectable]="selectable"
-                                [removable]="removable"
-                                (removed)="removePoint(treatmentPoint, 0)">
-                                {{treatmentPoint.point.name}}
-                                <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
-                            </mat-chip>
-                            <input
-                                #masterPointInput
-                                [formControl]="masterPointsCtrl"
-                                [matAutocomplete]="autoMasterPoints"
-                                [matChipInputFor]="masterPointsChips"
-                                (matChipInputTokenEnd)="addPoint($event, 0)">
-                          </mat-chip-list>
-                          <mat-autocomplete #autoMasterPoints="matAutocomplete" (optionSelected)="selectedPoint($event, 0)">
-                            <mat-option *ngFor="let point of filteredMasterPoints | async" [value]="point.name">
-                                {{point.name}}
-                            </mat-option>
-                          </mat-autocomplete>
-                    </mat-form-field>
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    <mat-form-field class="full-width" appearance="fill">
-                        <mat-label>Primary Points</mat-label>
-                        <mat-chip-list #primaryPointsChips formControlName="primaryPoints">
-                            <mat-chip
-                                *ngFor="let primaryPoint of primaryPoints"
-                                [selectable]="selectable"
-                                [removable]="removable"
-                                (removed)="removePoint(primaryPoint, 1)">
-                                {{primaryPoint.point.name}}
-                                <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
-                            </mat-chip>
-                            <input
-                                #primaryPointInput
-                                [formControl]="primaryPointsCtrl"
-                                [matAutocomplete]="autoPrimaryPoints"
-                                [matChipInputFor]="primaryPointsChips"
-                                (matChipInputTokenEnd)="addPoint($event, 1)">
-                          </mat-chip-list>
-                          <mat-autocomplete #autoPrimaryPoints="matAutocomplete" (optionSelected)="selectedPoint($event, 1)">
-                            <mat-option *ngFor="let point of filteredPrimaryPoints | async" [value]="point.name">
-                                {{point.name}}
-                            </mat-option>
-                          </mat-autocomplete>
-                    </mat-form-field>
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    <mat-form-field class="full-width" appearance="fill">
-                        <mat-label>Supplemental Points</mat-label>
-                        <mat-chip-list #supplementalPointsChips formControlName="supplementalPoints">
-                            <mat-chip
-                                *ngFor="let supplementalPoint of supplementalPoints"
-                                [selectable]="selectable"
-                                [removable]="removable"
-                                (removed)="removePoint(supplementalPoint, 2)">
-                                {{supplementalPoint.point.name}}
-                                <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
-                            </mat-chip>
-                            <input
-                                #supplementalPointInput
-                                [formControl]="supplementalPointsCtrl"
-                                [matAutocomplete]="autoSupplementalPoints"
-                                [matChipInputFor]="supplementalPointsChips"
-                                (matChipInputTokenEnd)="addPoint($event, 2)">
-                          </mat-chip-list>
-                          <mat-autocomplete #autoSupplementalPoints="matAutocomplete" (optionSelected)="selectedPoint($event, 2)">
-                            <mat-option *ngFor="let point of filteredSupplementalPoints | async" [value]="point.name">
-                                {{point.name}}
-                            </mat-option>
-                          </mat-autocomplete>
-                    </mat-form-field>
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    <mat-form-field class="full-width" appearance="fill">
-                        <mat-label>Description</mat-label>
-                        <textarea matInput cdkTextareaAutosize rows="3" formControlName="description" placeholder="Enter description"></textarea>
-                    </mat-form-field>
-                </td>
-            </tr>
-        </table>
+        <div>
+            <mat-form-field class="full-width" appearance="fill">
+                <mat-label>Name</mat-label>
+                <input matInput placeholder="Enter treatment name" formControlName="name" required>
+            </mat-form-field>
+        </div>
+        <div class="row">
+            <div class="column">
+                <mat-form-field class="full-width" appearance="fill">
+                    <mat-label>Master Points</mat-label>
+                    <mat-chip-list #masterPointsChips formControlName="masterPoints">
+                        <mat-chip
+                            *ngFor="let treatmentPoint of masterPoints"
+                            [selectable]="selectable"
+                            [removable]="!readOnlyMode"
+                            (removed)="removePoint(treatmentPoint, 0)">
+                            {{treatmentPoint.name}}
+                            <mat-icon matChipRemove *ngIf="!readOnlyMode">cancel</mat-icon>
+                        </mat-chip>
+                        <input
+                            #masterPointInput
+                            [formControl]="masterPointsCtrl"
+                            [matAutocomplete]="autoMasterPoints"
+                            [matChipInputFor]="masterPointsChips"
+                            (matChipInputTokenEnd)="addPoint($event, 0)">
+                      </mat-chip-list>
+                      <mat-autocomplete #autoMasterPoints="matAutocomplete" (optionSelected)="selectedPoint($event, 0)">
+                        <mat-option *ngFor="let point of filteredMasterPoints | async" [value]="point.name">
+                            {{point.name}}
+                        </mat-option>
+                      </mat-autocomplete>
+                </mat-form-field>
+                <mat-form-field class="full-width" appearance="fill">
+                    <mat-label>Primary Points</mat-label>
+                    <mat-chip-list #primaryPointsChips formControlName="primaryPoints">
+                        <mat-chip
+                            *ngFor="let primaryPoint of primaryPoints"
+                            [selectable]="selectable"
+                            [removable]="!readOnlyMode"
+                            (removed)="removePoint(primaryPoint, 1)">
+                            {{primaryPoint.name}}
+                            <mat-icon matChipRemove *ngIf="!readOnlyMode">cancel</mat-icon>
+                        </mat-chip>
+                        <input
+                            #primaryPointInput
+                            [formControl]="primaryPointsCtrl"
+                            [matAutocomplete]="autoPrimaryPoints"
+                            [matChipInputFor]="primaryPointsChips"
+                            (matChipInputTokenEnd)="addPoint($event, 1)">
+                      </mat-chip-list>
+                      <mat-autocomplete #autoPrimaryPoints="matAutocomplete" (optionSelected)="selectedPoint($event, 1)">
+                        <mat-option *ngFor="let point of filteredPrimaryPoints | async" [value]="point.name">
+                            {{point.name}}
+                        </mat-option>
+                      </mat-autocomplete>
+                </mat-form-field>
+                <mat-form-field class="full-width" appearance="fill">
+                    <mat-label>Supplemental Points</mat-label>
+                    <mat-chip-list #supplementalPointsChips formControlName="supplementalPoints">
+                        <mat-chip
+                            *ngFor="let supplementalPoint of supplementalPoints"
+                            [selectable]="selectable"
+                            [removable]="!readOnlyMode"
+                            (removed)="removePoint(supplementalPoint, 2)">
+                            {{supplementalPoint.name}}
+                            <mat-icon matChipRemove *ngIf="!readOnlyMode">cancel</mat-icon>
+                        </mat-chip>
+                        <input
+                            #supplementalPointInput
+                            [formControl]="supplementalPointsCtrl"
+                            [matAutocomplete]="autoSupplementalPoints"
+                            [matChipInputFor]="supplementalPointsChips"
+                            (matChipInputTokenEnd)="addPoint($event, 2)">
+                      </mat-chip-list>
+                      <mat-autocomplete #autoSupplementalPoints="matAutocomplete" (optionSelected)="selectedPoint($event, 2)">
+                        <mat-option *ngFor="let point of filteredSupplementalPoints | async" [value]="point.name">
+                            {{point.name}}
+                        </mat-option>
+                      </mat-autocomplete>
+                </mat-form-field>                              
+            </div>
+            <div class="column">
+                <ear-svg [coord]="{x: 0, y: 0, z:0 }" [action]="data.action">
+                </ear-svg>                
+            </div>
+        </div>
+        <div>
+            <mat-form-field class="full-width" appearance="fill">
+                <mat-label>Description</mat-label>
+                <textarea matInput cdkTextareaAutosize rows="3" formControlName="description" placeholder="Enter description"></textarea>
+            </mat-form-field>
+        </div>
     </mat-dialog-content>
     
     <mat-dialog-actions>

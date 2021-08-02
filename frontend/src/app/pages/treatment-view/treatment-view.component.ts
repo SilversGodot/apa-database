@@ -4,11 +4,24 @@ import { MatTableDataSource } from '@angular/material/table';
 import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
 
+import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
+
 import Treatment from 'src/app/models/treatment';
+import Point from 'src/app/models/point';
 import { TreatmentPoint, pointType } from '@app/models/treatmentPoint';
 import { TreatmentService } from '@app/services/treatment.service';
 import { TreatmentDialog } from '../components/treatment-dialog';
 import { DeleteDialog } from '../components/delete-dialog';
+
+export interface ITreatmentViewModel {
+  id: string;
+  name: string;
+  description: string;
+  masterPoints: Point[];
+  primaryPoints: Point[];
+  supplementalPoints: Point[];
+}
 
 @Component({
   selector: 'app-treatment-view',
@@ -23,8 +36,8 @@ import { DeleteDialog } from '../components/delete-dialog';
   ]
 })
 export class TreatmentViewComponent implements OnInit {
-  dataSource: MatTableDataSource<Treatment>;
-  columnsToDisplay = ['name', 'points', 'action'];
+  dataSource: MatTableDataSource<ITreatmentViewModel>;
+  columnsToDisplay = ['name', 'description', 'action'];
   expandedTreatment: Treatment | null;
 
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
@@ -36,19 +49,40 @@ export class TreatmentViewComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.dataSource = new MatTableDataSource<Treatment>([]);
-
-    this.treatmentService.getTreatments()
-      .subscribe((treatments: Treatment[]) => {
-        this.dataSource.data = treatments;
-        this.dataSource.paginator = this.paginator;
-      });
+    this.dataSource = new MatTableDataSource<ITreatmentViewModel>([]);
+    this.mapViewModel().subscribe(viewModel => { 
+      this.dataSource.data = viewModel;
+      this.dataSource.paginator = this.paginator;
+    });
   }
 
-  openTreatmentDialog(treatment: Treatment, action: string) {
-    if (!treatment) {
-      treatment = new Treatment();
-      treatment.points = [];
+  mapViewModel(): Observable<ITreatmentViewModel[]> {
+    const viewModel =  this.treatmentService.getTreatments()
+      .pipe(map((response: Treatment[]) => {
+        let viewModels: ITreatmentViewModel[] = [];
+
+        response.forEach((treatment) => {
+          let viewModel: ITreatmentViewModel = {
+            id: treatment._id,
+            name: treatment.name,
+            description: treatment.description,
+            masterPoints: this.getPointsWithType(treatment.points, "master"),
+            primaryPoints: this.getPointsWithType(treatment.points, "primary"),
+            supplementalPoints: this.getPointsWithType(treatment.points, "supplemental")
+          };
+
+          viewModels.push(viewModel);
+        });
+
+        return viewModels;
+    }));
+    
+    return viewModel;
+  }
+
+  openTreatmentDialog(treatmentViewModel: ITreatmentViewModel, action: string) {
+    if (!treatmentViewModel) {
+      treatmentViewModel = { id: null, name: '', description: '', masterPoints: [], primaryPoints: [], supplementalPoints: [] };
       action = 'Add';
     }
 
@@ -57,7 +91,7 @@ export class TreatmentViewComponent implements OnInit {
       disableClose: true,
       data: { 
         action: action, 
-        treatment: treatment
+        treatment: treatmentViewModel
       }
     });
 
@@ -66,57 +100,65 @@ export class TreatmentViewComponent implements OnInit {
         return;
       }
 
-      treatment.name = result.name;
-      treatment.description = result.description;
-      treatment.points = this.getTreatPointsWithType(result.masterPoints, 'master')
-        .concat(this.getTreatPointsWithType(result.primaryPoints, 'primary'))
-        .concat(this.getTreatPointsWithType(result.supplementalPoints, 'supplemental'));
+      var treatment: Treatment = {
+        _id: treatmentViewModel.id,
+        name: result.name,
+        description: result.description,
+        points: []
+      };
+
+      treatment.points = this.getTreatPointsWithType(result.masterPoints, pointType[pointType.master])
+        .concat(this.getTreatPointsWithType(result.primaryPoints, pointType[pointType.primary]))
+        .concat(this.getTreatPointsWithType(result.supplementalPoints, pointType[pointType.supplemental]));
 
       if (action === 'Add') {        
-        this.treatmentService.createTreatment(treatment)
-        .subscribe(() => this.treatmentService.getTreatments()
-          .subscribe((treatments: Treatment[]) => this.dataSource.data = treatments));
+         this.treatmentService.createTreatment(treatment)
+         .subscribe(() => this.mapViewModel()
+          .subscribe(viewModel => this.dataSource.data = viewModel));
       } else if (action === 'Edit') {
-        console.log(treatment);
-        this.treatmentService.updateTreatment(treatment)
-        .subscribe(
-          () => this.treatmentService.getTreatments()
-            .subscribe((treatments: Treatment[]) => this.dataSource.data = treatments),
-          error => console.log('Update fail: ', error)
-        );
+         this.treatmentService.updateTreatment(treatment)
+          .subscribe(() => this.mapViewModel()
+            .subscribe(viewModel => this.dataSource.data = viewModel));
       }
     });
   }
 
-  openDeleteDialog(treatment: Treatment) {
+  openDeleteDialog(treatmentViewModel: ITreatmentViewModel) {
     const dialogRef = this.dialog.open(DeleteDialog, {
       width: '400px',
       disableClose: true,
       data: {
         "type": "Treatment",
-        "object": ` ${treatment.name}`
+        "object": ` ${treatmentViewModel.name}`
       }
     });
 
     dialogRef.afterClosed().subscribe(result => {
       if(result) {
-        this.treatmentService.deleteTreatment(treatment._id)
-        .subscribe(() => this.treatmentService.getTreatments()
-          .subscribe((treatments: Treatment[]) => this.dataSource.data = treatments));
+        this.treatmentService.deleteTreatment(treatmentViewModel.id)
+          .subscribe(() => this.mapViewModel()
+            .subscribe(viewModel => this.dataSource.data = viewModel));
       }
     });
   }
 
-  private getTreatPointsWithType(points: any, type: string): TreatmentPoint[] {
-    const treatmentPoints = [];
+  private getPointsWithType(treatPoints: any[], type: string): Point[] {
+    const points = [];
 
-    for (let point of points) {
+    for (let treatPoint of treatPoints) {
       // skip delete points
-      if(!point.isDeleted) {
-        treatmentPoints.push({point: point.point._id, type: type});
+      if(!treatPoint.isDeleted && treatPoint.type == type) {
+        points.push(treatPoint.point);
       }
     }
 
-    return treatmentPoints;
+    return points;
+  }
+
+  private getTreatPointsWithType(points: Point[], type: string): TreatmentPoint[] {
+    const treatPoints = [];
+    points.forEach((point) => treatPoints.push({ point: point, type: type }));
+
+    return treatPoints;
   }
 }

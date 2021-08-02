@@ -51,18 +51,14 @@
         <div class="column-right">
             <ear-svg [coord]="{x: data.point.location.x, y: data.point.location.y, z:data.point.location.z }" [action]="data.action" (coordChanged)="coordChangedHandler($event)">
             </ear-svg>
-
-                <mat-form-field>
-                    <mat-label>X-coord</mat-label>
-                    <input matInput formControlName="xCoord">
-                </mat-form-field> 
-            
-
-                <mat-form-field>
-                    <mat-label>Y-coord</mat-label>
-                    <input matInput formControlName="yCoord">
-                </mat-form-field>             
-           
+            <mat-form-field>
+                <mat-label>X-coord</mat-label>
+                <input matInput formControlName="xCoord">
+            </mat-form-field> 
+            <mat-form-field>
+                <mat-label>Y-coord</mat-label>
+                <input matInput formControlName="yCoord">
+            </mat-form-field>             
         </div>
     </div>
     <mat-form-field class="full-width" appearance="fill">

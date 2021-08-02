@@ -14,7 +14,7 @@ import { PointService } from '@app/services/point.service';
 @Component({
     selector: 'treatment-dialog',
     templateUrl: 'treatment-dialog.html',
-    styleUrls: ['point-dialog.css']
+    styleUrls: ['dialog.css']
 })
 export class TreatmentDialog {
     selectable = true;

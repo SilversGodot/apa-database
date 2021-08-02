@@ -12,7 +12,7 @@ import EarZone from '@app/models/earZone';
 @Component({
   selector: 'point-dialog',
   templateUrl: 'point-dialog.html',
-  styleUrls: ['point-dialog.css'],
+  styleUrls: ['dialog.css']
 })
 export class PointDialog implements OnInit {
   pointForm: FormGroup;

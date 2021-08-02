@@ -27,3 +27,14 @@ mat-card-content {
   flex-direction: column;
   justify-content: center;
 }
+
+.badge {
+  font-size: 90%;
+  font-weight: 500;
+  margin-left: 5px;
+}
+
+.point-section {
+  margin-top: 5px;
+  margin-bottom: 5px;
+}

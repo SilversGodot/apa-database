@@ -2,6 +2,7 @@ import express from "express";
 import cors from "cors";
 import mongoose from "mongoose";
 import { Routes } from "./routes/apaRoutes";
+const passport = require("passport");
 
 const NAMESPACE = 'Server';
 
@@ -22,6 +23,9 @@ class App {
         this.app.use(express.urlencoded({ extended:false }));
         this.app.use(express.json());
         this.app.use(cors());
+        this.app.use(passport.initialize());
+        this.app.use(passport.session());
+        require('./passport/setup')(passport);
     }
 
     private mongoSetup(): void {

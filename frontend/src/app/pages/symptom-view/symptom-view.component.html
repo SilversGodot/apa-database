@@ -1,5 +1,6 @@
-<div class="container">
-    <mat-toolbar color="primary">
+<mat-card>
+    <mat-card-content>
+    <mat-toolbar color="primary" style="border-radius: 5px 5px 0 0;">
         Symptoms
     </mat-toolbar>
     <button mat-icon-button color="primary" (click)="openSymptomDialog(null, 'Add')">
@@ -50,4 +51,5 @@
         <tr mat-row *matRowDef="let row; columns: ['expandedDetail']" class="detail-row"></tr>
     </table>
     <mat-paginator [pageSizeOptions]="[5, 10, 20]" [pageSize]="10" showFirstLastButtons class="mat-elevation-z8"></mat-paginator>
-</div>
+    </mat-card-content>
+</mat-card>

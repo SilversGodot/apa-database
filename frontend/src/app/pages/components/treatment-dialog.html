@@ -19,7 +19,7 @@
                                 *ngFor="let treatmentPoint of masterPoints"
                                 [selectable]="selectable"
                                 [removable]="removable"
-                                (removed)="removeMasterPoint(treatmentPoint)">
+                                (removed)="removePoint(treatmentPoint, 0)">
                                 {{treatmentPoint.point.name}}
                                 <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
                             </mat-chip>
@@ -28,9 +28,9 @@
                                 [formControl]="masterPointsCtrl"
                                 [matAutocomplete]="autoMasterPoints"
                                 [matChipInputFor]="masterPointsChips"
-                                (matChipInputTokenEnd)="addMasterPoint($event)">
+                                (matChipInputTokenEnd)="addPoint($event, 0)">
                           </mat-chip-list>
-                          <mat-autocomplete #autoMasterPoints="matAutocomplete" (optionSelected)="selectedMasterPoint($event)">
+                          <mat-autocomplete #autoMasterPoints="matAutocomplete" (optionSelected)="selectedPoint($event, 0)">
                             <mat-option *ngFor="let point of filteredMasterPoints | async" [value]="point.name">
                                 {{point.name}}
                             </mat-option>
@@ -47,7 +47,7 @@
                                 *ngFor="let primaryPoint of primaryPoints"
                                 [selectable]="selectable"
                                 [removable]="removable"
-                                (removed)="removePrimaryPoint(primaryPoint)">
+                                (removed)="removePoint(primaryPoint, 1)">
                                 {{primaryPoint.point.name}}
                                 <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
                             </mat-chip>
@@ -56,9 +56,9 @@
                                 [formControl]="primaryPointsCtrl"
                                 [matAutocomplete]="autoPrimaryPoints"
                                 [matChipInputFor]="primaryPointsChips"
-                                (matChipInputTokenEnd)="addPrimaryPoint($event)">
+                                (matChipInputTokenEnd)="addPoint($event, 1)">
                           </mat-chip-list>
-                          <mat-autocomplete #autoPrimaryPoints="matAutocomplete" (optionSelected)="selectedPrimaryPoint($event)">
+                          <mat-autocomplete #autoPrimaryPoints="matAutocomplete" (optionSelected)="selectedPoint($event, 1)">
                             <mat-option *ngFor="let point of filteredPrimaryPoints | async" [value]="point.name">
                                 {{point.name}}
                             </mat-option>
@@ -75,7 +75,7 @@
                                 *ngFor="let supplementalPoint of supplementalPoints"
                                 [selectable]="selectable"
                                 [removable]="removable"
-                                (removed)="removeSupplementalPoint(supplementalPoint)">
+                                (removed)="removePoint(supplementalPoint, 2)">
                                 {{supplementalPoint.point.name}}
                                 <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
                             </mat-chip>
@@ -84,9 +84,9 @@
                                 [formControl]="supplementalPointsCtrl"
                                 [matAutocomplete]="autoSupplementalPoints"
                                 [matChipInputFor]="supplementalPointsChips"
-                                (matChipInputTokenEnd)="addSupplementalPoint($event)">
+                                (matChipInputTokenEnd)="addPoint($event, 2)">
                           </mat-chip-list>
-                          <mat-autocomplete #autoSupplementalPoints="matAutocomplete" (optionSelected)="selectedSupplementalPoint($event)">
+                          <mat-autocomplete #autoSupplementalPoints="matAutocomplete" (optionSelected)="selectedPoint($event, 2)">
                             <mat-option *ngFor="let point of filteredSupplementalPoints | async" [value]="point.name">
                                 {{point.name}}
                             </mat-option>

@@ -42,8 +42,6 @@ export class TreatmentViewComponent implements OnInit {
       .subscribe((treatments: Treatment[]) => {
         this.dataSource.data = treatments;
         this.dataSource.paginator = this.paginator;
-
-        console.log(treatments);
       });
   }
 
@@ -113,7 +111,10 @@ export class TreatmentViewComponent implements OnInit {
     const treatmentPoints = [];
 
     for (let point of points) {
-      treatmentPoints.push({point: point.point._id, type: type});
+      // skip delete points
+      if(!point.isDeleted) {
+        treatmentPoints.push({point: point.point._id, type: type});
+      }
     }
 
     return treatmentPoints;

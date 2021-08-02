@@ -1,38 +1,38 @@
 const bcrypt = require("bcryptjs");
-const User = require("../models/Users");
+const User = require("../models/user");
 const passport = require("passport");
 const LocalStrategy = require("passport-local").Strategy;
 
-passport.serializeUser((user, done) => {
+passport.serializeUser((user: any, done: any) => {
     done(null, user.id);
 });
 
-passport.deserializeUser((id, done) => {
-    User.findById(id, (err, user) => {
+passport.deserializeUser((id: any, done: any) => {
+    User.findById(id, (err: any, user: any) => {
         done(err, user);
     });
 });
 
 // Local Strategy
 passport.use(
-    new LocalStrategy({ usernameField: "email" }, (email, password, done) => {
+    new LocalStrategy({ usernameField: "username" }, (username: any, password: any, done: any) => {
         // Match User
-        User.findOne({ email: email })
-            .then(user => {
+        User.findOne({ username: username })
+            .then((user: any) => {
                 // Create new User
                 if (!user) {
-                    const newUser = new User({ email, password });
+                    const newUser = new User({ username, password });
                     // Hash password before saving in database
-                    bcrypt.genSalt(10, (err, salt) => {
-                        bcrypt.hash(newUser.password, salt, (err, hash) => {
+                    bcrypt.genSalt(10, (err: any, salt: any) => {
+                        bcrypt.hash(newUser.password, salt, (err: any, hash: any) => {
                             if (err) throw err;
                             newUser.password = hash;
                             newUser
                                 .save()
-                                .then(user => {
+                                .then((user: any) => {
                                     return done(null, user);
                                 })
-                                .catch(err => {
+                                .catch((err: any) => {
                                     return done(null, false, { message: err });
                                 });
                         });
@@ -40,7 +40,7 @@ passport.use(
                     // Return other user
                 } else {
                     // Match password
-                    bcrypt.compare(password, user.password, (err, isMatch) => {
+                    bcrypt.compare(password, user.password, (err: any, isMatch: any) => {
                         if (err) throw err;
 
                         if (isMatch) {
@@ -51,7 +51,7 @@ passport.use(
                     });
                 }
             })
-            .catch(err => {
+            .catch((err: any) => {
                 return done(null, false, { message: err });
             });
     })

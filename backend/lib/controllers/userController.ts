@@ -54,23 +54,3 @@ export class UserController {
           });
     }
 }
-
-
-// export class UserController {
-//     public login(req: Request, res: Response) {
-//         passport.authenticate('local', function(err: any, user: any, info: any) {
-//             if (err) {
-//                 return res.status(400).json({errors: err});
-//             }
-//             if (!user) {
-//                 return res.status(400).json({errors: 'No user foundd'});
-//             }
-//             req.logIn(user, function(err) {
-//                 if (err) {
-//                     return res.status(400).json({errors: err});
-//                 }
-//                 return res.status(200).json({success: `logged in ${user.id}`});
-//             });
-//         });
-//     }
-// }

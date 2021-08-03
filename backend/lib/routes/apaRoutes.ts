@@ -64,6 +64,15 @@ export class Routes {
         app.route('/users')
             .get(this.userController.getUsers)
             .post(this.userController.addUser);
+
+        app.route('/signin')
+            .post(this.userController.signIn);
+
+        app.route('/signout')
+            .get(this.userController.signOut);
+        
+        app.route('/currentUser')
+            .get(this.userController.getCurrentUser);
             
     }
 }

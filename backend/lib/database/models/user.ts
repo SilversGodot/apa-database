@@ -9,9 +9,7 @@ const UserSchema = new mongoose.Schema(
             unique: true
         },
         email: {
-            type: String,
-            required: true,
-            unique: true
+            type: String
         },
         email_is_verified: {
             type: Boolean,

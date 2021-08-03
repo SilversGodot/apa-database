@@ -59,7 +59,7 @@ export class PointListViewComponent implements OnInit {
       this.dataSource.paginator = this.paginator;
       this.isLoading = false;
 
-        //// sorting data must after get the datasource or sorting won't work. 
+      //// sorting data must after get the datasource or sorting won't work. 
       this.dataSource.sort = this.sort;
     });
   }
@@ -69,7 +69,7 @@ export class PointListViewComponent implements OnInit {
     {
       point = new Point();
       point.location = { "x": 1, "y": 1, "z": 0 };
-      action = "Add";
+      action = "AddPoint";
     }
 
     const dialogRef = this.dialog.open(PointDialog, {
@@ -86,7 +86,7 @@ export class PointListViewComponent implements OnInit {
         return;
       }
 
-      if(action === "Add"){
+      if(action === "AddPoint"){
         console.log(result);
         
         let newpoint: Point = new Point;
@@ -102,7 +102,7 @@ export class PointListViewComponent implements OnInit {
         .subscribe((points: Point[]) => this.dataSource.data = points));
 
         this.openSnackBar(newpoint.name + " added.", "Dismiss");
-      } else if(action === "Edit") {
+      } else if(action === "EditPoint") {
         point.code = result.code;
         point.name = result.name;
         point.earAnatomy = result.earAnatomy;

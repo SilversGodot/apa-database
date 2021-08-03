@@ -84,7 +84,9 @@
           </mat-form-field>                              
         </div>
         <div class="column-right">
-          <ear-svg [coord]="{x: point.location.x, y: point.location.y, z: 0 }" (coordChanged)="coordChangedHandler($event)">
+          <ear-svg 
+            [pointList]="[{name: point.name, type: 'EditPoint', coord: {x: point.location.x, y: point.location.y, z: 0 }}]"
+            (coordChanged)="coordChangedHandler($event)">
           </ear-svg>
           <mat-form-field>
             <mat-label>X-coord</mat-label>
@@ -117,7 +119,7 @@
           <div class="column">
             <button mat-raised-button (click)="goBack()">
               <mat-icon>arrow_back</mat-icon>
-              Back to Acupoint list
+              Back to previous page 
             </button> 
           </div>
           <div class="column text-right">

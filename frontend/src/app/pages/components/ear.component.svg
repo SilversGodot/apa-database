@@ -1,13 +1,7 @@
 <!-- 
     * This SVG contain background img link to assets/img/ear.jpg
-    * Tag animate define the circle "blink"
-    * ear.component.ts get X, Y coordination based on "viewBox" setting "0 0 15 20"
 -->
 
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 15 20" preserveAspectRatio="xMinYMid">                      
     <image xlink:href="../../../assets/img/ear.jpg"  width="15" height="20" y="0" x="0"/>
-    <circle cx="0.75" cy="0.75" r="0.5" stroke="red" stroke-width="0.2" fill="#007bff" style="cursor: move;">
-        <title>The APA Point</title>
-        <animate attributeType="XML" attributeName="fill" values="#007bff;#f00;#007bff;#007bff" dur="0.8s" repeatCount="indefinite" />
-    </circle>
 </svg>

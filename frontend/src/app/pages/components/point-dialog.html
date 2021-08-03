@@ -49,7 +49,9 @@
             </mat-form-field>    
         </div>
         <div class="column-right">
-            <ear-svg [coord]="{x: data.point.location.x, y: data.point.location.y, z:data.point.location.z }" [action]="data.action" (coordChanged)="coordChangedHandler($event)">
+            <ear-svg 
+                [pointList]="[{name: data.point.name, type: data.action, coord: {x: data.point.location.x, y: data.point.location.y, z:data.point.location.z }}]" 
+                (coordChanged)="coordChangedHandler($event)">
             </ear-svg>
             <mat-form-field>
                 <mat-label>X-coord</mat-label>
@@ -86,8 +88,8 @@
             </a>
         </div>
         <div class="column text-right">
-            <button mat-button mat-dialog-close>{{data.action != 'View' ? 'Cancel' : 'Close'}}</button>
-            <button mat-raised-button *ngIf="data.action != 'View'" [disabled]="!pointForm.valid" (click)="submit()">{{data.action === 'Add' ? 'Submit' : 'Update'}}</button>
+            <button mat-button mat-dialog-close>{{data.action != 'ViewPoint' ? 'Cancel' : 'Close'}}</button>
+            <button mat-raised-button *ngIf="data.action != 'ViewPoint'" [disabled]="!pointForm.valid" (click)="submit()">{{data.action === 'AddPoint' ? 'Submit' : 'Update'}}</button>
         </div>
     </div>
 </mat-dialog-actions>

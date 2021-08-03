@@ -24,6 +24,7 @@ export class TreatmentDialog {
     masterPoints: Point[] = [];
     primaryPoints: Point[] = [];
     supplementalPoints: Point[] = [];
+    earPointList = [];
 
     filteredMasterPoints: Observable<Point[]>;
     filteredPrimaryPoints: Observable<Point[]>;
@@ -79,6 +80,7 @@ export class TreatmentDialog {
 
         this.pointService.getPoints()
             .subscribe((points: Point[]) => this.allPoints = points);
+        this._generateEarPoints();
     }
 
     addPoint(event: MatChipInputEvent, type: pointType): void {
@@ -176,5 +178,31 @@ export class TreatmentDialog {
         const filterValue = value.toString().toLowerCase();
     
         return this.allPoints.filter(point => point.name.toLowerCase().includes(filterValue));
+    }
+
+    private _generateEarPoints() {
+        this.masterPoints.forEach((element) => {
+            this.earPointList.push({
+                name: element.name, 
+                type: "TreamtPoint", 
+                coord: { x: element.location.x, y: element.location.y, z: 0 }
+            });
+        });
+
+        this.primaryPoints.forEach((element) => {
+            this.earPointList.push({
+                name: element.name, 
+                type: "TreamtPoint", 
+                coord: { x: element.location.x, y: element.location.y, z: 0 }
+            });
+        });
+
+        this.supplementalPoints.forEach((element) => {
+            this.earPointList.push({
+                name: element.name, 
+                type: "TreamtPoint", 
+                coord: { x: element.location.x, y: element.location.y, z: 0 }
+            });
+        });
     }
 }

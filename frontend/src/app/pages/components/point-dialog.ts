@@ -19,7 +19,7 @@ export class PointDialog implements OnInit {
   earZone_zh: FormControl = new FormControl;
 
   selectable = true;
-  readOnlyMode = this.data.action === 'View';
+  readOnlyMode = this.data.action === 'ViewPoint';
   separatorKeysCodes: number[] = [ENTER, COMMA];
   earZones: EarZone[] = [];
   filteredEarZones: Observable<EarZone[]>;

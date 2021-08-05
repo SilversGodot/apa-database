@@ -1,15 +1,11 @@
 import { Request, Response } from 'express';
-const passport = require('passport');
-import User from '../database/models/user';
+import { User } from '../database/models/user';
+import passport from 'passport';
+import jwt from 'jsonwebtoken';
+import { JWT_SECRET } from 'passport/secrets';
 
 export class UserController {
-    public getUsers (req: Request, res: Response) {
-        User.find({})
-            .then((users: any[]) => res.send(users))
-            .catch((error: any) => console.log(error));
-    }
-
-    public addUser (req: Request, res: Response, next: any) {
+    public registerUser (req: Request, res: Response, next: any) {
         passport.authenticate('local-register', function(err: any, user: any, info: any) {
             if (err) {
                 return res.status(400).json({ errors: err });
@@ -26,31 +22,18 @@ export class UserController {
         })(req, res, next);
     }
 
-    public getCurrentUser (req: Request, res: Response, next: any) {
-        console.log(req.session);
-        console.log(req.isAuthenticated());
-        console.log(req);
-        res.send("Logged in as " + req.sessionID);
-    }
-
-    public signIn (req: Request, res: Response, next: any) {
+    public authenticateUser (req: Request, res: Response, next: any) {
         passport.authenticate('local-sign-in', function(err: any, user: any, info: any) {
             req.logIn(user, function(err) {
                 if (err) {
                     return res.status(400).json({ errors: err });
                 }
-                return res.status(200).json({ success: `logged in ${user.id}` });
+
+                const body = { _id: user.id };
+                const token = jwt.sign({ user: body}, JWT_SECRET);
+                return res.status(200).json({ token });
             });
             
         })(req, res, next);
     };
-
-    public signOut (req: Request, res: Response, next: any) {
-        req.logout();
-        req.session.destroy(function (err) {
-            if (err) { return next(err); }
-            // The response should indicate that the user is no longer authenticated.
-            return res.send({ authenticated: req.isAuthenticated() });
-          });
-    }
 }

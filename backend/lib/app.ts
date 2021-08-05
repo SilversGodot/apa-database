@@ -1,12 +1,8 @@
 import express from "express";
 import cors from "cors";
 import mongoose from "mongoose";
+import passport from "passport";
 import { Routes } from "./routes/apaRoutes";
-const passport = require("passport");
-const cookieParser = require('cookie-parser')
-
-import { v4 as uuidv4 } from 'uuid';
-const session = require('express-session')
 
 const NAMESPACE = 'Server';
 
@@ -29,17 +25,6 @@ class App {
         this.app.use(cors());
         this.app.use(passport.initialize());
         this.app.use(passport.session());
-        require('./passport/setup')(passport);
-
-        this.app.use(cookieParser('keyboard cat'));
-        this.app.use(session({
-            genid: (req: any) => {
-              return uuidv4() // use UUIDs for session IDs
-            },
-            secret: 'keyboard cat',
-            resave: false,
-            saveUninitialized: true
-          }))
     }
 
     private mongoSetup(): void {

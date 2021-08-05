@@ -1,16 +1,24 @@
-import { Request, Response } from "express";
+import { Router, Request, Response } from "express";
 import { PointController } from "../controllers/pointController";
 import { TreatmentController } from "../controllers/treatmentController";
 import { SymptomController } from "../controllers/symptomController";
 import { EarZoneController } from "../controllers/earZoneController";
 import { UserController } from "../controllers/userController";
+import { AuthController } from "../controllers/authController";
 
 export class Routes {
+    public router: Router;
+
     public pointController: PointController = new PointController();
     public treatmentController: TreatmentController = new TreatmentController();
     public symptomController: SymptomController = new SymptomController();
     public earZoneController: EarZoneController = new EarZoneController();
     public userController: UserController = new UserController();
+    public authController: AuthController = new AuthController();
+
+    constructor() {
+        this.router = Router();
+    }
 
     public routes(app: any): void {
         app.route('/')
@@ -22,57 +30,49 @@ export class Routes {
 
         /* Points CRUD */
         app.route('/points')
-            .get(this.pointController.getPoints)
-            .post(this.pointController.addPoint);
+            .get(this.authController.authenticateJWT, this.pointController.getPoints)
+            .post(this.authController.authenticateJWT, this.pointController.addPoint);
     
         app.route('/points/:pointId')
             .get(this.pointController.getPoint)
-            .patch(this.pointController.updatePoint)
-            .delete(this.pointController.deletePoint);
+            .patch(this.authController.authenticateJWT, this.pointController.updatePoint)
+            .delete(this.authController.authenticateJWT, this.pointController.deletePoint);
 
         /* Treatments CRUD */
         app.route('/treatments')
             .get(this.treatmentController.getTreatments)
-            .post(this.treatmentController.addTreatment);
+            .post(this.authController.authenticateJWT, this.treatmentController.addTreatment);
             
         app.route('/treatments/:treatmentId')
             .get(this.treatmentController.getTreatment)
-            .patch(this.treatmentController.updateTreatment)
-            .delete(this.treatmentController.deleteTreatment);
+            .patch(this.authController.authenticateJWT, this.treatmentController.updateTreatment)
+            .delete(this.authController.authenticateJWT, this.treatmentController.deleteTreatment);
 
         /* Symptoms CRUD */
         app.route('/symptoms')
             .get(this.symptomController.getSymptoms)
-            .post(this.symptomController.addSymptom);
+            .post(this.authController.authenticateJWT, this.symptomController.addSymptom);
             
         app.route('/symptoms/:symptomId')
             .get(this.symptomController.getSymptom)
-            .patch(this.symptomController.updateSymptom)
-            .delete(this.symptomController.deleteSymptom);
+            .patch(this.authController.authenticateJWT, this.symptomController.updateSymptom)
+            .delete(this.authController.authenticateJWT, this.symptomController.deleteSymptom);
 
         /* EarZone CRUD */
         app.route('/earzone')
             .get(this.earZoneController.getEarZones)
-            .post(this.earZoneController.addEarZone);
+            .post(this.authController.authenticateJWT, this.earZoneController.addEarZone);
                     
         app.route('/earzone/:earZoneId')
             .get(this.earZoneController.getEarZones)
-            .patch(this.earZoneController.updateEarZone)
-            .delete(this.earZoneController.deleteEarZone);
+            .patch(this.authController.authenticateJWT, this.earZoneController.updateEarZone)
+            .delete(this.authController.authenticateJWT, this.earZoneController.deleteEarZone);
 
-        /* User CRUD */
-        app.route('/users')
-            .get(this.userController.getUsers)
-            .post(this.userController.addUser);
+        /* User Login/Logout/Authenticate */
+        app.route('/register')
+            .post(this.userController.registerUser);
 
-        app.route('/signin')
-            .post(this.userController.signIn);
-
-        app.route('/signout')
-            .get(this.userController.signOut);
-        
-        app.route('/currentUser')
-            .get(this.userController.getCurrentUser);
-            
+        app.route('/login')
+            .post(this.userController.authenticateUser);           
     }
 }

@@ -1,0 +1,71 @@
+<mat-card>
+    <mat-card-content>
+    <mat-toolbar color="primary" style="border-radius: 5px 5px 0 0;">
+        Treatments
+    </mat-toolbar>
+    <button mat-icon-button color="primary" (click)="openTreatmentDialog(null, 'Add')">
+        <mat-icon>post_add</mat-icon> Add New
+    </button>
+
+    <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+        <ng-container matColumnDef="name">
+            <th mat-header-cell *matHeaderCellDef class="headerCell">Name</th>
+            <td mat-cell *matCellDef="let treatment">
+                <a href="/treatments/{{treatment.id}}">{{treatment.name}}</a>
+            </td>
+        </ng-container>
+
+        <ng-container matColumnDef="masterPoints">
+            <th mat-header-cell *matHeaderCellDef class="headerCell">Master Points</th>
+            <td mat-cell style="vertical-align: top; padding: 5px;" *matCellDef="let treatment">
+                <div *ngFor="let point of treatment.masterPoints">
+                    <a href="/points/{{point._id}}" class="badge badge-primary">
+                        {{point.name}}
+                    </a>
+                </div>
+            </td>
+        </ng-container>
+
+        <ng-container matColumnDef="primaryPoints">
+            <th mat-header-cell *matHeaderCellDef class="headerCell">Primary Points</th>
+            <td mat-cell style="vertical-align: top; padding: 5px;" *matCellDef="let treatment">
+                <div *ngFor="let point of treatment.primaryPoints">
+                    <a href="/points/{{point._id}}" class="badge badge-info">
+                        {{point.name}}
+                    </a>
+                </div>
+            </td>
+        </ng-container>
+        
+        <ng-container matColumnDef="supplementalPoints">
+            <th mat-header-cell *matHeaderCellDef class="headerCell">Supplemental Points</th>
+            <td mat-cell style="vertical-align: top; padding: 5px;" *matCellDef="let treatment">
+                <div *ngFor="let point of treatment.supplementalPoints">
+                    <a href="/points/{{point._id}}" class="badge badge-secondary">
+                        {{point.name}}
+                    </a>
+                </div>
+            </td>
+        </ng-container>         
+
+        <ng-container matColumnDef="action">
+            <th mat-header-cell *matHeaderCellDef class="headerCell"></th>
+            <td mat-cell *matCellDef="let treatment" class="action-link" style="text-align: right;">
+                <button mat-icon-button color="primary" title="View" (click)="openTreatmentDialog(treatment, 'View')">
+                    <mat-icon>visibility</mat-icon>
+                </button>    
+                <button mat-icon-button color="primary" title="Edit" (click)="openTreatmentDialog(treatment, 'Edit')">
+                    <mat-icon>edit_note</mat-icon>
+                </button>                 
+                <button mat-icon-button color="warn" title="Delete" (click)="openDeleteDialog(treatment)">
+                    <mat-icon>clear</mat-icon>
+                </button>
+            </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="columnsToDisplay"></tr>
+        <tr mat-row *matRowDef="let treatment; columns: columnsToDisplay;" class="main-row"></tr>
+    </table>
+    <mat-paginator [pageSizeOptions]="[5, 10, 20]" [pageSize]="10" showFirstLastButtons class="mat-elevation-z8"></mat-paginator>
+    </mat-card-content>
+</mat-card>

@@ -1,5 +1,5 @@
 <form [formGroup]="pointForm" (ngSubmit)="submit();">
-<h2 mat-dialog-title>{{data.action}} Point</h2>
+<h2 mat-dialog-title>{{data.point.name}}</h2>
 <mat-dialog-content class="mat-typography">
     <div class="row">
         <div class="column-left">
@@ -82,7 +82,7 @@
 <mat-dialog-actions layout="row">        
     <div class="row">
         <div class="column">
-            <a mat-raised-button href="/points/{{data.point._id}}">
+            <a *ngIf="data.action != 'AddPoint'" mat-raised-button href="/points/{{data.point._id}}">
                 <mat-icon>open_in_new</mat-icon>
                 Go to Point page
             </a>

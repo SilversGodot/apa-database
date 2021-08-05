@@ -69,7 +69,7 @@ module.exports = function(passport: Authenticator) {
         })
     );
 
-    passport.use(new JwtStrategy(
+    passport.use('jwt', new JwtStrategy(
         {
             jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
             secretOrKey: "TopSecret"

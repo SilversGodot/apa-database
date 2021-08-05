@@ -24,43 +24,43 @@ export class Routes {
 
         /* Points CRUD */
         app.route('/points')
-            .get(this.auth.authenticateJWT, this.pointController.getPoints)
-            .post(this.pointController.addPoint);
+            .get(this.pointController.getPoints)
+            .post(this.auth.authenticateJWT, this.pointController.addPoint);
     
         app.route('/points/:pointId')
             .get(this.pointController.getPoint)
-            .patch(this.pointController.updatePoint)
-            .delete(this.pointController.deletePoint);
+            .patch(this.auth.authenticateJWT, this.pointController.updatePoint)
+            .delete(this.auth.authenticateJWT, this.pointController.deletePoint);
 
         /* Treatments CRUD */
         app.route('/treatments')
-            .get(this.treatmentController.getTreatments)
-            .post(this.treatmentController.addTreatment);
+            .get(this.auth.authenticateJWT, this.treatmentController.getTreatments)
+            .post(this.auth.authenticateJWT, this.treatmentController.addTreatment);
             
         app.route('/treatments/:treatmentId')
             .get(this.treatmentController.getTreatment)
-            .patch(this.treatmentController.updateTreatment)
-            .delete(this.treatmentController.deleteTreatment);
+            .patch(this.auth.authenticateJWT, this.auth.authenticateJWT, this.treatmentController.updateTreatment)
+            .delete(this.auth.authenticateJWT, this.auth.authenticateJWT, this.treatmentController.deleteTreatment);
 
         /* Symptoms CRUD */
         app.route('/symptoms')
             .get(this.symptomController.getSymptoms)
-            .post(this.symptomController.addSymptom);
+            .post(this.auth.authenticateJWT, this.symptomController.addSymptom);
             
         app.route('/symptoms/:symptomId')
             .get(this.symptomController.getSymptom)
-            .patch(this.symptomController.updateSymptom)
-            .delete(this.symptomController.deleteSymptom);
+            .patch(this.auth.authenticateJWT, this.symptomController.updateSymptom)
+            .delete(this.auth.authenticateJWT, this.symptomController.deleteSymptom);
 
         /* EarZone CRUD */
         app.route('/earzone')
             .get(this.earZoneController.getEarZones)
-            .post(this.earZoneController.addEarZone);
+            .post(this.auth.authenticateJWT, this.earZoneController.addEarZone);
                     
         app.route('/earzone/:earZoneId')
             .get(this.earZoneController.getEarZones)
-            .patch(this.earZoneController.updateEarZone)
-            .delete(this.earZoneController.deleteEarZone);
+            .patch(this.auth.authenticateJWT, this.earZoneController.updateEarZone)
+            .delete(this.auth.authenticateJWT, this.earZoneController.deleteEarZone);
 
         /* User CRUD */
         app.route('/users')
@@ -74,7 +74,7 @@ export class Routes {
             .get(this.userController.signOut);
         
         app.route('/currentUser')
-            .get(this.userController.getCurrentUser);
+            .get(this.auth.authenticateJWT, this.userController.getCurrentUser);
             
     }
 }

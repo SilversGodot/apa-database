@@ -12,7 +12,6 @@ export class Auth {
           if (!user) {
             return res.status(401).json({ status: "error", code: "unauthorized" });
           } else {
-            console.log(jwtToken);
             return next();
           }
         })(req, res, next);

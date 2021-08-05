@@ -3,6 +3,9 @@ import passport from 'passport';
 import jwt from 'jsonwebtoken';
 import User from '../database/models/user';
 
+import passportJwt from "passport-jwt";
+const ExtractJwt = passportJwt.ExtractJwt;
+
 export class UserController {
     public getUsers (req: Request, res: Response) {
         User.find({})
@@ -28,10 +31,20 @@ export class UserController {
     }
 
     public getCurrentUser (req: Request, res: Response, next: any) {
-        //console.log(req.session);
-        //console.log(req.isAuthenticated());
-        //console.log(req);
-        res.send("Logged in as guest");
+        try {
+            const usertoken = req.headers.authorization?.split(' ')[1];
+            if (usertoken) {
+                const decoded = jwt.verify(usertoken, 'TopSecret');
+                console.log(decoded);
+            }
+            else {
+                console.log("empty");
+            }
+            
+        } catch {
+        }
+        
+        res.send(req.headers);
     }
 
     public signIn (req: Request, res: Response, next: any) {

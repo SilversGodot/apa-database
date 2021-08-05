@@ -34,7 +34,7 @@ export class Routes {
 
         /* Treatments CRUD */
         app.route('/treatments')
-            .get(this.auth.authenticateJWT, this.treatmentController.getTreatments)
+            .get(this.treatmentController.getTreatments)
             .post(this.auth.authenticateJWT, this.treatmentController.addTreatment);
             
         app.route('/treatments/:treatmentId')

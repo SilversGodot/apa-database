@@ -31,20 +31,23 @@ export class UserController {
     }
 
     public getCurrentUser (req: Request, res: Response, next: any) {
-        try {
-            const usertoken = req.headers.authorization?.split(' ')[1];
-            if (usertoken) {
-                const decoded = jwt.verify(usertoken, 'TopSecret');
-                console.log(decoded);
+        const usertoken = req.headers.authorization?.split(' ')[1];
+        if (usertoken) {
+            const decoded = jwt.verify(usertoken, 'TopSecret');
+            const tokenUserId = JSON.parse(JSON.stringify(decoded)).user.userId;
+            const match = req.params.userId === tokenUserId;
+            if (match) {
+                User.findOne({_id: tokenUserId})
+                .then((user: any) => res.send(user))
+                .catch((error: any) => console.log(error));
             }
             else {
-                console.log("empty");
+                res.status(400).json({ message: "Wrong user" });
             }
-            
-        } catch {
         }
-        
-        res.send(req.headers);
+        else {
+            res.status(400).json({ errors: "No token found" });
+        }
     }
 
     public signIn (req: Request, res: Response, next: any) {
@@ -53,7 +56,7 @@ export class UserController {
                 if (err) {
                     return res.status(400).json({ errors: err });
                 }
-                const body = { username: user.username, email: user.email };
+                const body = { username: user.username, email: user.email, userId: user._id };
                 const token = jwt.sign({ user: body }, "TopSecret");
                 return res.status(200).json({ token });
             });
@@ -63,10 +66,6 @@ export class UserController {
 
     public signOut (req: Request, res: Response, next: any) {
         req.logout();
-        // req.session.destroy(function (err: any) {
-        //    if (err) { return next(err); }
-        //    // The response should indicate that the user is no longer authenticated.
         return res.send({ authenticated: req.isAuthenticated() });
-        //  });
     }
 }

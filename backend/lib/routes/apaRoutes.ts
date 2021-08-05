@@ -73,7 +73,7 @@ export class Routes {
         app.route('/signout')
             .get(this.userController.signOut);
         
-        app.route('/currentUser')
+        app.route('/account/:userId')
             .get(this.auth.authenticateJWT, this.userController.getCurrentUser);
             
     }

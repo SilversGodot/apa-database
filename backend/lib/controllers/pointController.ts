@@ -7,7 +7,6 @@ export class PointController {
         .sort('code')
         .populate('chineseEarZones europeanEarZones')
         .exec((err: any, points: any) => {
-
             res.send(points);
             if (err) console.log(err)
         });

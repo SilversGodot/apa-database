@@ -1,5 +1,6 @@
 import { Request, Response } from 'express';
 const passport = require('passport');
+const jwt = require('jsonwebtoken');
 import User from '../database/models/user';
 
 export class UserController {
@@ -29,7 +30,7 @@ export class UserController {
     public getCurrentUser (req: Request, res: Response, next: any) {
         console.log(req.session);
         console.log(req.isAuthenticated());
-        console.log(req);
+        console.log(req.session.id);
         res.send("Logged in as " + req.sessionID);
     }
 
@@ -39,7 +40,13 @@ export class UserController {
                 if (err) {
                     return res.status(400).json({ errors: err });
                 }
-                return res.status(200).json({ success: `logged in ${user.id}` });
+
+                const body = {
+                    _id: user.id,
+                    username: user.username,
+                }
+                const token = jwt.sign({user: body}, 'TOP_SECRET');
+                return res.json({ token });
             });
             
         })(req, res, next);
@@ -54,23 +61,3 @@ export class UserController {
           });
     }
 }
-
-
-// export class UserController {
-//     public login(req: Request, res: Response) {
-//         passport.authenticate('local', function(err: any, user: any, info: any) {
-//             if (err) {
-//                 return res.status(400).json({errors: err});
-//             }
-//             if (!user) {
-//                 return res.status(400).json({errors: 'No user foundd'});
-//             }
-//             req.logIn(user, function(err) {
-//                 if (err) {
-//                     return res.status(400).json({errors: err});
-//                 }
-//                 return res.status(200).json({success: `logged in ${user.id}`});
-//             });
-//         });
-//     }
-// }

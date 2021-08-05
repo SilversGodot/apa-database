@@ -48,7 +48,7 @@ module.exports = function(passport: any) {
         })
     );
 
-    passport.use('local-sign-in', new LocalStrategy({ usernameField: "username", passwordField: "password"}, (username: any, password: any, done: any) => {
+    passport.use('local-sign-in', new LocalStrategy({usernameField: "username",passwordField: "password"}, (username: any, password: any, done: any) => {
         User.findOne({ username: username })
             .then((user: any) => {
                 if (user) {

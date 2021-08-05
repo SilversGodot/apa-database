@@ -3,7 +3,7 @@ import cors from "cors";
 import mongoose from "mongoose";
 import { Routes } from "./routes/apaRoutes";
 const passport = require("passport");
-const cookieParser = require('cookie-parser')
+const cookieParser = require('cookie-parser');
 
 import { v4 as uuidv4 } from 'uuid';
 const session = require('express-session')

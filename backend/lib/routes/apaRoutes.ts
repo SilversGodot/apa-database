@@ -4,6 +4,7 @@ import { TreatmentController } from "../controllers/treatmentController";
 import { SymptomController } from "../controllers/symptomController";
 import { EarZoneController } from "../controllers/earZoneController";
 import { UserController } from "../controllers/userController";
+import { Auth } from "../passport/auth"
 
 export class Routes {
     public pointController: PointController = new PointController();
@@ -11,6 +12,7 @@ export class Routes {
     public symptomController: SymptomController = new SymptomController();
     public earZoneController: EarZoneController = new EarZoneController();
     public userController: UserController = new UserController();
+    public auth: Auth = new Auth();
 
     public routes(app: any): void {
         app.route('/')
@@ -22,7 +24,7 @@ export class Routes {
 
         /* Points CRUD */
         app.route('/points')
-            .get(this.pointController.getPoints)
+            .get(this.auth.authenticateJWT, this.pointController.getPoints)
             .post(this.pointController.addPoint);
     
         app.route('/points/:pointId')

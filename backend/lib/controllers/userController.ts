@@ -1,5 +1,6 @@
 import { Request, Response } from 'express';
-const passport = require('passport');
+import passport from 'passport';
+import jwt from 'jsonwebtoken';
 import User from '../database/models/user';
 
 export class UserController {
@@ -27,10 +28,10 @@ export class UserController {
     }
 
     public getCurrentUser (req: Request, res: Response, next: any) {
-        console.log(req.session);
-        console.log(req.isAuthenticated());
-        console.log(req);
-        res.send("Logged in as " + req.sessionID);
+        //console.log(req.session);
+        //console.log(req.isAuthenticated());
+        //console.log(req);
+        res.send("Logged in as guest");
     }
 
     public signIn (req: Request, res: Response, next: any) {
@@ -39,7 +40,9 @@ export class UserController {
                 if (err) {
                     return res.status(400).json({ errors: err });
                 }
-                return res.status(200).json({ success: `logged in ${user.id}` });
+                const body = { username: user.username, email: user.email };
+                const token = jwt.sign({ user: body }, "TopSecret");
+                return res.status(200).json({ token });
             });
             
         })(req, res, next);
@@ -47,30 +50,10 @@ export class UserController {
 
     public signOut (req: Request, res: Response, next: any) {
         req.logout();
-        req.session.destroy(function (err) {
-            if (err) { return next(err); }
-            // The response should indicate that the user is no longer authenticated.
-            return res.send({ authenticated: req.isAuthenticated() });
-          });
+        // req.session.destroy(function (err: any) {
+        //    if (err) { return next(err); }
+        //    // The response should indicate that the user is no longer authenticated.
+        return res.send({ authenticated: req.isAuthenticated() });
+        //  });
     }
 }
-
-
-// export class UserController {
-//     public login(req: Request, res: Response) {
-//         passport.authenticate('local', function(err: any, user: any, info: any) {
-//             if (err) {
-//                 return res.status(400).json({errors: err});
-//             }
-//             if (!user) {
-//                 return res.status(400).json({errors: 'No user foundd'});
-//             }
-//             req.logIn(user, function(err) {
-//                 if (err) {
-//                     return res.status(400).json({errors: err});
-//                 }
-//                 return res.status(200).json({success: `logged in ${user.id}`});
-//             });
-//         });
-//     }
-// }

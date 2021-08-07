@@ -75,11 +75,22 @@ module.exports = function(passport: Authenticator) {
             secretOrKey: "TopSecret"
         }, 
         async function (jwtToken, done) {
-            var user = await User.findOne({ username: jwtToken.user.username }).exec();
+            let user = await User.findOne({ username: jwtToken.user.username }).exec();
             if (user){
-                return done(undefined, user , jwtToken);
+                return done(undefined, user, jwtToken);
             } else {
                 return done(undefined, false);
             }
-    }));
+        }
+    ));
+
+    passport.use('admin-jwt', new JwtStrategy(
+        {
+            jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
+            secretOrKey: "TopSecret"
+        }, 
+        async function (jwtToken, done) {
+            return done(undefined, jwtToken.user.admin, jwtToken);
+        }
+    ));
 };

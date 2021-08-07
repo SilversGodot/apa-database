@@ -21,6 +21,10 @@ const userSchema: mongoose.Schema = new mongoose.Schema(
     dateRegistered: {
         type: Date,
         default: Date.now
+    },
+    admin: {
+        type: Boolean,
+        default: false
     }
 });
 

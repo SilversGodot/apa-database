@@ -45,7 +45,7 @@ export class Routes {
         /* Symptoms CRUD */
         app.route('/symptoms')
             .get(this.symptomController.getSymptoms)
-            .post(this.auth.authenticateJWT, this.symptomController.addSymptom);
+            .post(this.auth.authenticateJWT, this.auth.authenticateAdminJWT, this.symptomController.addSymptom);
             
         app.route('/symptoms/:symptomId')
             .get(this.symptomController.getSymptom)
@@ -62,10 +62,13 @@ export class Routes {
             .patch(this.auth.authenticateJWT, this.earZoneController.updateEarZone)
             .delete(this.auth.authenticateJWT, this.earZoneController.deleteEarZone);
 
-        /* User CRUD */
+        /* User Routes */
         app.route('/users')
             .get(this.userController.getUsers)
             .post(this.userController.addUser);
+        
+        app.route('/users/:userId')
+            .get(this.userController.getUser);
 
         app.route('/signin')
             .post(this.userController.signIn);

@@ -13,6 +13,12 @@ export class UserController {
             .catch((error: any) => console.log(error));
     }
 
+    public getUser (req: Request, res: Response) {
+        User.find({_id: req.params.userId})
+            .then((users: any[]) => res.send(users))
+            .catch((error: any) => console.log(error));
+    }
+
     public addUser (req: Request, res: Response, next: any) {
         passport.authenticate('local-register', function(err: any, user: any, info: any) {
             if (err) {
@@ -34,7 +40,7 @@ export class UserController {
         const usertoken = req.headers.authorization?.split(' ')[1];
         if (usertoken) {
             const decoded = jwt.verify(usertoken, 'TopSecret');
-            const tokenUserId = JSON.parse(JSON.stringify(decoded)).user.userId;
+            const tokenUserId = JSON.parse(JSON.stringify(decoded)).sub;
             const match = req.params.userId === tokenUserId;
             if (match) {
                 User.findOne({_id: tokenUserId})
@@ -56,8 +62,15 @@ export class UserController {
                 if (err) {
                     return res.status(400).json({ errors: err });
                 }
-                const body = { username: user.username, email: user.email, userId: user._id };
-                const token = jwt.sign({ user: body }, "TopSecret");
+                const body = {
+                    username: user.username, 
+                    email: user.email, 
+                    admin: user.admin
+                };
+                const token = jwt.sign({
+                    user: body, 
+                    sub: user._id
+                }, "TopSecret");
                 return res.status(200).json({ token });
             });
             

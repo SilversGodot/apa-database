@@ -30,7 +30,7 @@ export class Routes {
         app.route('/points/:pointId')
             .get(this.pointController.getPoint)
             .patch(this.auth.authenticateJWT, this.pointController.updatePoint)
-            .delete(this.auth.authenticateJWT, this.pointController.deletePoint);
+            .delete(this.auth.authenticateJWT, this.auth.authorizeAdmin, this.pointController.deletePoint);
 
         /* Treatments CRUD */
         app.route('/treatments')
@@ -39,18 +39,18 @@ export class Routes {
             
         app.route('/treatments/:treatmentId')
             .get(this.treatmentController.getTreatment)
-            .patch(this.auth.authenticateJWT, this.auth.authenticateAdminJWT, this.treatmentController.updateTreatment)
-            .delete(this.auth.authenticateJWT, this.auth.authenticateAdminJWT, this.treatmentController.deleteTreatment);
+            .patch(this.auth.authenticateJWT, this.treatmentController.updateTreatment)
+            .delete(this.auth.authenticateJWT, this.auth.authorizeAdmin, this.treatmentController.deleteTreatment);
 
         /* Symptoms CRUD */
         app.route('/symptoms')
             .get(this.symptomController.getSymptoms)
-            .post(this.auth.authenticateJWT, this.auth.authenticateAdminJWT, this.symptomController.addSymptom);
+            .post(this.auth.authenticateJWT, this.symptomController.addSymptom);
             
         app.route('/symptoms/:symptomId')
             .get(this.symptomController.getSymptom)
             .patch(this.auth.authenticateJWT, this.symptomController.updateSymptom)
-            .delete(this.auth.authenticateJWT, this.symptomController.deleteSymptom);
+            .delete(this.auth.authenticateJWT, this.auth.authorizeAdmin, this.symptomController.deleteSymptom);
 
         /* EarZone CRUD */
         app.route('/earzone')
@@ -60,20 +60,20 @@ export class Routes {
         app.route('/earzone/:earZoneId')
             .get(this.earZoneController.getEarZones)
             .patch(this.auth.authenticateJWT, this.earZoneController.updateEarZone)
-            .delete(this.auth.authenticateJWT, this.earZoneController.deleteEarZone);
+            .delete(this.auth.authenticateJWT, this.auth.authorizeAdmin, this.earZoneController.deleteEarZone);
 
         /* User Routes */
         app.route('/users')
-            .get(this.userController.getUsers)
-            .post(this.userController.addUser);
+            .get(this.auth.authenticateJWT, this.auth.authorizeAdmin, this.userController.getUsers)
+            .post(this.auth.authenticateJWT, this.auth.authorizeAdmin, this.userController.addUser);
         
         app.route('/users/:userId')
-            .get(this.userController.getUser);
+            .get(this.auth.authenticateJWT, this.auth.authorizeAdmin, this.userController.getUser);
 
         app.route('/signin')
             .post(this.userController.signIn);
         
-        app.route('/account/:userId')
+        app.route('/account')
             .get(this.auth.authenticateJWT, this.userController.getCurrentUser);  
     }
 }

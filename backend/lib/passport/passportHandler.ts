@@ -65,14 +65,4 @@ module.exports = function(passport: Authenticator) {
             }
         }
     ));
-
-    passport.use('admin-jwt', new JwtStrategy(
-        {
-            jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
-            secretOrKey: config.jwt.secret
-        }, 
-        async function (jwtToken, done) {
-            return done(undefined, jwtToken.user.admin, jwtToken);
-        }
-    ));
 };

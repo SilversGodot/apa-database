@@ -18,11 +18,7 @@ export class UserController {
     }
 
     public addUser (req: Request, res: Response, next: any) {
-        console.log("Calling AddUser");
-
         passport.authenticate('local-register', function(err: any, user: any) {
-            console.log(user);
-
             if (err) {
                 return res.status(400).json({ errors: err });
             }
@@ -32,30 +28,24 @@ export class UserController {
             else {
                 User.findOneAndUpdate({'_id': user.id}, {email: req.body.email})
                 .then((user: any) => res.send(user))
-                .catch((error: any) => console.log(error));;
+                .catch((error: any) => console.log(error));
             }
 
         })(req, res, next);
     }
 
     public getCurrentUser (req: Request, res: Response, next: any) {
-        const usertoken = req.headers.authorization?.split(' ')[1];
-
-        if (usertoken) {
-            const decoded = jwt.verify(usertoken, config.jwt.secret);
-            const tokenUserId = JSON.parse(JSON.stringify(decoded)).sub;
-
-            if (req.params.userId === tokenUserId) {
-                User.findOne({_id: tokenUserId})
-                    .then((user: any) => res.send(user))
-                    .catch((error: any) => console.log(error));
-            }
-            else {
-                res.status(400).json({ message: "Wrong user" });
-            }
+        if (req.app.locals.dbUser) {
+            const tokenUserId = req.app.locals.dbUser._id;
+            User.findOne({_id: tokenUserId})
+                .then((user: any) => res.send(user))
+                .catch((error: any) => {
+                    console.log(error);
+                    res.status(400).json({ errors: error });
+                });
         }
         else {
-            res.status(400).json({ errors: "No token found" });
+            res.status(400).json({ errors: "Please sign in first!" });
         }
     }
 

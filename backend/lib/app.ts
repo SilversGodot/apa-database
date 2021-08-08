@@ -26,7 +26,7 @@ class App {
         this.app.use(cors());
         this.app.use(passport.initialize());
         this.app.use(passport.session());
-        require('./passport/setup')(passport);
+        require('./passport/passportHandler')(passport);
     }
 
     private mongoSetup(): void {

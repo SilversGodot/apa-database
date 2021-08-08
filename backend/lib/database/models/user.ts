@@ -7,7 +7,9 @@ export interface IUser extends Document {
     email: string;
     email_is_verified: boolean;
     dateRegistered: Date,
-    admin: boolean
+    admin: boolean,
+    role: string,
+    comparePassword(candidatePassword: string, callback: any): any
 }
 
 // Create Schema
@@ -35,6 +37,11 @@ export const userSchema: Schema<IUser> = new Schema<IUser>(
     admin: {
         type: Boolean,
         default: false
+    },
+    role: {
+        type: String,
+        enum: ['guest', 'user', 'admin'],
+        default: 'guest'
     }
 });
 

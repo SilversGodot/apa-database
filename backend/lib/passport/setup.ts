@@ -20,44 +20,36 @@ module.exports = function(passport: Authenticator) {
     });
     
     // Local Strategy for registering a new user
-    passport.use('local-register', new LocalStrategy({ usernameField: "username", passwordField: "password"}, (username: string, password: string, done: any) => {
-            // Match User
-            User.findOne({ username: username })
-                .then((user: any) => {
-                    const newUser = new User({ username, password });
-                    newUser.save()
-                    .then((user: any) => {
-                        return done(null, user);
-                    })
-                    .catch((err: any) => {
-                        console.log(err);
-                        return done(null, false, { message: err });
-                    });
-                })
-                .catch((err: any) => {
-                    return done(null, false, { message: err });
-            });
-        })
-    );
-
-    passport.use('local-sign-in', new LocalStrategy({usernameField: "username",passwordField: "password"}, (username: string, password: string, done: any) => {
-        User.findOne({ username: username })
+    passport.use('local-register', new LocalStrategy({ usernameField: "username", passwordField: "password"}, async(username: string, password: string, done: any) => {
+        let user = await User.findOne({ username: username });
+        if (user) {
+            return done({ message: 'User already exisits!' }, null);
+        } else {
+            const newUser = new User({ username, password });
+            await newUser.save()
             .then((user: any) => {
-                if (user) {
-                    user.comparePassword(password, (err: Error, isMatch: boolean) => {
-                        if (err) throw err;
-                        if (isMatch) {
-                            return done(undefined, user);
-                          }
-                          return done(undefined, false, { message: "Invalid username or password." });
-                    });
+                return done(null, user);
+            })
+            .catch((err: any) => {
+                return done({ message: err }, null);
+            }); 
+        }
+    }));
+
+    passport.use('local-sign-in', new LocalStrategy({usernameField: "username",passwordField: "password"}, async(username: string, password: string, done: any) => {
+        let user = await User.findOne({ username: username });
+        if(user) {
+            user.comparePassword(password, (err: Error, isMatch: boolean) => {
+                if (err) throw err;
+                if (isMatch) {
+                    return done(null, user);
                 }
-                else {
-                    return done(undefined, false, { message: `username ${username} not found.` });
-                }
+                return done({ message: "Invalid password." }, null);
             });
-        })
-    );
+        } else {
+            return done({ message: `username ${username} not found.` }, null);
+        }
+    }));
 
     passport.use('jwt', new JwtStrategy(
         {
@@ -65,11 +57,11 @@ module.exports = function(passport: Authenticator) {
             secretOrKey: config.jwt.secret
         }, 
         async function (jwtToken, done) {
-            let user = await User.findOne({ username: jwtToken.user.username }).exec();
+            let user = await User.findOne({ username: jwtToken.user.username });
             if (user){
-                return done(undefined, user, jwtToken);
+                return done(null, user, jwtToken);
             } else {
-                return done(undefined, false);
+                return done({ message: "Invalid token." }, null, jwtToken);
             }
         }
     ));

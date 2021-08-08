@@ -39,8 +39,8 @@ export class Routes {
             
         app.route('/treatments/:treatmentId')
             .get(this.treatmentController.getTreatment)
-            .patch(this.auth.authenticateJWT, this.auth.authenticateJWT, this.treatmentController.updateTreatment)
-            .delete(this.auth.authenticateJWT, this.auth.authenticateJWT, this.treatmentController.deleteTreatment);
+            .patch(this.auth.authenticateJWT, this.auth.authenticateAdminJWT, this.treatmentController.updateTreatment)
+            .delete(this.auth.authenticateJWT, this.auth.authenticateAdminJWT, this.treatmentController.deleteTreatment);
 
         /* Symptoms CRUD */
         app.route('/symptoms')
@@ -72,12 +72,8 @@ export class Routes {
 
         app.route('/signin')
             .post(this.userController.signIn);
-
-        app.route('/signout')
-            .get(this.userController.signOut);
         
         app.route('/account/:userId')
-            .get(this.auth.authenticateJWT, this.userController.getCurrentUser);
-            
+            .get(this.auth.authenticateJWT, this.userController.getCurrentUser);  
     }
 }

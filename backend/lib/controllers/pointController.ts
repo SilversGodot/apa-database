@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import Point from '../database/models/point';
+import { Point } from '../database/models';
 
 export class PointController {
     public getPoints (req: Request, res: Response){

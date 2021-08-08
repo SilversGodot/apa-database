@@ -3,12 +3,13 @@ import cors from "cors";
 import mongoose from "mongoose";
 import { Routes } from "./routes/apaRoutes";
 import passport from "passport";
+import config from './config/config';
 
 const NAMESPACE = 'Server';
 
 class App {
     public app: express.Application;
-    public mongoUrl: string = 'mongodb+srv://apa-admin:nov11222@apa-database.hszts.mongodb.net/apa?retryWrites=true&w=majority';
+    public mongoUrl: string = config.db.mongoUrl;
     public routePrv: Routes = new Routes();
 
     constructor() {

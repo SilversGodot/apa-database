@@ -1,10 +1,8 @@
 import { Request, Response } from 'express';
 import passport from 'passport';
 import jwt from 'jsonwebtoken';
-import User from '../database/models/user';
-
-import passportJwt from "passport-jwt";
-const ExtractJwt = passportJwt.ExtractJwt;
+import config from '../config/config';
+import { User } from '../database/models';
 
 export class UserController {
     public getUsers (req: Request, res: Response) {
@@ -39,7 +37,7 @@ export class UserController {
     public getCurrentUser (req: Request, res: Response, next: any) {
         const usertoken = req.headers.authorization?.split(' ')[1];
         if (usertoken) {
-            const decoded = jwt.verify(usertoken, 'TopSecret');
+            const decoded = jwt.verify(usertoken, config.jwt.secret);
             const tokenUserId = JSON.parse(JSON.stringify(decoded)).sub;
             const match = req.params.userId === tokenUserId;
             if (match) {
@@ -62,15 +60,20 @@ export class UserController {
                 if (err) {
                     return res.status(400).json({ errors: err });
                 }
+
                 const body = {
                     username: user.username, 
                     email: user.email, 
                     admin: user.admin
                 };
+
                 const token = jwt.sign({
+                    sub: user._id,
                     user: body, 
-                    sub: user._id
-                }, "TopSecret");
+                }, 
+                config.jwt.secret, 
+                { expiresIn: '24h' });
+                
                 return res.status(200).json({ token });
             });
             

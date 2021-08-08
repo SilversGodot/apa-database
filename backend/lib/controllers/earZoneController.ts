@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import EarZone from '../database/models/earZone';
+import { EarZone } from '../database/models';
 
 export class EarZoneController {
     public getEarZones (req: Request, res: Response) {

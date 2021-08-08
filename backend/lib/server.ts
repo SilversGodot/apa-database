@@ -1,9 +1,9 @@
 import app from "./app";
 import * as http from 'http';
+import config from './config/config';
 
 var path = require('path');
-
-const port = process.env.PORT || 3000;
+const port = config.app.port;
 
 // '/test.txt'
 

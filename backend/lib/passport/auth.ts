@@ -18,6 +18,7 @@ export class Auth {
     }
 
     public authenticateAdminJWT(req: Request, res: Response, next: NextFunction) {
+      // passport.authorize();
       passport.authenticate("admin-jwt", function (err, admin, jwtToken) {
         if (err) {
           console.log(err);

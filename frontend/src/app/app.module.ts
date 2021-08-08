@@ -1,8 +1,10 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { HttpClientModule} from '@angular/common/http';
+import { HttpClientModule,  HTTP_INTERCEPTORS } from '@angular/common/http';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+
+import { JwtInterceptor } from './helpers/jwt.interceptor';
 
 import { MaterialModule } from './material-module';
 import { AppRoutingModule } from './app-routing.module';
@@ -47,7 +49,9 @@ import { SvgComponent } from './pages/components/ear.component';
     MaterialModule
   ],
   exports: [],
-  providers: [],
+  providers: [
+    { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true }
+  ],
   bootstrap: [
     AppComponent
   ]

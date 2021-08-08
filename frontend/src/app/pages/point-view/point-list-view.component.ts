@@ -6,9 +6,7 @@ import { MatSort } from '@angular/material/sort';
 import { MatSnackBar } from '@angular/material/snack-bar';
 
 import Point from 'src/app/models/point';
-
 import { PointService } from '@app/services/point.service';
-
 import { PointDialog } from '../components/point-dialog';
 import { DeleteDialog } from '../components/delete-dialog';
 

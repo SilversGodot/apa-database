@@ -1,5 +1,5 @@
 import { Injectable, Output, EventEmitter } from '@angular/core';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { BehaviorSubject } from 'rxjs';
 import { WebService } from '../web.service';
 import User from '../models/user';
 
@@ -10,13 +10,11 @@ export class AccountService {
     @Output() updateLoginInfo: EventEmitter<object> = new EventEmitter();
 
     private userSubject: BehaviorSubject<User>;
-    public user: Observable<User>;
 
     constructor(
         private webService: WebService
     ) {
         this.userSubject = new BehaviorSubject<User>(JSON.parse(localStorage.getItem('userInfo')));
-        this.user = this.userSubject.asObservable();
     }
 
     public get userValue(): User {
@@ -30,6 +28,15 @@ export class AccountService {
             return true;
         }
         return false;
+    }
+
+    public getUserRole(): string {
+        let userData = localStorage.getItem('userInfo');
+
+        if(userData && JSON.parse(userData)) {
+            return JSON.parse(userData).role;
+        }
+        return 'guest';       
     }
 
     public setUserInfo(user: User){

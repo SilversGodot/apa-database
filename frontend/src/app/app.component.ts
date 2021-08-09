@@ -26,7 +26,6 @@ export class AppComponent implements OnInit {
   }
 
   async logout(): Promise<void> {
-    console.log("logout");
     localStorage.removeItem("userInfo");
     this.isAuthenticated = false;
     this.route.navigate(['/login']);

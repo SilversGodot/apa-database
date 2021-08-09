@@ -10,6 +10,8 @@ import { PointService } from '@app/services/point.service';
 import { PointDialog } from '../components/point-dialog';
 import { DeleteDialog } from '../components/delete-dialog';
 
+import { AccountService } from '@app/services/account.service';
+
 @Component({
   selector: 'point-list-view',
   templateUrl: './point-list-view.component.html',
@@ -19,6 +21,8 @@ export class PointListViewComponent implements OnInit {
   columnsToDisplay = ['code', 'name', 'alias', 'chineseEarZones', 'europeanEarZones', 'action'];
   dataSource: MatTableDataSource<Point>;
   isLoading = true;
+  isAuthenticated = false;
+  userRole = 'guest';
 
   @ViewChild(MatSort) sort: MatSort;
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
@@ -26,11 +30,14 @@ export class PointListViewComponent implements OnInit {
   constructor(
     public dialog: MatDialog,
     private snackBar: MatSnackBar,
+    private accountService: AccountService,
     private pointService: PointService
   ) { 
   }
 
   ngOnInit(): void {
+    this.isAuthenticated = this.accountService.isAuthenticated().valueOf();
+    this.userRole = this.accountService.getUserRole();
     this.dataSource = new MatTableDataSource<Point>([]);
     
     this.pointService.getPoints()

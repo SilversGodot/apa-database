@@ -17,8 +17,6 @@ export class SvgComponent implements AfterViewInit {
         this.pointList.forEach((pointData) => {
             this.createPoint(pointData.name, pointData.type, pointData.coord);
         });
-
-        console.log(this.pointList);
     }
 
     startDrag(event: any) {

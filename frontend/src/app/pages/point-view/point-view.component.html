@@ -20,9 +20,9 @@
             <mat-label>Alias</mat-label>
             <mat-chip-list #aliasChips formControlName="alias" > 
               <mat-chip *ngFor="let aliasName of point.alias"
-                [removable]="!readOnlyMode">
+                [removable]="isAuthenticated">
                 {{aliasName}}
-                <mat-icon matChipRemove *ngIf="!readOnlyMode">cancel</mat-icon>
+                <mat-icon matChipRemove *ngIf="isAuthenticated">cancel</mat-icon>
               </mat-chip>
               <input
                 #aliasInput
@@ -38,10 +38,10 @@
             <mat-chip-list #earZoneChineseChips formControlName="earZonesChinese" > 
               <mat-chip *ngFor="let earZone of point.chineseEarZones" 
                 [selectable]="selectable"
-                [removable]="!readOnlyMode" 
+                [removable]="isAuthenticated" 
                 (removed)="chineseEarZoneRemove(earZone)">
                 {{earZone.name}}
-                <mat-icon matChipRemove *ngIf="!readOnlyMode">cancel</mat-icon>
+                <mat-icon matChipRemove *ngIf="isAuthenticated">cancel</mat-icon>
               </mat-chip>
               <input
                 #earZonesChineseInput
@@ -63,10 +63,10 @@
             <mat-chip-list #earZoneEuropeanChips formControlName="earZonesEuropean" > 
               <mat-chip *ngFor="let earZone of point.europeanEarZones" 
                 [selectable]="selectable"
-                [removable]="!readOnlyMode" 
+                [removable]="isAuthenticated" 
                 (removed)="europeanEarZoneRemove(earZone)">
                 {{earZone.name}}
-                <mat-icon matChipRemove *ngIf="!readOnlyMode">cancel</mat-icon>
+                <mat-icon matChipRemove *ngIf="isAuthenticated">cancel</mat-icon>
               </mat-chip>
               <input
                 #earZonesEuropeanInput
@@ -85,7 +85,7 @@
         </div>
         <div class="column-right">
           <ear-svg 
-            [pointList]="[{name: point.name, type: 'EditPoint', coord: {x: point.location.x, y: point.location.y, z: 0 }}]"
+            [pointList]="[{name: point.name, type: isAuthenticated? 'EditPoint': 'ViewPoint', coord: {x: point.location.x, y: point.location.y, z: 0 }}]"
             (coordChanged)="coordChangedHandler($event)">
           </ear-svg>
           <mat-form-field>
@@ -123,8 +123,8 @@
             </button> 
           </div>
           <div class="column text-right">
-            <button mat-button (click)="goBack()">Cancel</button>
-            <button mat-button (click)="submit()">Submit</button>
+            <button *ngIf="isAuthenticated" mat-button (click)="goBack()">Cancel</button>
+            <button *ngIf="isAuthenticated" mat-button (click)="submit()">Submit</button>
           </div>          
         </div>
       </mat-card-actions>

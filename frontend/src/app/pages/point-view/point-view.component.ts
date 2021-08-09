@@ -14,6 +14,7 @@ import EarZone from '@app/models/earZone';
 
 import { PointService } from '@app/services/point.service';
 import { EarZoneService } from '@app/services/earZone.service';
+import { AccountService } from '@app/services/account.service';
 
 @Component({
   selector: 'point-view',
@@ -26,8 +27,9 @@ export class PointViewComponent implements OnInit {
     earZone_eu = new FormControl();
     aliasFormCtrl = new FormControl();
 
+    isAuthenticated = false;
+
     point: Point;  
-    readOnlyMode = false;
     selectable = true;
     isLoading = true;
     earZones: EarZone[] = [];
@@ -41,6 +43,7 @@ export class PointViewComponent implements OnInit {
         private formBuilder: FormBuilder,
         private snackBar: MatSnackBar,
         private route: ActivatedRoute,
+        private accountService: AccountService,
         private pointService: PointService,
         private earZoneService: EarZoneService,
         private location: Location
@@ -54,6 +57,7 @@ export class PointViewComponent implements OnInit {
     }
 
     ngOnInit(): void {
+        this.isAuthenticated = this.accountService.isAuthenticated().valueOf();
         let pointId = this.route.snapshot.paramMap.get('pointId');
 
         this.pointService.getPoint(pointId)
@@ -69,12 +73,12 @@ export class PointViewComponent implements OnInit {
 
     initForm() {
         this.pointForm = this.formBuilder.group({
-            code: [{ value: this.point.code, disabled: this.readOnlyMode }, Validators.required],
-            name: [{ value: this.point.name, disabled: this.readOnlyMode }, Validators.required],
-            alias: { value: this.point.alias, disabled: this.readOnlyMode },
-            earAnatomy: { value: this.point.earAnatomy, disabled: this.readOnlyMode },
-            function: { value: this.point.function, disabled: this.readOnlyMode },
-            videoLink: { value: this.point.videoLink, disabled: this.readOnlyMode },
+            code: [{ value: this.point.code, disabled: !this.isAuthenticated }, Validators.required],
+            name: [{ value: this.point.name, disabled: !this.isAuthenticated }, Validators.required],
+            alias: { value: this.point.alias, disabled: !this.isAuthenticated },
+            earAnatomy: { value: this.point.earAnatomy, disabled: !this.isAuthenticated },
+            function: { value: this.point.function, disabled: !this.isAuthenticated },
+            videoLink: { value: this.point.videoLink, disabled: !this.isAuthenticated },
 
             earZonesChinese: this.earZone_zh,
             earZonesEuropean: this.earZone_eu,
@@ -83,7 +87,7 @@ export class PointViewComponent implements OnInit {
             yCoord: { value: this.point.location.y, disabled: true }
         });
         
-        if (this.readOnlyMode) {
+        if (!this.isAuthenticated) {
             this.earZone_zh.disable();
             this.earZone_eu.disable();
         }
@@ -91,7 +95,6 @@ export class PointViewComponent implements OnInit {
 
     submit() {
         if (this.pointForm.invalid) {
-            console.log("Invalid submit");
             return;
         }
     
@@ -167,7 +170,6 @@ export class PointViewComponent implements OnInit {
     }
 
     displayEarZoneName(earZone: EarZone): string {
-        console.log(earZone, "X: ");
         return earZone && earZone.name ? earZone.name : '';
     }
 

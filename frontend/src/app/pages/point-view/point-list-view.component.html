@@ -61,10 +61,10 @@
                     <button mat-icon-button color="primary" title="View" (click)="openPointDialog(point, 'ViewPoint')">
                         <mat-icon>visibility</mat-icon>
                     </button>                
-                    <button mat-icon-button color="primary" title="Edit" (click)="openPointDialog(point, 'EditPoint')">
+                    <button *ngIf="isAuthenticated" mat-icon-button color="primary" title="Edit" (click)="openPointDialog(point, 'EditPoint')">
                       <mat-icon>edit_note</mat-icon>
                     </button>
-                    <button mat-icon-button color="warn" title="Delete" (click)="openDeleteDialog(point)">
+                    <button *ngIf="userRole == 'admin'" mat-icon-button color="warn" title="Delete" (click)="openDeleteDialog(point)">
                       <mat-icon>clear</mat-icon>
                     </button>
                 </td>

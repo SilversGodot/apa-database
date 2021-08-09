@@ -13,8 +13,8 @@ import { AuthGuardService } from './services/auth-guard.service';
 const routes: Routes = [
   { path: '', redirectTo: 'points', pathMatch: 'full' },
   { path: 'login', component: LoginComponent },
-  { path: 'points', component: PointListViewComponent,  canActivate : [AuthGuardService] },
-  { path: 'points/:pointId', component: PointViewComponent,  canActivate : [AuthGuardService] },
+  { path: 'points', component: PointListViewComponent },
+  { path: 'points/:pointId', component: PointViewComponent },
   { path: 'treatments', component: TreatmentListViewComponent,  canActivate : [AuthGuardService] },
   { path: 'treatments/:treatmentId', component: TreatmentViewComponent,  canActivate : [AuthGuardService] },
   { path: 'symptoms', component: SymptomViewComponent, canActivate : [AuthGuardService] },

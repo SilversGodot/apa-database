@@ -8,21 +8,17 @@ import { PointViewComponent } from './pages/point-view/point-view.component';
 import { TreatmentListViewComponent } from './pages/treatment-view/treatment-list-view.component';
 import { TreatmentViewComponent } from './pages/treatment-view/treatment-view.component';
 import { SymptomViewComponent } from './pages/symptom-view/symptom-view.component';
-
-import { AuthGuard } from './helpers/auth.guard';
-
-// const accountModule = () => import('./account/account.module').then(x => x.AccountModule);
-const usersModule = () => import('./models/user').then(x => x.default);
+import { AuthGuardService } from './services/auth-guard.service';
 
 const routes: Routes = [
   { path: '', redirectTo: 'points', pathMatch: 'full' },
   { path: 'login', component: LoginComponent },
-  { path: 'points', component: PointListViewComponent },
-  { path: 'points/:pointId', component: PointViewComponent },
-  { path: 'treatments', component: TreatmentListViewComponent },
-  { path: 'treatments/:treatmentId', component: TreatmentViewComponent },
-  { path: 'symptoms', component: SymptomViewComponent },
-  { path: 'earZones', component: EarZoneViewComponent }
+  { path: 'points', component: PointListViewComponent,  canActivate : [AuthGuardService] },
+  { path: 'points/:pointId', component: PointViewComponent,  canActivate : [AuthGuardService] },
+  { path: 'treatments', component: TreatmentListViewComponent,  canActivate : [AuthGuardService] },
+  { path: 'treatments/:treatmentId', component: TreatmentViewComponent,  canActivate : [AuthGuardService] },
+  { path: 'symptoms', component: SymptomViewComponent, canActivate : [AuthGuardService] },
+  { path: 'earZones', component: EarZoneViewComponent, canActivate : [AuthGuardService] }
 ];
 
 @NgModule({

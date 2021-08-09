@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { AccountService } from '@app/services/account.service';
-import User from '@app/models/user';
 
 @Component({
   selector: 'app-root',
@@ -10,19 +10,25 @@ import User from '@app/models/user';
 export class AppComponent implements OnInit {
   title = 'Auricular Point Acupressure';
   isAuthenticated = false;
-  user: User;
 
-  constructor(private accountService: AccountService){
-    this.user = this.accountService.userValue;
+  constructor(
+    private route : Router,
+    private accountService: AccountService) {
+      accountService.updateLoginInfo.subscribe((userInfo) => {
+        if(userInfo) {
+          this.isAuthenticated = true;
+        }
+      });
   }
 
   ngOnInit(): void {
-    if(this.user) {
-      this.isAuthenticated = true;
-    }
+    this.isAuthenticated = this.accountService.isAuthenticated().valueOf();
   }
 
   async logout(): Promise<void> {
-    // todo
+    console.log("logout");
+    localStorage.removeItem("userInfo");
+    this.isAuthenticated = false;
+    this.route.navigate(['/login']);
   }
 }

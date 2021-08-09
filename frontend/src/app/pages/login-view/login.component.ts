@@ -1,10 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { first } from 'rxjs/operators';
 
 import { AccountService } from '@app/services/account.service';
-import { AlertService } from '@app/services/alert.service';
 
 @Component({
   selector: 'app-login',
@@ -21,8 +19,7 @@ export class LoginComponent implements OnInit {
     private fb: FormBuilder,
     private route: ActivatedRoute,
     private router: Router,
-    private accountService: AccountService,
-    private alertService: AlertService
+    private accountService: AccountService
   ) {}
 
   ngOnInit() {
@@ -39,24 +36,15 @@ export class LoginComponent implements OnInit {
 
   onSubmit() {
     this.submitted = true;
-
-    this.alertService.clear();
-
     if (this.form.invalid) { 
       return;
     }
 
     this.loading = true;
-    this.accountService.login(this.f.username.value, this.f.password.value)
-      .pipe(first())
-      .subscribe(
-        data => {
-          console.log(data);
-          this.router.navigate([this.returnUrl]);
-        }, 
-        error => {
-          this.alertService.error(error);
-          this.loading = false;
-        });
+    this.accountService.validate(this.f.username.value, this.f.password.value)
+      .then((response) => {
+        this.accountService.setUserInfo(response);
+        this.router.navigate([this.returnUrl]);
+      });
   }
 }

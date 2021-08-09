@@ -1,7 +1,5 @@
-import { Injectable } from '@angular/core';
-import { Router } from '@angular/router';
+import { Injectable, Output, EventEmitter } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
 import { WebService } from '../web.service';
 import User from '../models/user';
 
@@ -9,14 +7,15 @@ import User from '../models/user';
   providedIn: 'root'
 })
 export class AccountService {
+    @Output() updateLoginInfo: EventEmitter<object> = new EventEmitter();
+
     private userSubject: BehaviorSubject<User>;
     public user: Observable<User>;
 
     constructor(
-        private webService: WebService,
-        private router: Router
+        private webService: WebService
     ) {
-        this.userSubject = new BehaviorSubject<User>(JSON.parse(localStorage.getItem('user')));
+        this.userSubject = new BehaviorSubject<User>(JSON.parse(localStorage.getItem('userInfo')));
         this.user = this.userSubject.asObservable();
     }
 
@@ -24,24 +23,21 @@ export class AccountService {
         return this.userSubject.value;
     }
 
-    login(username: string, password: string) {
-        return this.webService.post<User>('signin', { username, password })
-            .pipe(map(user => {
-                // store user details and jwt token in local storage to keep user logged in between page refreshes
-                localStorage.setItem('user', JSON.stringify(user));
-                this.userSubject.next(user);
-                return user;
-        }));
+    public isAuthenticated() : Boolean {
+        let userData = localStorage.getItem('userInfo');
+
+        if(userData && JSON.parse(userData)) {
+            return true;
+        }
+        return false;
     }
 
-    logout() {
-        // remove user from local storage and set current user to null
-        localStorage.removeItem('user');
-        this.userSubject.next(null);
-        this.router.navigate(['/account/login']);
+    public setUserInfo(user: User){
+        localStorage.setItem('userInfo', JSON.stringify(user));
+        this.updateLoginInfo.emit({ 'username': user.username });
     }
 
-    getById(userId: string) {
-        return this.webService.get<User>(`account/${userId}`);
+    public validate(username: string, password: string) {
+        return this.webService.post<User>('signin', {'username' : username, 'password' : password}).toPromise()
     }
 }

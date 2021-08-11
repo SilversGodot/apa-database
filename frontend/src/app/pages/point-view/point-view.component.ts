@@ -64,7 +64,7 @@ export class PointViewComponent implements OnInit {
             this.point = point;
             this.initForm();
             this.isLoading = false;
-        }); 
+        });
 
         this.earZoneService.getEarZones()
             .subscribe((earZones: EarZone[]) => this.earZones = earZones);
@@ -74,7 +74,6 @@ export class PointViewComponent implements OnInit {
         this.pointForm = this.formBuilder.group({
             code: [{ value: this.point.code, disabled: !this.isAuthenticated }, Validators.required],
             name: [{ value: this.point.name, disabled: !this.isAuthenticated }, Validators.required],
-            //// alias: { value: this.point.alias, disabled: !this.isAuthenticated },
             earAnatomy: { value: this.point.earAnatomy, disabled: !this.isAuthenticated },
             function: { value: this.point.function, disabled: !this.isAuthenticated },
             videoLink: { value: this.point.videoLink, disabled: !this.isAuthenticated },
@@ -106,7 +105,6 @@ export class PointViewComponent implements OnInit {
 
         this.point.code = this.pointForm.controls['code'].value;
         this.point.name = this.pointForm.controls['name'].value;
-        this.point.alias = this.pointForm.controls['alias'].value;
         this.point.earAnatomy = this.pointForm.controls['earAnatomy'].value;
         this.point.function = this.pointForm.controls["function"].value;
         this.point.videoLink = this.pointForm.controls["videoLink"].value;
@@ -133,9 +131,6 @@ export class PointViewComponent implements OnInit {
     //// auto complete event
     add(event: MatChipInputEvent, target: string): void {
         const value = (event.value || '').trim();
-
-        console.log(event);
-
         if (value) {
             switch(target) {
                 case 'alias':

@@ -26,7 +26,7 @@
                 {{aliasName}}
                 <mat-icon matChipRemove *ngIf="isAuthenticated">cancel</mat-icon>
               </mat-chip>
-              <input 
+              <input id="aliasInput"
                 [disabled]="!isAuthenticated"
                 [matChipInputFor]="aliasChipList"
                 [matChipInputSeparatorKeyCodes]="separatorKeysCodes"

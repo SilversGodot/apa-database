@@ -17,6 +17,8 @@ export class SvgComponent implements AfterViewInit {
         this.pointList.forEach((pointData) => {
             this.createPoint(pointData.name, pointData.type, pointData.coord);
         });
+
+        
     }
 
     startDrag(event: any) {
@@ -64,7 +66,7 @@ export class SvgComponent implements AfterViewInit {
             point.setAttribute("fill", "#007bff");
             point.appendChild(title);
 
-            if(pointType == "EditPoint") {
+            if(["EditPoint", "AddPoint"].includes(pointType)) {
                 point.setAttribute("style", "cursor: move;");
                 point.addEventListener('mousedown', this.startDrag.bind(this));
                 point.addEventListener('mousemove', this.drag.bind(this));

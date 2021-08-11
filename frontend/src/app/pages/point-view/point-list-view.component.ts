@@ -69,7 +69,7 @@ export class PointListViewComponent implements OnInit {
     });
   }
 
-  openPointDialog(point: Point, action: string) {
+  openPointDialog(point: Point, action: string, authenticated: boolean) {
     if(!point)
     {
       point = new Point();
@@ -82,7 +82,8 @@ export class PointListViewComponent implements OnInit {
       disableClose: true,
       data: { 
         action: action, 
-        point: point
+        point: point,
+        authenticated: this.isAuthenticated
       }
     });
 
@@ -91,9 +92,7 @@ export class PointListViewComponent implements OnInit {
         return;
       }
 
-      if(action === "AddPoint"){
-        console.log(result);
-        
+      if(action === "AddPoint"){        
         let newpoint: Point = new Point;
         newpoint.code = result.code;
         newpoint.name = result.name;

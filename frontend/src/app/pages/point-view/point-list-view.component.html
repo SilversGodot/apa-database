@@ -3,7 +3,7 @@
         <mat-toolbar color="primary" style="border-radius: 5px 5px 0 0;">
             Acupoints
         </mat-toolbar>
-        <button mat-icon-button color="primary" (click)="openPointDialog(null, 'Add')">
+        <button *ngIf="isAuthenticated" mat-icon-button color="primary" (click)="openPointDialog(null, 'AddPoint', true)">
             <mat-icon>post_add</mat-icon> Add New
         </button>
     
@@ -58,10 +58,10 @@
             <ng-container matColumnDef="action">
                 <th mat-header-cell *matHeaderCellDef class="headerCell"></th>
                 <td mat-cell *matCellDef="let point" class="action-link" style="text-align: right; width: 150px;">
-                    <button mat-icon-button color="primary" title="View" (click)="openPointDialog(point, 'ViewPoint')">
+                    <button mat-icon-button color="primary" title="View" (click)="openPointDialog(point, 'ViewPoint', false)">
                         <mat-icon>visibility</mat-icon>
                     </button>                
-                    <button *ngIf="isAuthenticated" mat-icon-button color="primary" title="Edit" (click)="openPointDialog(point, 'EditPoint')">
+                    <button *ngIf="isAuthenticated" mat-icon-button color="primary" title="Edit" (click)="openPointDialog(point, 'EditPoint', true)">
                       <mat-icon>edit_note</mat-icon>
                     </button>
                     <button *ngIf="userRole == 'admin'" mat-icon-button color="warn" title="Delete" (click)="openDeleteDialog(point)">

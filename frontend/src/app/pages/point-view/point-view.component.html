@@ -18,20 +18,22 @@
     
           <mat-form-field appearance="fill">
             <mat-label>Alias</mat-label>
-            <mat-chip-list #aliasChips formControlName="alias" > 
-              <mat-chip *ngFor="let aliasName of point.alias"
-                [removable]="isAuthenticated">
+            <mat-chip-list #aliasChipList aria-label="Fruit selection">
+              <mat-chip *ngFor="let aliasName of point.alias" 
+                [selectable]="selectable"
+                [removable]="isAuthenticated" 
+                (removed)="remove(aliasName)">
                 {{aliasName}}
                 <mat-icon matChipRemove *ngIf="isAuthenticated">cancel</mat-icon>
               </mat-chip>
-              <input
-                #aliasInput
-                [formControl]="earZone_zh"
-                [matChipInputFor]="aliasChips"
+              <input 
+                [disabled]="!isAuthenticated"
+                [matChipInputFor]="aliasChipList"
                 [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
-                (matChipInputTokenEnd)="add($event)">
-            </mat-chip-list>            
-          </mat-form-field>
+                [matChipInputAddOnBlur]="true"
+                (matChipInputTokenEnd)="add($event, 'alias')">
+            </mat-chip-list>
+          </mat-form-field>   
 
           <mat-form-field appearance="fill">                  
             <mat-label>Ear Zone - Chinese</mat-label>
@@ -49,7 +51,7 @@
                 [matAutocomplete]="autoEarZone_zh"
                 [matChipInputFor]="earZoneChineseChips"
                 [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
-                (matChipInputTokenEnd)="add($event)">
+                (matChipInputTokenEnd)="add($event, 'earZone_zh')">
             </mat-chip-list>
             <mat-autocomplete #autoEarZone_zh="matAutocomplete" [displayWith]="displayEarZoneName" (optionSelected)="chineseEarZoneSelected($event)">
               <mat-option *ngFor="let earZone of filteredEarZones | async" [value]="earZone">
@@ -74,7 +76,7 @@
                 [matAutocomplete]="autoEarZone_eu"
                 [matChipInputFor]="earZoneEuropeanChips"
                 [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
-                (matChipInputTokenEnd)="add($event)">
+                (matChipInputTokenEnd)="add($event, 'earZone_eu')">
             </mat-chip-list>
             <mat-autocomplete #autoEarZone_eu="matAutocomplete" [displayWith]="displayEarZoneName" (optionSelected)="europeanEarZoneSelected($event)">
               <mat-option *ngFor="let earZone of filteredEarZones | async" [value]="earZone">
@@ -116,13 +118,13 @@
       
       <mat-card-actions>
         <div class="row" style="padding: 10.5px 10.5px 0;">
-          <div class="column">
+          <div class="column-left">
             <button mat-raised-button (click)="goBack()">
               <mat-icon>arrow_back</mat-icon>
               Back to previous page 
             </button> 
           </div>
-          <div class="column text-right">
+          <div class="column-right text-right">
             <button *ngIf="isAuthenticated" mat-button (click)="goBack()">Cancel</button>
             <button *ngIf="isAuthenticated" mat-button (click)="submit()">Submit</button>
           </div>          

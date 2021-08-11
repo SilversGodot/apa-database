@@ -25,7 +25,6 @@ export class PointViewComponent implements OnInit {
     pointForm: FormGroup;
     earZone_zh = new FormControl();
     earZone_eu = new FormControl();
-    aliasFormCtrl = new FormControl();
 
     isAuthenticated = false;
 
@@ -65,7 +64,7 @@ export class PointViewComponent implements OnInit {
             this.point = point;
             this.initForm();
             this.isLoading = false;
-        });
+        }); 
 
         this.earZoneService.getEarZones()
             .subscribe((earZones: EarZone[]) => this.earZones = earZones);
@@ -75,7 +74,7 @@ export class PointViewComponent implements OnInit {
         this.pointForm = this.formBuilder.group({
             code: [{ value: this.point.code, disabled: !this.isAuthenticated }, Validators.required],
             name: [{ value: this.point.name, disabled: !this.isAuthenticated }, Validators.required],
-            alias: { value: this.point.alias, disabled: !this.isAuthenticated },
+            //// alias: { value: this.point.alias, disabled: !this.isAuthenticated },
             earAnatomy: { value: this.point.earAnatomy, disabled: !this.isAuthenticated },
             function: { value: this.point.function, disabled: !this.isAuthenticated },
             videoLink: { value: this.point.videoLink, disabled: !this.isAuthenticated },
@@ -103,9 +102,11 @@ export class PointViewComponent implements OnInit {
         this.pointForm.controls['xCoord'].enable();
         this.pointForm.controls['yCoord'].enable();
         this.earZone_zh.setValue(this.point.chineseEarZones);
+        this.earZone_eu.setValue(this.point.europeanEarZones);
 
         this.point.code = this.pointForm.controls['code'].value;
         this.point.name = this.pointForm.controls['name'].value;
+        this.point.alias = this.pointForm.controls['alias'].value;
         this.point.earAnatomy = this.pointForm.controls['earAnatomy'].value;
         this.point.function = this.pointForm.controls["function"].value;
         this.point.videoLink = this.pointForm.controls["videoLink"].value;
@@ -115,6 +116,7 @@ export class PointViewComponent implements OnInit {
             "z": 0
         };
         this.point.chineseEarZones = this.earZone_zh.value;
+        this.point.europeanEarZones = this.earZone_eu.value;
   
         this.pointService.updatePoint(this.point)
         .subscribe(() => this.pointService.getPoint(this.point._id)
@@ -129,16 +131,40 @@ export class PointViewComponent implements OnInit {
     }    
 
     //// auto complete event
-    add(event: MatChipInputEvent): void {
+    add(event: MatChipInputEvent, target: string): void {
         const value = (event.value || '').trim();
 
-        // if (value) {
-        //    this.point.chineseEarZones.push(value);
-        // }
+        console.log(event);
+
+        if (value) {
+            switch(target) {
+                case 'alias':
+                    if(!this.point.alias) {
+                        this.point.alias = [];
+                    }
+                    this.point.alias.push(value);
+                    break;
+                
+                case 'earZone_zh':
+                    // this.point.chineseEarZones.push(value);
+                    break;
+
+                case 'earZone_eu':
+                    // this.point.europeanEarZones.push(value);
+                    break;
+            }
+        }
     
         // Clear the input value
         event.chipInput!.clear();
-        this.earZone_zh.setValue(null);
+    }
+
+    remove(alias: string): void {
+        const index = this.point.alias.indexOf(alias);
+
+        if (index >= 0) {
+            this.point.alias.splice(index, 1);
+        }
     }
 
     chineseEarZoneRemove(earZone: EarZone): void {

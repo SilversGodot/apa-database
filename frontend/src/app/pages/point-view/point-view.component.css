@@ -1,3 +1,11 @@
+input:disabled {
+  color: #3c3c3c;
+}
+
+textarea:disabled {
+  color: #3c3c3c;
+}
+
 mat-card {
   max-width: 600px;
   margin: 2em auto;
@@ -9,11 +17,15 @@ mat-card-content {
   justify-content: center;
 }
 
-mat-form-field {
+.mat-form-field {
   width: 100%;
 }
 
-.column {
+.mat-chip.mat-standard-chip.mat-chip-disabled {
+  opacity: 0.8;
+}
+
+.mat-chip.mat .column {
   float: left;
   width: 50%;
 }

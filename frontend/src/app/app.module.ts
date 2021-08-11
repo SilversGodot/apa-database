@@ -13,6 +13,7 @@ import { LoginComponent } from './pages/login-view/login.component';
 import { PointListViewComponent } from './pages/point-view/point-list-view.component';
 import { PointViewComponent } from './pages/point-view/point-view.component';
 import { TreatmentListViewComponent } from './pages/treatment-view/treatment-list-view.component';
+import { TreatmentViewComponent } from './pages/treatment-view/treatment-view.component';
 import { SymptomViewComponent } from './pages/symptom-view/symptom-view.component';
 import { EarZoneViewComponent } from './pages/earZone-view/earZone-view.component';
 import { PointDialog } from './pages/components/point-dialog';
@@ -30,6 +31,7 @@ import { SvgComponent } from './pages/components/ear.component';
     PointListViewComponent,
     PointViewComponent,
     TreatmentListViewComponent,
+    TreatmentViewComponent,
     SymptomViewComponent,
     EarZoneViewComponent,
     PointDialog,
